@@ -1,34 +1,33 @@
-//This will be the main program
 import processing.serial.*;
 
 import procontroll.*;
-import java.io.*;
+import net.java.games.input.*;
+
+Serial Robot;
+Comm comm;
 
 ControllIO ctrllIO;
 ControllDevice gamepad;
-  Serial Robot;
-  
+
 ControllSlider rightHorizontal;
 ControllSlider rightVertical;
 ControllSlider leftVertical;
 
-
-Comm com;
-float X;
-float Y;
+float X, Y, Z;
 float x_prime, y_prime;
-float a = 0.3;
+float L_x, R_x;
+float L_theta, R_theta;
+float L, R, Back;
+float a = 0.3; //constant?
 
 void setup() {
 
- 
-  //list the available serial ports
-    println(Serial.list());
-    //open robot port
-    Robot = new Serial(this, Serial.list()[0], 9600);
-    
-  com = new Comm(9600);
-  com.start();
+  // Initialize serial communications.
+  Robot = new Serial( this, Serial.list()[0], 9600 );  
+  comm = new Comm( 9600 );
+  comm.start();
+
+  // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
   gamepad = ctrllIO.getDevice("Controller (Xbox 360 Wireless Receiver for Windows)");
   rightVertical = gamepad.getSlider(2);
@@ -41,18 +40,23 @@ void setup() {
 
 void draw() {
 
-  //take code for controller
+  // Read gamepad values.
   X = rightVertical.getValue();
   Y = rightHorizontal.getValue();
   Z = leftVertical.getValue();
 
-  x_prime = (X+Y)*0.707;
-  y_prime = (Y-X)*0.707;
+  // Convert gamepad values to ?
+  x_prime = ( X + Y ) * 0.707; //constant?
+  y_prime = ( Y - X ) * 0.707; //constant?
   R_x=y_prime;
   L_x=-x_prime;
+
+  // ?
   vector_control();
-  com.rightmotor(R, R_theta);
-  com.leftmotor(L, L_theta);
-  com.Zmotor(Back);
+
+  // Update Communication class.
+  comm.rightmotor(R, R_theta);
+  comm.leftmotor(L, L_theta);
+  comm.Zmotor(Back);
 }
 
