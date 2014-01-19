@@ -5,7 +5,7 @@ import procontroll.*;
 import java.io.*;
 
 ControllIO ctrllIO;
-ControllDevice gamepad;
+ControllDevice ctrllDevice;
   Serial Robot;
   
 ControllSlider rightHorizontal;
@@ -29,13 +29,17 @@ void setup() {
     
   com = new Comm(9600);
   com.start();
+  
+  // Initialize video game controller.
   ctrllIO = ControllIO.getInstance(this);
-  gamepad = ctrllIO.getDevice("Controller (Xbox 360 Wireless Receiver for Windows)");
-  rightVertical = gamepad.getSlider(2);
+  Gamepad gamepad = new Gamepad(ctrllIO);
+  ctrllDevice = ctrllIO.getDevice(gamepad.name());
+  // Initialize buttons and/or sliders.
+  rightVertical = ctrllDevice.getSlider(gamepad.rightStickVertical());
   rightVertical.setTolerance(.16);
-  rightHorizontal = gamepad.getSlider(3);
+  rightHorizontal = ctrllDevice.getSlider(gamepad.rightStickHorizontal());
   rightHorizontal.setTolerance(.16);
-  leftVertical = gamepad.getSlider(0);
+  leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
   leftVertical.setTolerance(.16);
 }
 
