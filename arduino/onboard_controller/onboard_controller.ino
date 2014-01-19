@@ -1,21 +1,25 @@
 #include <Servo.h>
 
-int PORT_THRUSTER_SERVO_PIN = 9;
-int STARBOARD_THRUSTER_SERVO_PIN = 10;
-int PORT_THRUSTER_MOTOR_PIN = 5;
-int STARBOARD_THRUSTER_MOTOR_PIN = 6;
+const byte CHECK_BYTE = 243;
+const int BAUD_RATE = 9600;
+
+const int PORT_THRUSTER_MOTOR_PIN = 5;
+const int STARBOARD_THRUSTER_MOTOR_PIN = 6;
+//const int AFT_THRUSTER_MOTOR_PIN = 7;
+const int PORT_THRUSTER_SERVO_PIN = 9;
+const int STARBOARD_THRUSTER_SERVO_PIN = 10;
+
+const int SERVO_MIN = 400;
+const int SERVO_MAX = 2200;
 
 int port_thruster_motor_value;
 int starboard_thruster_motor_value;
+int aft_thruster_motor_value;
 int port_thruster_servo_value;
 int starboard_thruster_servo_value;
-int aft_thruster_motor_value;
 
 Servo port_thruster_servo;
 Servo starboard_thruster_servo;
-
-const byte CHECK_BYTE = 243;
-const int BAUD_RATE = 9600;
 
 void setup() {
   
@@ -23,8 +27,8 @@ void setup() {
   Serial.begin( BAUD_RATE );
   
   // Initialize thruster servos.
-  port_thruster_servo.attach( PORT_THRUSTER_SERVO_PIN, 400, 2200 );
-  starboard_thruster_servo.attach( STARBOARD_THRUSTER_SERVO_PIN, 400, 2200);
+  port_thruster_servo.attach( PORT_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX );
+  starboard_thruster_servo.attach( STARBOARD_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX);
 }
 
 void loop(){
