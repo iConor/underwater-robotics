@@ -36,8 +36,7 @@ void setup() {
   rightVertical.setTolerance(.16);
   rightHorizontal = ctrllDevice.getSlider(gamepad.rightStickHorizontal());
   rightHorizontal.setTolerance(.16);
-  leftVertical = ctrllDevic
-  e.getSlider(gamepad.leftStickVertical());
+  leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
   leftVertical.setTolerance(.16);
 }
 
