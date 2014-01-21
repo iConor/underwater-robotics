@@ -3,7 +3,6 @@ import processing.serial.*;
 import procontroll.*;
 import net.java.games.input.*;
 
-Serial Robot;
 Comm comm;
 
 ControllIO ctrllIO;
@@ -22,10 +21,8 @@ float a = 0.3; //constant?
 
 void setup() {
 
-  // Initialize serial communications.
-  Robot = new Serial( this, Serial.list()[0], 9600 );  
-  comm = new Comm( 9600 );
-  comm.start();
+  // Initialize serial communications. 
+  comm = new Comm( this );
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);

@@ -1,6 +1,10 @@
 class Comm extends Thread {
 
-  boolean running = false;
+  private final int BAUD_RATE = 9600;
+  private boolean running = false;
+  Serial robot;
+
+  // Move these:
   byte Z_motor, left_motor, right_motor;
   byte left_servo, right_servo, claw_servo;
   int cam_servo_x, cam_servo_y;
@@ -9,14 +13,10 @@ class Comm extends Thread {
   //byte[] inBuffer = new byte[ NUMBER_BYTES ];
   //int[] sensors = new int[ NUMBER_OF_SENSORS ];
 
-  // Constructor.
-  Comm( int Baud_Rate ) {
-    /*//make a serial class Robot
-     Serial Robot;
-     //list the available serial ports
-     println( Serial.list() );
-     //open robot port
-     Robot = new Serial( this, Serial.list()[1], Baud_Rate );*/
+  // Constructor
+  Comm( PApplet main_function ) {
+    robot = new Serial( main_function, Serial.list()[0], BAUD_RATE ); 
+    this.start();
   }
 
   // Begin the thread.
@@ -25,44 +25,44 @@ class Comm extends Thread {
     super.start();
   }
 
-  // This get triggered by start().
+  // This gets triggered by start().
   void run() {
     while ( running ) {
       //send a byte to tell the arduion to start the communication
 
       time = millis(); //unused?
-      
+
       // Wait for serial activity.
-      while ( Robot.available () < 1 ) {
+      while ( robot.available () < 1 ) {
         /*if (( millis() - time ) > 1500 ){
          //clear the buffer
-         while ( Robot.available() > 0 ){
-         Robot.read();
+         while ( robot.available() > 0 ){
+         robot.read();
          }
-         while ( Robot.available() < 1 ) {}
+         while ( robot.available() < 1 ) {}
          }*/
       }
-      
+
       // Test check byte.
-      check = Robot.read();
+      check = robot.read();
       // Send current status (model?).
       if ( check == 243 ) {
-        Robot.write(left_motor);
-        Robot.write(left_servo);
-        Robot.write(right_motor);
-        Robot.write(right_servo);
-        Robot.write(Z_motor);
+        robot.write(left_motor);
+        robot.write(left_servo);
+        robot.write(right_motor);
+        robot.write(right_servo);
+        robot.write(Z_motor);
       }
       // Wait for serial activity.
-      while ( Robot.available () < 2 ) {
+      while ( robot.available () < 2 ) {
       }
       // Print debugging info.
-      println( Robot.read() + "    " + Robot.read() );
+      println( robot.read() + "    " + robot.read() );
       // Reset check.
       check = 0;
     }
   }
-  
+
   /*void quit() {
    running = false;
    }
