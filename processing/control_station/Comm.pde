@@ -1,8 +1,8 @@
-class Comm extends Thread {
+class SerialThread extends Thread {
 
   private final int BAUD_RATE = 9600;
   private boolean running = false;
-  Serial robot;
+  private Serial serial;
 
   // Move these:
   byte Z_motor, left_motor, right_motor;
@@ -14,8 +14,8 @@ class Comm extends Thread {
   //int[] sensors = new int[ NUMBER_OF_SENSORS ];
 
   // Constructor
-  Comm( PApplet main_function ) {
-    robot = new Serial( main_function, Serial.list()[0], BAUD_RATE ); 
+  SerialThread( PApplet main_function ) {
+    serial = new Serial( main_function, Serial.list()[0], BAUD_RATE ); 
     this.start();
   }
 
@@ -33,31 +33,31 @@ class Comm extends Thread {
       time = millis(); //unused?
 
       // Wait for serial activity.
-      while ( robot.available () < 1 ) {
+      while ( serial.available () < 1 ) {
         /*if (( millis() - time ) > 1500 ){
          //clear the buffer
-         while ( robot.available() > 0 ){
-         robot.read();
+         while ( serial.available() > 0 ){
+         serial.read();
          }
-         while ( robot.available() < 1 ) {}
+         while ( serial.available() < 1 ) {}
          }*/
       }
 
       // Test check byte.
-      check = robot.read();
+      check = serial.read();
       // Send current status (model?).
       if ( check == 243 ) {
-        robot.write(left_motor);
-        robot.write(left_servo);
-        robot.write(right_motor);
-        robot.write(right_servo);
-        robot.write(Z_motor);
+        serial.write(left_motor);
+        serial.write(left_servo);
+        serial.write(right_motor);
+        serial.write(right_servo);
+        serial.write(Z_motor);
       }
       // Wait for serial activity.
-      while ( robot.available () < 2 ) {
+      while ( serial.available () < 2 ) {
       }
       // Print debugging info.
-      println( robot.read() + "    " + robot.read() );
+      println( serial.read() + "    " + serial.read() );
       // Reset check.
       check = 0;
     }
