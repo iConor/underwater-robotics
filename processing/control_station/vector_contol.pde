@@ -1,8 +1,8 @@
 void vector_control() {
-  
+
   float Cg_ratio=.6422;
   float L_z, R_z;
-  
+
   // Find front z power.
   R_z = Z / ( 2 + 2 * Cg_ratio );
   L_z = R_z; //possibly put roll control here
@@ -52,3 +52,38 @@ void vector_control() {
   }
 }
 
+// Move these:
+byte Z_motor, left_motor, right_motor;
+byte left_servo, right_servo, claw_servo;
+int cam_servo_x, cam_servo_y;
+int check;
+int time; //unused?
+//byte[] inBuffer = new byte[ NUMBER_BYTES ];
+//int[] sensors = new int[ NUMBER_OF_SENSORS ];
+
+// Provides motor power inputs.
+void Zmotor( float power ) {
+  Z_motor=byte( int( map( power, -1, 1, 22, 240 ) ) );
+}
+void leftmotor( float power, float angle ) {
+  if ( power > 0 ) {
+    left_motor = byte( power * 120 + 128 );
+  } 
+  else {
+    left_motor = byte( power * 120 - 128 );
+  }
+  left_servo = byte( angle );//int(map(angle,0,180,0,255));
+}
+void rightmotor( float power, float angle ) {
+  if ( power > 0 ) {
+    right_motor = byte( power * 120 + 128 );
+  }
+  else {
+    right_motor = byte( power * 120 - 128 );
+  }
+  right_servo = byte( angle );//int(map(angle,0 180,0,255));
+}
+
+/* void claw( float something ){
+ //do stuff
+ }*/

@@ -54,8 +54,8 @@ void draw() {
   vector_control();
 
   // Update Communication class.
-  serialThread.rightmotor(R, R_theta);
-  serialThread.leftmotor(L, L_theta);
-  serialThread.Zmotor(Back);
+  rightmotor(R, R_theta);
+  leftmotor(L, L_theta);
+  Zmotor(Back);
 }
 
