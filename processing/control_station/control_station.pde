@@ -3,8 +3,8 @@ import processing.serial.*;
 import procontroll.*;
 import net.java.games.input.*;
 
-Serial Robot;
-Comm comm;
+Serial serial;
+SerialThread serialThread;
 
 ControllIO ctrllIO;
 ControllDevice ctrllDevice;
@@ -23,9 +23,9 @@ float a = 0.3; //constant?
 void setup() {
 
   // Initialize serial communications.
-  Robot = new Serial( this, Serial.list()[0], 9600 );  
-  comm = new Comm( 9600 );
-  comm.start();
+  serial = new Serial( this, Serial.list()[0], 9600 );  
+  serialThread = new SerialThread( 9600 );
+  serialThread.start();
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
@@ -57,8 +57,8 @@ void draw() {
   vector_control();
 
   // Update Communication class.
-  comm.rightmotor(R, R_theta);
-  comm.leftmotor(L, L_theta);
-  comm.Zmotor(Back);
+  serialThread.rightmotor(R, R_theta);
+  serialThread.leftmotor(L, L_theta);
+  serialThread.Zmotor(Back);
 }
 

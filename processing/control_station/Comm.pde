@@ -1,4 +1,4 @@
-class Comm extends Thread {
+class SerialThread extends Thread {
 
   boolean running = false;
   byte Z_motor, left_motor, right_motor;
@@ -10,13 +10,13 @@ class Comm extends Thread {
   //int[] sensors = new int[ NUMBER_OF_SENSORS ];
 
   // Constructor.
-  Comm( int Baud_Rate ) {
-    /*//make a serial class Robot
-     Serial Robot;
+  SerialThread( int Baud_Rate ) {
+    /*//make a serial class serial
+     Serial serial;
      //list the available serial ports
      println( Serial.list() );
      //open robot port
-     Robot = new Serial( this, Serial.list()[1], Baud_Rate );*/
+     serial = new Serial( this, Serial.list()[1], Baud_Rate );*/
   }
 
   // Begin the thread.
@@ -33,31 +33,31 @@ class Comm extends Thread {
       time = millis(); //unused?
       
       // Wait for serial activity.
-      while ( Robot.available () < 1 ) {
+      while ( serial.available () < 1 ) {
         /*if (( millis() - time ) > 1500 ){
          //clear the buffer
-         while ( Robot.available() > 0 ){
-         Robot.read();
+         while ( serial.available() > 0 ){
+         serial.read();
          }
-         while ( Robot.available() < 1 ) {}
+         while ( serial.available() < 1 ) {}
          }*/
       }
       
       // Test check byte.
-      check = Robot.read();
+      check = serial.read();
       // Send current status (model?).
       if ( check == 243 ) {
-        Robot.write(left_motor);
-        Robot.write(left_servo);
-        Robot.write(right_motor);
-        Robot.write(right_servo);
-        Robot.write(Z_motor);
+        serial.write(left_motor);
+        serial.write(left_servo);
+        serial.write(right_motor);
+        serial.write(right_servo);
+        serial.write(Z_motor);
       }
       // Wait for serial activity.
-      while ( Robot.available () < 2 ) {
+      while ( serial.available () < 2 ) {
       }
       // Print debugging info.
-      println( Robot.read() + "    " + Robot.read() );
+      println( serial.read() + "    " + serial.read() );
       // Reset check.
       check = 0;
     }
