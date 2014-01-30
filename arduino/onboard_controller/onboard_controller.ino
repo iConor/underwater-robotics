@@ -101,4 +101,3 @@ void motorControl( int address_, int motor_, int power ) {
   Serial1.write( speed_ );
   Serial1.write( thing2_ );
 }
-

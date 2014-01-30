@@ -1,10 +1,7 @@
-import processing.serial.*;
-
 import procontroll.*;
 import net.java.games.input.*;
 
-Serial Robot;
-Comm comm;
+import processing.serial.*;
 
 ControllIO ctrllIO;
 ControllDevice ctrllDevice;
@@ -13,19 +10,15 @@ ControllSlider rightHorizontal;
 ControllSlider rightVertical;
 ControllSlider leftVertical;
 
+SerialThread serialThread;
+
 float X, Y, Z;
 float x_prime, y_prime;
 float L_x, R_x;
 float L_theta, R_theta;
 float L, R, Back;
-float a = 0.3; //constant?
 
 void setup() {
-
-  // Initialize serial communications.
-  Robot = new Serial( this, Serial.list()[0], 9600 );  
-  comm = new Comm( 9600 );
-  comm.start();
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
@@ -38,6 +31,9 @@ void setup() {
   rightHorizontal.setTolerance(.16);
   leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
   leftVertical.setTolerance(.16);
+
+  // Initialize serial communications. 
+  serialThread = new SerialThread(this);
 }
 
 void draw() {
@@ -57,8 +53,8 @@ void draw() {
   vector_control();
 
   // Update Communication class.
-  comm.rightmotor(R, R_theta);
-  comm.leftmotor(L, L_theta);
-  comm.Zmotor(Back);
+  rightmotor(R, R_theta);
+  leftmotor(L, L_theta);
+  Zmotor(Back);
 }
 
