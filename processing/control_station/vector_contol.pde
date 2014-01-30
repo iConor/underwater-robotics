@@ -52,14 +52,10 @@ void vector_control() {
   }
 }
 
-// Move these:
 byte Z_motor, left_motor, right_motor;
 byte left_servo, right_servo, claw_servo;
 int cam_servo_x, cam_servo_y;
 int check;
-int time; //unused?
-//byte[] inBuffer = new byte[ NUMBER_BYTES ];
-//int[] sensors = new int[ NUMBER_OF_SENSORS ];
 
 // Provides motor power inputs.
 void Zmotor( float power ) {
@@ -83,7 +79,3 @@ void rightmotor( float power, float angle ) {
   }
   right_servo = byte( angle );//int(map(angle,0 180,0,255));
 }
-
-/* void claw( float something ){
- //do stuff
- }*/

@@ -1,9 +1,7 @@
-import processing.serial.*;
-
 import procontroll.*;
 import net.java.games.input.*;
 
-SerialThread serialThread;
+import processing.serial.*;
 
 ControllIO ctrllIO;
 ControllDevice ctrllDevice;
@@ -12,17 +10,15 @@ ControllSlider rightHorizontal;
 ControllSlider rightVertical;
 ControllSlider leftVertical;
 
+SerialThread serialThread;
+
 float X, Y, Z;
 float x_prime, y_prime;
 float L_x, R_x;
 float L_theta, R_theta;
 float L, R, Back;
-float a = 0.3; //constant?
 
 void setup() {
-
-  // Initialize serial communications. 
-  serialThread = new SerialThread( this );
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
@@ -35,6 +31,9 @@ void setup() {
   rightHorizontal.setTolerance(.16);
   leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
   leftVertical.setTolerance(.16);
+
+  // Initialize serial communications. 
+  serialThread = new SerialThread(this);
 }
 
 void draw() {
