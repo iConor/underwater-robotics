@@ -17,23 +17,11 @@ float x_prime, y_prime;
 float L_x, R_x;
 float L_theta, R_theta;
 float L, R, Back;
-<<<<<<< HEAD
-=======
-// float a = 0.3; //constant?
->>>>>>> Integrated GUI_2 into main code.
 
 void setup() {
   
   setupGUI_2();
 
-<<<<<<< HEAD
-=======
-  // Initialize serial communications.
-  Robot = new Serial( this, Serial.list()[4], 9600 );  
-  comm = new Comm( 9600 );
-  comm.start();
-
->>>>>>> Integrated GUI_2 into main code.
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
   Gamepad gamepad = new Gamepad(ctrllIO);
@@ -67,16 +55,9 @@ void draw() {
   vector_control();
 
   // Update Communication class.
-<<<<<<< HEAD
   rightmotor(R, R_theta);
   leftmotor(L, L_theta);
-  Zmotor(Back);
-=======
-  comm.rightmotor(R, R_theta);
-  comm.leftmotor(L, L_theta);
-  comm.Zmotor(Back);
   
   drawGUI_2();
->>>>>>> Integrated GUI_2 into main code.
 }
 
