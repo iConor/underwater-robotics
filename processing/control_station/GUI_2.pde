@@ -15,7 +15,7 @@ String d = "CAMERA 3";
 String e = "Manual Movement";
 String f = "NAVIGATION";
 
-void setup() {
+void setupGUI_2() {
   colorMode(RGB, 255);
   size(1350, 700, P3D);
   noStroke();
@@ -76,7 +76,7 @@ void setup() {
   }
 }
 
-void draw() { 
+void drawGUI_2() { 
   //cameras
   if (cam1.available() == true) {
     cam1.read();
