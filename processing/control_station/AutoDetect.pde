@@ -1,3 +1,11 @@
+/*****************************************************************************
+ *                                                                           *
+ *   Classes:                                                                *
+ *   Gamepad - Automatically detects and configures video game controller.   *
+ *   AutoSerial - Automatically identifies a usable serial port.             *
+ *                                                                           *
+ *****************************************************************************/
+
 public class Gamepad {
 
   // Gamepad Connection
@@ -274,6 +282,60 @@ public class Gamepad {
   }
 
   //-------------------- Name And Number Getter --------------------//
+
+  public String name() {
+    return _name;
+  }
+  public int number() {
+    return _number;
+  }
+}
+
+public class AutoSerial {
+
+  //-------------------- Serial Port Names --------------------//
+
+  // Known Serial Port Prefixes
+  private final String WINDOWS= "COM";
+  private final String MAC= "/dev/tty.usb";
+
+  // List of Known Prefixes
+  private final String[] KNOWN_PORTS = {
+    WINDOWS, MAC
+  };
+
+  // Serial Port Name
+  private String _name = "";
+  // Serial Port Number
+  private int _number = -1;
+
+  //-------------------- Autodetection Routine --------------------//
+
+  // Constructor
+  public AutoSerial() {
+    getSerialPortNameAndNumber();
+  }
+
+  // Get Serial Port Name and Number
+  private void getSerialPortNameAndNumber() {
+
+    String currentPortName = "";
+
+    for ( int i=0; i < Serial.list().length; i++ ) {
+
+      currentPortName = Serial.list()[i];
+
+      for ( int j = 0; j < KNOWN_PORTS.length; j++ ) {
+
+        if ( currentPortName.indexOf( KNOWN_PORTS[j] ) >= 0 ) {
+          _name = currentPortName;
+          _number = i;
+        }
+      }
+    }
+  }
+
+  //-------------------- Name And Number Getters --------------------//
 
   public String name() {
     return _name;
