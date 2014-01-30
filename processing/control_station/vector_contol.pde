@@ -1,3 +1,11 @@
+/*******************************************************************
+ *                                                                 *
+ *   Functions:                                                    *
+ *   vector_control() - Determines a thrust vector.                *
+ *   Zmotor/leftmotor/rightmotor - Determines bytes to transmit.   *
+ *                                                                 *
+ *******************************************************************/
+
 void vector_control() {
 
   float Cg_ratio=.6422;

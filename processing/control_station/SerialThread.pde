@@ -1,3 +1,10 @@
+/************************************************************************
+ *                                                                      *
+ *   Classes:                                                           *
+ *   SerialThread - Serial communications are handled by this thread.   *
+ *                                                                      *
+ ************************************************************************/
+
 class SerialThread extends Thread {
 
   private final int BAUD_RATE = 9600;
@@ -14,7 +21,8 @@ class SerialThread extends Thread {
 
   // Begin the thread.
   void start() {
-    serial = new Serial( main_function, Serial.list()[4], BAUD_RATE );
+    AutoSerial autoSerial = new AutoSerial();
+    serial = new Serial( main_function, autoSerial.name(), BAUD_RATE );
     running = true;
     super.start();
   }
@@ -44,7 +52,7 @@ class SerialThread extends Thread {
       check = 0;
     }
   }
-  
+
   // Stop the thread.
   void quit() {
     running = false;
