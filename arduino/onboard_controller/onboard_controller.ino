@@ -37,15 +37,18 @@ void loop(){
   }
 
   // Read incoming data packet.
-  port_thruster_motor_value = Serial.read();
   port_thruster_servo_value = Serial.read();
-  starboard_thruster_motor_value = Serial.read();
   starboard_thruster_servo_value = Serial.read();
+  port_thruster_motor_value = Serial.read();
+  starboard_thruster_motor_value = Serial.read();
   aft_thruster_motor_value = Serial.read();
 
   // Send thruster motor values back for debugging.
+  Serial.write( port_thruster_servo_value );
+  Serial.write( starboard_thruster_servo_value );
   Serial.write( port_thruster_motor_value );
   Serial.write( starboard_thruster_motor_value );
+  Serial.write( aft_thruster_motor_value );
 
   // Set thruster motor speeds.
   analogWrite( PORT_THRUSTER_MOTOR_PIN, port_thruster_motor_value );

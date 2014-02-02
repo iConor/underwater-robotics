@@ -37,17 +37,17 @@ class SerialThread extends Thread {
       check = serial.read();
       // Send current status.
       if ( check == 243 ) {
-        serial.write(left_motor);
         serial.write(left_servo);
-        serial.write(right_motor);
         serial.write(right_servo);
+        serial.write(left_motor);
+        serial.write(right_motor);
         serial.write(Z_motor);
       }
       // Wait for serial activity.
-      while ( serial.available () < 2 ) {
+      while ( serial.available () < 5 ) {
       }
       // Print debugging info.
-      println( serial.read() + "    " + serial.read() );
+      println( " " + serial.read() + " " + serial.read() + "   " + serial.read() + " " + serial.read() + "   " + serial.read() );
       // Reset check.
       check = 0;
     }
@@ -59,4 +59,3 @@ class SerialThread extends Thread {
     serial.stop();
   }
 }
-
