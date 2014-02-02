@@ -37,11 +37,11 @@ class SerialThread extends Thread {
       check = serial.read();
       // Send current status.
       if ( check == 243 ) {
-        serial.write(left_servo);
-        serial.write(right_servo);
-        serial.write(left_motor);
-        serial.write(right_motor);
-        serial.write(Z_motor);
+        serial.write(port_thruster_servo_angle);
+        serial.write(starboard_thruster_servo_angle);
+        serial.write(port_thruster_motor_power);
+        serial.write(starboard_thruster_motor_power);
+        serial.write(aft_thruster_motor_power);
       }
       // Wait for serial activity.
       while ( serial.available () < 5 ) {
