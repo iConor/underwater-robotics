@@ -18,7 +18,8 @@ int aft_thruster_motor_power;
 Servo port_thruster_servo;
 Servo starboard_thruster_servo;
 
-const byte CHECK_BYTE = 243;
+const byte CTS = 243;
+const byte DEBUG = 244;
 const int BAUD_RATE = 9600;
 
 void setup() {
@@ -34,25 +35,17 @@ void setup() {
 void loop(){
 
   // Send ready status to control station.
-  Serial.write( CHECK_BYTE );
-
-  // Wait for incoming data packet.
-  while( Serial.available() < 5 ){
-  }
-
-  // Read incoming data packet.
-  port_thruster_servo_angle = Serial.read();
-  starboard_thruster_servo_angle = Serial.read();
-  port_thruster_motor_power = Serial.read();
-  starboard_thruster_motor_power = Serial.read();
-  aft_thruster_motor_power = Serial.read();
+  Serial.write( CTS );
+  Serial.write( '#' );
 
   // Send thruster values back for debugging.
+  Serial.write( DEBUG );
   Serial.write( port_thruster_servo_angle );
   Serial.write( starboard_thruster_servo_angle );
   Serial.write( port_thruster_motor_power );
   Serial.write( starboard_thruster_motor_power );
   Serial.write( aft_thruster_motor_power );
+  Serial.write( '#' );
 
   // Set thruster motor power.
   analogWrite( PORT_THRUSTER_MOTOR_PIN, port_thruster_motor_power );
@@ -65,3 +58,14 @@ void loop(){
   // Allow time for each servo operation to complete.
   delay( 15 );                           
 }
+
+void serialEvent() {
+
+  // Read incoming data packet.
+  port_thruster_servo_angle = Serial.read();
+  starboard_thruster_servo_angle = Serial.read();
+  port_thruster_motor_power = Serial.read();
+  starboard_thruster_motor_power = Serial.read();
+  aft_thruster_motor_power = Serial.read();
+}
+  
