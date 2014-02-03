@@ -6,4 +6,6 @@ OSU Underwater Robotics
 Dependencies
 ------------
 
-proCONTROLL Library for Processing - [Documentation](http://creativecomputing.cc/p5libs/procontroll/ "proCONTROLL") | [Download](http://creativecomputing.cc/p5libs/procontroll/procontroll.zip "proCONTROLL")
+Processing 2.1 (Win 32) - [Site](http://www.processing.org/ "Processing") | [Direct Download](http://download.processing.org/processing-2.1-windows32.zip "Processing 2.1 (Win 32)")
+
+proCONTROLL Library - [Site](http://creativecomputing.cc/p5libs/procontroll/ "proCONTROLL") | [Direct Download](http://creativecomputing.cc/p5libs/procontroll/procontroll.zip "proCONTROLL Download")
