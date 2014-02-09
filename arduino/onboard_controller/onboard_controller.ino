@@ -24,6 +24,8 @@ Servo port_thruster_servo;
 Servo starboard_thruster_servo;
 
 void setup() {
+  
+  IMU_setup();
 
   // Initialize serial port.
   Serial.begin( BAUD_RATE );
@@ -37,6 +39,8 @@ void setup() {
 }
 
 void loop() {
+  
+  IMU_readAndWrite();
 
   // Send ready status to control station.
   Serial.write( CHECK_BYTE );
