@@ -1,7 +1,11 @@
+import processing.video.*;
+
 import procontroll.*;
 import net.java.games.input.*;
 
 import processing.serial.*;
+
+GUI_2 gui2;
 
 ControllIO ctrllIO;
 ControllDevice ctrllDevice;
@@ -20,7 +24,7 @@ float L, R, Back;
 
 void setup() {
   
-  setupGUI_2();
+  gui2 = new GUI_2(this);
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
@@ -35,7 +39,7 @@ void setup() {
   leftVertical.setTolerance(.16);
 
   // Initialize serial communications. 
-  serialThread = new SerialThread(this);
+  serialThread = new SerialThread(this); // Comment out if not connecting an Arduino.
 }
 
 void draw() {
@@ -58,6 +62,7 @@ void draw() {
   rightmotor(R, R_theta);
   leftmotor(L, L_theta);
   
-  drawGUI_2();
+  // Update visual elements for re-draw.
+  gui2.update();
 }
 
