@@ -209,7 +209,7 @@ class GUI_2 {
   void keyboard() {
 
     //Assign placement of cameras on screen (press 2 to move image 2 to location 1, press 3 to move image 3 to location 1)
-    if (keyCode>49 && keyCode<51) {
+    if (keyCode==50) {
       cam_1temp = cam_1;
       cam_2temp = cam_2;
       cam_3temp = cam_3;
@@ -219,7 +219,7 @@ class GUI_2 {
       cam_3 = cam_3temp;
     }
 
-    if (keyCode>50 && keyCode<52) {
+    if (keyCode==51) {
       cam_1temp = cam_1;
       cam_2temp = cam_2;
       cam_3temp = cam_3;
@@ -233,7 +233,7 @@ class GUI_2 {
     Robot_angle = counter1/10;
     //arrow will only appear after rectangles have been permanently placed
     if (Permanent1>0 && Permanent2>0 && Permanent3>0) {
-      if (key>'r' && key<'t') {//replace with 'if getting coordinate and angle data'
+      if (key=='s') {//replace with 'if getting coordinate and angle data'
 
         //blackout previous arrow
         pushMatrix();
@@ -261,10 +261,10 @@ class GUI_2 {
       }
     }
     //signify that object is placed correctly and load permanent images
-    if (keyCode>9 && keyCode<11) { //Must press 'Enter' to make placement permanent
+    if (keyCode==10) { //Must press 'Enter' to make placement permanent
 
       //Image number 1
-      if (Object>0 && Object<2) {
+      if (Object==1) {
         Status = -1; //signifies that object 1 has been placed (will not allow a second object 1 to be placed)
         Object = 0; //clears object #
         Permanent1 = 1; //signifies that permanent image 1 can be created in void draw()
@@ -277,7 +277,7 @@ class GUI_2 {
         angle2 = 0;
         counter_rotate = 0;
       }
-      if (Object>1 && Object<3) {
+      if (Object==2) {
         Status = -2; //signifies that object 2 has been placed (will not allow a second object 2 to be placed)
         Object = 0; //clears object #
         Permanent2 = 1; //signifies that permanent image 2 can be created in void draw()
@@ -290,7 +290,7 @@ class GUI_2 {
         angle2 = 0;
         counter_rotate = 0;
       }
-      if (Object>2 && Object<4) {
+      if (Object==3) {
         Status = -3; //signifies that object 3 has been placed (will not allow a second object 3 to be placed)
         Object = 0; //clears object #
         Permanent3 = 1; //signifies that permanent image 3 can be created in void draw()
@@ -313,11 +313,11 @@ class GUI_2 {
     Rec_yrotate = Rec_y;
 
     //Rotate left
-    if (keyCode>36 && keyCode<38) {
+    if (keyCode==37) {
 
       Black.resize(76, 43);    
       //If image 1  
-      if (Object>0 && Object<2) {
+      if (Object==1) {
         pushMatrix();
         translate(Rec_xrotate+rotatedimage1.width/2, Rec_yrotate+rotatedimage1.height/2);
         rotate(angle2);
@@ -337,7 +337,7 @@ class GUI_2 {
         counter_rotate++;
       }
       //If image 2
-      if (Object>1 && Object<3) {
+      if (Object==2) {
         pushMatrix();
         translate(Rec_xrotate+rotatedimage2.width/2, Rec_yrotate+rotatedimage2.height/2);
         rotate(angle2);
@@ -357,7 +357,7 @@ class GUI_2 {
         counter_rotate++;
       }
       //If image 3
-      if (Object>2 && Object<4) {
+      if (Object==3) {
         pushMatrix();
         translate(Rec_xrotate+rotatedimage3.width/2, Rec_yrotate+rotatedimage3.height/2);
         rotate(angle2);
@@ -378,7 +378,7 @@ class GUI_2 {
       }
     }
     //Rotate Right
-    if (keyCode>38 && keyCode<40) {
+    if (keyCode==39) {
 
       Black.resize(76, 43);
       //If image 1  
@@ -402,7 +402,7 @@ class GUI_2 {
         counter_rotate++;
       }
       //If image 2
-      if (Object>1 && Object<3) {
+      if (Object==2) {
         pushMatrix();
         translate(Rec_xrotate+rotatedimage2.width/2, Rec_yrotate+rotatedimage2.height/2);
         rotate(angle2);
@@ -422,7 +422,7 @@ class GUI_2 {
         counter_rotate++;
       }
       //If image 3
-      if (Object>2 && Object<4) {
+      if (Object==3) {
         pushMatrix();
         translate(Rec_xrotate+rotatedimage3.width/2, Rec_yrotate+rotatedimage3.height/2);
         rotate(angle2);
@@ -479,7 +479,7 @@ class GUI_2 {
       temp_y = mouseY;
 
       //If image 1  
-      if (Object>0 && Object<2 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
+      if (Object==1 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
         //captures mouse data into variables 
         Rec_x = mouseX; 
         Rec_y = mouseY;
@@ -497,7 +497,7 @@ class GUI_2 {
         counterObj1++;
       }
       //If image 2
-      if (Object>1 && Object<3 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
+      if (Object==2 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
         //captures mouse data into variables 
         Rec_x = mouseX; 
         Rec_y = mouseY;
@@ -515,7 +515,7 @@ class GUI_2 {
         counterObj2++;
       }
       //If image 3
-      if (Object>2 && Object<4 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
+      if (Object==3 && temp_x > (width-630) && temp_y > (height-335) && temp_x < (width-84) && temp_y < (height-61)) {
         //captures mouse data into variables 
         Rec_x = mouseX; 
         Rec_y = mouseY;
