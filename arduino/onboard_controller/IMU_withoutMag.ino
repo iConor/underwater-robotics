@@ -186,3 +186,4 @@ void getYawPitchRoll()
         blinkState = !blinkState;
         digitalWrite(LED_PIN, blinkState);
     }
+}

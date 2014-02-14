@@ -12,6 +12,8 @@ class SerialThread extends Thread {
   private PApplet main_function;
   private Serial serial;
   private int check = 0;
+  private int low=0, high=0, data=0;
+  public float[] sensors = new float[4];
 
   // Constructor.
   SerialThread( PApplet parent ) {
@@ -44,10 +46,38 @@ class SerialThread extends Thread {
         serial.write(Z_motor);
       }
       // Wait for serial activity.
-      while ( serial.available () < 2 ) {
+      while ( serial.available () < 11 ) {
       }
       // Print debugging info.
       println( serial.read() + "    " + serial.read() );
+      //read the sensor data in from the robot controller
+      if (serial.read()=="#") {
+        //yaw
+          low = serial.read();
+          high = serial.read();
+          data=256*high+low;
+          sensors[0]=float(data)/100.0;
+        //pitch
+          low = serial.read();
+          high = serial.read();
+          data=256*high+low;
+          sensors[1=float(data)/100.0;    
+        //roll      
+          low = serial.read();
+          high = serial.read();
+          data=256*high+low;
+          sensors[2]=float(data)/100.0;          
+        //pressure
+          low = serial.read();
+          high = serial.read();
+          data=256*high+low;
+          sensors[3]=float(data)/100.0;
+          
+      }
+      else {
+        //clear the buffer or something
+      }
+          
       // Reset check.
       check = 0;
     }

@@ -104,6 +104,7 @@ void loop() {
   // Send thruster motor values back for debugging.
   Serial.write( port_thruster_motor_value );
   Serial.write( starboard_thruster_motor_value );
+  Serial.write("#");
   Serial.write(sensors,8);
 
   // Set thruster motor speeds.
