@@ -51,31 +51,34 @@ class SerialThread extends Thread {
       // Print debugging info.
       println( serial.read() + "    " + serial.read() );
       //read the sensor data in from the robot controller
-      if (serial.read()=="#") {
+      if (serial.read()==35) {
         //yaw
           low = serial.read();
           high = serial.read();
           data=256*high+low;
-          sensors[0]=float(data)/100.0;
+          sensors[0]=float(data)/100.0-180;
         //pitch
           low = serial.read();
           high = serial.read();
           data=256*high+low;
-          sensors[1=float(data)/100.0;    
+          sensors[1]=float(data)/100.0-180;    
         //roll      
           low = serial.read();
           high = serial.read();
           data=256*high+low;
-          sensors[2]=float(data)/100.0;          
+          sensors[2]=float(data)/100.0-180;          
         //pressure
           low = serial.read();
           high = serial.read();
           data=256*high+low;
-          sensors[3]=float(data)/100.0;
+          sensors[3]=float(data)/100.0-180;
+          
+          println(sensors[0]/PI*180+" , "+sensors[2]/PI*180);
           
       }
       else {
         //clear the buffer or something
+        serial.clear();
       }
           
       // Reset check.

@@ -51,7 +51,7 @@ void setupIMU()
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        attachInterrupt(0, dmpDataReady, RISING);
+        //attachInterrupt(0, dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
@@ -78,7 +78,7 @@ void getYawPitchRoll()
   
   if (!dmpReady) return;
   
-  mpuInterrupt = false;
+  //mpuInterrupt = false;
     mpuIntStatus = mpu.getIntStatus();
 
     // get current FIFO count

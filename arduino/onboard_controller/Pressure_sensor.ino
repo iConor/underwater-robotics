@@ -10,7 +10,7 @@ void setupPressure()
   ssc.setMinRaw(0);
   ssc.setMaxRaw(16383);
   ssc.setMinPressure(0.0);
-  ssc.setMaxPressure(1.6);
+  ssc.setMaxPressure(30);
   
   ssc.start();
 }

@@ -4,7 +4,7 @@
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 
-#include <wire.h>
+#include <Wire.h>
 #include <SSC.h>
 
 //************************************************************
@@ -85,7 +85,7 @@ void setup() {
 
 void loop() {
   
-  IMU_readAndWrite();
+  //IMU_readAndWrite();
 
   // Send ready status to control station.
   Serial.write( CHECK_BYTE );
@@ -104,7 +104,7 @@ void loop() {
   // Send thruster motor values back for debugging.
   Serial.write( port_thruster_motor_value );
   Serial.write( starboard_thruster_motor_value );
-  Serial.write("#");
+  Serial.write(35);
   Serial.write(sensors,8);
 
   // Set thruster motor speeds.
