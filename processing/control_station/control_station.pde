@@ -9,6 +9,7 @@ ControllDevice ctrllDevice;
 ControllSlider rightHorizontal;
 ControllSlider rightVertical;
 ControllSlider leftVertical;
+ControllCoolieHat coolieHat;
 
 SerialThread serialThread;
 
@@ -32,11 +33,17 @@ void setup() {
   leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
   leftVertical.setTolerance(.16);
 
+  coolieHat = ctrllDevice.getCoolieHat(gamepad.cooliehat());
+
   // Initialize serial communications. 
   serialThread = new SerialThread(this);
 }
 
 void draw() {
+
+  if ( coolieHat.pressed() ) {
+    update_camera();
+  }
 
   // Read gamepad values.
   X = rightVertical.getValue();

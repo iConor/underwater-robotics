@@ -42,6 +42,8 @@ class SerialThread extends Thread {
         serial.write(right_motor);
         serial.write(right_servo);
         serial.write(Z_motor);
+        serial.write(camera_pan_servo_angle);
+        serial.write(camera_tilt_servo_angle);
       }
       // Wait for serial activity.
       while ( serial.available () < 2 ) {

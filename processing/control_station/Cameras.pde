@@ -1,34 +1,15 @@
-//Pan/Tilt Camera Gibberish
+int camera_pan_servo_angle = 90;
+int camera_tilt_servo_angle = 90;
 
-void pan_tilt_camera(int x_change, int y_change) {
-
-  int x_max = 255;
-  int x_min = -255;
-  int y_max = 255;
-  int y_min = -255;
-
-  //X Value
-  if (x_change > 0) {
-    if (camera_x < x_max) {
-      camera_x = camera_x + 5;
-    }
-  } 
-  else if (x_change < 0) {
-    if (camera_x > x_min) {
-      camera_x = camera_x - 5;
-    }
-  }
-
-  //Y Value
-  if (y_change > 0) {
-    if (camera_y < y_max) {
-      camera_y = camera_x + 5;
-    }
-  } 
-  else if (y_change < 0) {
-    if (camera_y > y_min) {
-      camera_y = camera_y - 5;
-    }
-  }
+void update_camera() {
+  camera_pan_servo_angle = camera_angle( camera_pan_servo_angle, int(cooliehat.getX()));
+  camera_tilt_servo_angle = camera_angle( camera_tilt_servo_angle, int(cooliehat.getX()));
 }
 
+int camera_angle( int old_angle, int delta ){
+  int new_angle = old_angle + delta;
+  if( new_angle > 180 || new_angle < 0 ){
+    new_angle = old_angle;
+  }
+  return new_angle;
+}

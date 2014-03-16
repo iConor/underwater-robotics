@@ -1,11 +1,12 @@
 #include <Servo.h>
-#include <SoftwareSerial.h>
 
 const byte CHECK_BYTE = 243;
 const int BAUD_RATE = 9600;
 
 const int PORT_THRUSTER_SERVO_PIN = 10;
 const int STARBOARD_THRUSTER_SERVO_PIN = 11;
+const int CAMERA_PAN_SERVO_VALUE = 5;
+const int CAMERA_TILT_SERVO_VALUE = 6;
 
 const int SERVO_MIN = 400;
 const int SERVO_MAX = 2200;
@@ -19,9 +20,13 @@ int starboard_thruster_servo_value;
 int port_thruster_motor_value;
 int starboard_thruster_motor_value;
 int aft_thruster_motor_value;
+int camera_pan_servo_angle;
+int camera_tilt_servo_angle;
 
 Servo port_thruster_servo;
 Servo starboard_thruster_servo;
+Servo camera_pan_servo;
+Servo camera_tilt_servo;
 
 void setup() {
 
@@ -34,6 +39,10 @@ void setup() {
   // Initialize thruster servos.
   port_thruster_servo.attach( PORT_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX );
   starboard_thruster_servo.attach( STARBOARD_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX);
+  
+  // Initialize pan/tilt servos.
+  camera_pan_servo.attach(CAMERA_PAN_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
+  camera_tilt_servo.attach(CAMERA_TILT_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
 }
 
 void loop() {
@@ -42,7 +51,7 @@ void loop() {
   Serial.write( CHECK_BYTE );
 
   // Wait for incoming data packet.
-  while( Serial.available() < 5 ){
+  while( Serial.available() < 7 ){
   }
 
   // Read incoming data packet.
@@ -51,6 +60,8 @@ void loop() {
   starboard_thruster_motor_value = Serial.read();
   starboard_thruster_servo_value = Serial.read();
   aft_thruster_motor_value = Serial.read();
+  camera_pan_servo_angle = Serial.read();
+  camera_tilt_servo_angle = Serial.read();
 
   // Send thruster motor values back for debugging.
   Serial.write( port_thruster_motor_value );
@@ -63,6 +74,10 @@ void loop() {
   // Set servo positions according to the scaled values.
   port_thruster_servo.write( port_thruster_servo_value ); 
   starboard_thruster_servo.write( starboard_thruster_servo_value );
+  
+  // Set pan/tilt position.
+  camera_pan_servo.write( camera_pan_servo_angle );
+  camera_tilt_servo.write( camera_tilt_servo_angle );
 
   // Allow time for each servo operation to complete.
   delay( 15 );                           
