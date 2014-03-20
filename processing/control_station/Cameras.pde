@@ -2,8 +2,8 @@ int camera_pan_servo_angle = 90;
 int camera_tilt_servo_angle = 90;
 
 void update_camera() {
-  camera_pan_servo_angle = camera_angle( camera_pan_servo_angle, int(cooliehat.getX()));
-  camera_tilt_servo_angle = camera_angle( camera_tilt_servo_angle, int(cooliehat.getX()));
+  camera_pan_servo_angle = camera_angle( camera_pan_servo_angle, int(coolieHat.getX()));
+  camera_tilt_servo_angle = camera_angle( camera_tilt_servo_angle, int(coolieHat.getY()));
 }
 
 int camera_angle( int old_angle, int delta ){

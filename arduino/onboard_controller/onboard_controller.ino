@@ -64,8 +64,8 @@ void loop() {
   camera_tilt_servo_angle = Serial.read();
 
   // Send thruster motor values back for debugging.
-  Serial.write( port_thruster_motor_value );
-  Serial.write( starboard_thruster_motor_value );
+  Serial.write( camera_pan_servo_angle );
+  Serial.write( camera_tilt_servo_angle );
 
   // Set thruster motor speeds.
   motorControl( THRUSTER_ADDRESS, PORT_THRUSTER, port_thruster_motor_value );
