@@ -12,7 +12,9 @@ class SerialThread extends Thread {
   private PApplet main_function;
   private Serial serial;
   private int check = 0;
-  private int low=0, high=0, data=0;
+  private int low = 0;
+  private int high = 0;
+  private int data = 0;
   public float[] sensors = new float[4];
 
   // Constructor.
@@ -50,39 +52,23 @@ class SerialThread extends Thread {
       }
       // Print debugging info.
       println( serial.read() + "    " + serial.read() );
-      //read the sensor data in from the robot controller
-      if (serial.read()==35) {
-        //yaw
-          low = serial.read();
-          high = serial.read();
-          data=256*high+low;
-          sensors[0]=float(data)/100.0-180;
-        //pitch
-          low = serial.read();
-          high = serial.read();
-          data=256*high+low;
-          sensors[1]=float(data)/100.0-180;    
-        //roll      
-          low = serial.read();
-          high = serial.read();
-          data=256*high+low;
-          sensors[2]=float(data)/100.0-180;          
-        //pressure
-          low = serial.read();
-          high = serial.read();
-          data=256*high+low;
-          sensors[3]=float(data)/100.0-180;
-          
-          println(sensors[0]/PI*180+" , "+sensors[2]/PI*180);
-          
-      }
-      else {
-        //clear the buffer or something
-        serial.clear();
-      }
-          
       // Reset check.
       check = 0;
+      // Read sensor data.
+      if ( serial.read() == 35 ) {
+        for ( int i = 0; i < 4; i++ ) {
+          low = serial.read();
+          high = serial.read();
+          data = 256 * high + low;
+          sensors[i] = float( data ) / 100.0 - 180;
+        }
+        // Print sensor data.
+        println( "               " + sensors[0] + "    " + sensors[1] + "    " + sensors[2] );
+      }
+      else {
+        // Clear the buffer.
+        serial.clear();
+      }
     }
   }
 
