@@ -30,17 +30,17 @@ Servo camera_tilt_servo;
 
 void setup() {
 
-  // Initialize serial port.
+  // Initialize control station port.
   Serial.begin( BAUD_RATE );
 
-  // Initialize motor port.
+  // Initialize motor speed port.
   Serial1.begin( BAUD_RATE );
 
   // Initialize thruster servos.
   port_thruster_servo.attach( PORT_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX );
   starboard_thruster_servo.attach( STARBOARD_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX);
   
-  // Initialize pan/tilt servos.
+  // Initialize camera servos.
   camera_pan_servo.attach(CAMERA_PAN_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
   camera_tilt_servo.attach(CAMERA_TILT_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
 }
@@ -62,24 +62,27 @@ void loop() {
   aft_thruster_motor_value = Serial.read();
   camera_pan_servo_angle = Serial.read();
   camera_tilt_servo_angle = Serial.read();
-
-  // Send thruster motor values back for debugging.
-  Serial.write( camera_pan_servo_angle );
-  Serial.write( camera_tilt_servo_angle );
+  
+  // Invert one thruster angle.
+  port_thruster_servo_value = 180 - port_thruster_servo_value;
+  
+  // Send values back for debugging.
+  Serial.write( port_thruster_servo_value );
+  Serial.write( starboard_thruster_servo_value );
 
   // Set thruster motor speeds.
   motorControl( THRUSTER_ADDRESS, PORT_THRUSTER, port_thruster_motor_value );
   motorControl( THRUSTER_ADDRESS, STARBOARD_THRUSTER, starboard_thruster_motor_value );
 
-  // Set servo positions according to the scaled values.
+  // Set thruster servo positions.
   port_thruster_servo.write( port_thruster_servo_value ); 
   starboard_thruster_servo.write( starboard_thruster_servo_value );
   
-  // Set pan/tilt position.
+  // Set camera servo positions.
   camera_pan_servo.write( camera_pan_servo_angle );
   camera_tilt_servo.write( camera_tilt_servo_angle );
 
-  // Allow time for each servo operation to complete.
+  // Allow time for servo operations to complete.
   delay( 15 );                           
 }
 

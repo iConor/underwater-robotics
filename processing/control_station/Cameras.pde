@@ -7,7 +7,7 @@ void update_camera() {
 }
 
 int camera_angle( int old_angle, int delta ){
-  int new_angle = old_angle + delta;
+  int new_angle = old_angle - delta;
   if( new_angle > 180 || new_angle < 0 ){
     new_angle = old_angle;
   }
