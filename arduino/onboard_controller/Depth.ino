@@ -1,3 +1,6 @@
+
+//------------------------------------------------------------   setupDepth()   --------------------//
+
 void setupDepth() {
   
   // Configure the sensor.
@@ -9,6 +12,8 @@ void setupDepth() {
   // Start the sensor.
   depth.start();
 }
+
+//------------------------------------------------------------   loopDepth()   --------------------//
 
 void loopDepth() {
   

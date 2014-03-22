@@ -41,19 +41,22 @@ class SerialThread extends Thread {
       check = serial.read();
       // Send current status.
       if ( check == 243 ) {
-        serial.write(left_motor);
-        serial.write(left_servo);
-        serial.write(right_motor);
-        serial.write(right_servo);
-        serial.write(Z_motor);
-        serial.write(camera_pan_servo_angle);
-        serial.write(camera_tilt_servo_angle);
+        serial.write( port_thruster_motor_power );
+        serial.write( port_thruster_servo_angle );
+        serial.write( starboard_thruster_motor_power );
+        serial.write( starboard_thruster_servo_angle );
+        serial.write( aft_thruster_motor_power );
+        serial.write( camera_pan_servo_angle );
+        serial.write( camera_tilt_servo_angle );
       }
       // Wait for serial activity.
-      while ( serial.available () < 11 ) {
+      while ( serial.available () < 16 ) {
       }
       // Print debugging info.
-      println( serial.read() + "    " + serial.read() );
+      for( int j = 0; j < 7; j++ ) {
+        print( serial.read() + "    " );
+      }
+      println();
       // Reset check.
       check = 0;
       // Read sensor data.
@@ -65,7 +68,7 @@ class SerialThread extends Thread {
           sensors[i] = float( data ) / 100.0 - 180;
         }
         // Print sensor data.
-        println( "               " + sensors[0] + "    " + sensors[1] + "    " + sensors[2] );
+        println( "                                             " + sensors[0] + "    " + sensors[1] + "    " + sensors[2] );
       }
       else {
         // Clear the buffer.

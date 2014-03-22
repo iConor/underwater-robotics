@@ -1,17 +1,21 @@
 
+//------------------------------------------------------------   Includes   --------------------//
+
 #include "Servo.h"
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "MPU6050_9Axis_MotionApps41.h"
 #include "SSC.h"
 
+//------------------------------------------------------------   Constants   --------------------//
+
 const byte CHECK_BYTE = 243;
 const int BAUD_RATE = 9600;
 
 const int PORT_THRUSTER_SERVO_PIN = 10;
 const int STARBOARD_THRUSTER_SERVO_PIN = 11;
-const int CAMERA_PAN_SERVO_VALUE = 5;
-const int CAMERA_TILT_SERVO_VALUE = 6;
+const int CAMERA_PAN_SERVO_PIN = 5;
+const int CAMERA_TILT_SERVO_PIN = 6;
 
 const int SERVO_MIN = 400;
 const int SERVO_MAX = 2200;
@@ -20,11 +24,13 @@ const int THRUSTER_ADDRESS = 128;
 const int PORT_THRUSTER = 2;
 const int STARBOARD_THRUSTER = 1;
 
-int port_thruster_servo_value;
-int starboard_thruster_servo_value;
-int port_thruster_motor_value;
-int starboard_thruster_motor_value;
-int aft_thruster_motor_value;
+//------------------------------------------------------------   Globals   --------------------//
+
+int port_thruster_motor_power;
+int port_thruster_servo_angle;
+int starboard_thruster_motor_power;
+int starboard_thruster_servo_angle;
+int aft_thruster_motor_power;
 int camera_pan_servo_angle;
 int camera_tilt_servo_angle;
 
@@ -32,6 +38,8 @@ Servo port_thruster_servo;
 Servo starboard_thruster_servo;
 Servo camera_pan_servo;
 Servo camera_tilt_servo;
+
+//------------------------------------------------------------   IMU   --------------------//
 
 MPU6050 mpu9150;
 
@@ -44,6 +52,8 @@ Quaternion quaternion;
 VectorFloat gravity;
 float yawPitchRoll[3];
 
+//------------------------------------------------------------   Depth   --------------------//
+
 const uint8_t DEPTH_ADDRESS = 0x28;
 const uint8_t DEPTH_POWERPIN = 8;
 
@@ -51,6 +61,8 @@ SSC depth( DEPTH_ADDRESS, DEPTH_POWERPIN );
 
 float depth_pressure = 0.0;
 float depth_temperature = 0.0;
+
+//------------------------------------------------------------   setup()   --------------------//
 
 byte sensors[8] = {0,0,0,0,0,0,0,0};
 
@@ -73,9 +85,12 @@ void setup() {
   starboard_thruster_servo.attach( STARBOARD_THRUSTER_SERVO_PIN, SERVO_MIN, SERVO_MAX);
   
   // Initialize camera servos.
-  camera_pan_servo.attach(CAMERA_PAN_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
-  camera_tilt_servo.attach(CAMERA_TILT_SERVO_VALUE, SERVO_MIN, SERVO_MAX );
+  camera_pan_servo.attach(CAMERA_PAN_SERVO_PIN, SERVO_MIN, SERVO_MAX );
+  camera_tilt_servo.attach(CAMERA_TILT_SERVO_PIN, SERVO_MIN, SERVO_MAX );
 }
+
+
+//------------------------------------------------------------   loop()   --------------------//
 
 void loop() {
 
@@ -101,32 +116,37 @@ void loop() {
   sensors[7]=(int(100*depth_pressure)>>8) & 0xFF;
   
   // Read incoming data packet.
-  port_thruster_motor_value = Serial.read();
-  port_thruster_servo_value = Serial.read();
-  starboard_thruster_motor_value = Serial.read();
-  starboard_thruster_servo_value = Serial.read();
-  aft_thruster_motor_value = Serial.read();
+  port_thruster_motor_power = Serial.read();
+  port_thruster_servo_angle = Serial.read();
+  starboard_thruster_motor_power = Serial.read();
+  starboard_thruster_servo_angle = Serial.read();
+  aft_thruster_motor_power = Serial.read();
   camera_pan_servo_angle = Serial.read();
   camera_tilt_servo_angle = Serial.read();
   
   // Invert one thruster angle.
-  port_thruster_servo_value = 180 - port_thruster_servo_value;
+  starboard_thruster_servo_angle = 180 - starboard_thruster_servo_angle;
   
   // Send values back for debugging.
-  Serial.write( port_thruster_servo_value );
-  Serial.write( starboard_thruster_servo_value );
+  Serial.write( port_thruster_motor_power );
+  Serial.write( starboard_thruster_motor_power );
+  Serial.write( aft_thruster_motor_power );
+  Serial.write( port_thruster_servo_angle );
+  Serial.write( starboard_thruster_servo_angle );
+  Serial.write( camera_pan_servo_angle );
+  Serial.write( camera_tilt_servo_angle );
 
   // Send sensor data back.
   Serial.write(35);
   Serial.write(sensors,8);
 
   // Set thruster motor speeds.
-  motorControl( THRUSTER_ADDRESS, PORT_THRUSTER, port_thruster_motor_value );
-  motorControl( THRUSTER_ADDRESS, STARBOARD_THRUSTER, starboard_thruster_motor_value );
+  motorControl( THRUSTER_ADDRESS, PORT_THRUSTER, port_thruster_motor_power );
+  motorControl( THRUSTER_ADDRESS, STARBOARD_THRUSTER, starboard_thruster_motor_power );
 
   // Set thruster servo positions.
-  port_thruster_servo.write( port_thruster_servo_value ); 
-  starboard_thruster_servo.write( starboard_thruster_servo_value );
+  port_thruster_servo.write( port_thruster_servo_angle ); 
+  starboard_thruster_servo.write( starboard_thruster_servo_angle );
   
   // Set camera servo positions.
   camera_pan_servo.write( camera_pan_servo_angle );
@@ -135,6 +155,8 @@ void loop() {
   // Allow time for servo operations to complete.
   delay( 15 );                           
 }
+
+//------------------------------------------------------------   motorControl()   --------------------//
 
 void motorControl( int address_, int motor_, int power ) {
   byte thing1_;
