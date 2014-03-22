@@ -1,4 +1,9 @@
-#include <Servo.h>
+
+#include "Servo.h"
+#include "Wire.h"
+#include "I2Cdev.h"
+#include "MPU6050_9Axis_MotionApps41.h"
+#include "SSC.h"
 
 const byte CHECK_BYTE = 243;
 const int BAUD_RATE = 9600;
@@ -28,7 +33,34 @@ Servo starboard_thruster_servo;
 Servo camera_pan_servo;
 Servo camera_tilt_servo;
 
+MPU6050 mpu9150;
+
+bool dmpReady = false;
+uint16_t fifoCount;
+uint8_t mpuIntStatus;
+uint8_t fifoBuffer[64];
+
+Quaternion quaternion;
+VectorFloat gravity;
+float yawPitchRoll[3];
+
+const uint8_t DEPTH_ADDRESS = 0x28;
+const uint8_t DEPTH_POWERPIN = 8;
+
+SSC depth( DEPTH_ADDRESS, DEPTH_POWERPIN );
+
+float depth_pressure = 0.0;
+float depth_temperature = 0.0;
+
+byte sensors[8] = {0,0,0,0,0,0,0,0};
+
 void setup() {
+  
+  // Start I2C.
+  Wire.begin();
+  
+  setupIMU();
+  //setupDepth();
 
   // Initialize control station port.
   Serial.begin( BAUD_RATE );
@@ -53,7 +85,21 @@ void loop() {
   // Wait for incoming data packet.
   while( Serial.available() < 7 ){
   }
-
+  
+  // Read sensors.
+  loopIMU();
+  //loopDepth();
+  
+  // Convert sensor data to bytes for rxtx.
+  sensors[0]=int(100*(yawPitchRoll[0]+180)) & 0xFF;
+  sensors[1]=(int(100*(yawPitchRoll[0]+180))>>8) & 0xFF;
+  sensors[2]=int(100*(yawPitchRoll[1]+180)) & 0xFF;
+  sensors[3]=(int(100*(yawPitchRoll[1]+180))>>8) & 0xFF;
+  sensors[4]=int(100*(yawPitchRoll[2]+180)) & 0xFF;
+  sensors[5]=(int(100*(yawPitchRoll[2]+180))>>8) & 0xFF;
+  sensors[6]=int(100*depth_pressure) & 0xFF;
+  sensors[7]=(int(100*depth_pressure)>>8) & 0xFF;
+  
   // Read incoming data packet.
   port_thruster_motor_value = Serial.read();
   port_thruster_servo_value = Serial.read();
@@ -69,6 +115,10 @@ void loop() {
   // Send values back for debugging.
   Serial.write( port_thruster_servo_value );
   Serial.write( starboard_thruster_servo_value );
+
+  // Send sensor data back.
+  Serial.write(35);
+  Serial.write(sensors,8);
 
   // Set thruster motor speeds.
   motorControl( THRUSTER_ADDRESS, PORT_THRUSTER, port_thruster_motor_value );

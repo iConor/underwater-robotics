@@ -12,6 +12,10 @@ class SerialThread extends Thread {
   private PApplet main_function;
   private Serial serial;
   private int check = 0;
+  private int low = 0;
+  private int high = 0;
+  private int data = 0;
+  public float[] sensors = new float[4];
 
   // Constructor.
   SerialThread( PApplet parent ) {
@@ -46,12 +50,27 @@ class SerialThread extends Thread {
         serial.write(camera_tilt_servo_angle);
       }
       // Wait for serial activity.
-      while ( serial.available () < 2 ) {
+      while ( serial.available () < 11 ) {
       }
       // Print debugging info.
       println( serial.read() + "    " + serial.read() );
       // Reset check.
       check = 0;
+      // Read sensor data.
+      if ( serial.read() == 35 ) {
+        for ( int i = 0; i < 4; i++ ) {
+          low = serial.read();
+          high = serial.read();
+          data = 256 * high + low;
+          sensors[i] = float( data ) / 100.0 - 180;
+        }
+        // Print sensor data.
+        println( "               " + sensors[0] + "    " + sensors[1] + "    " + sensors[2] );
+      }
+      else {
+        // Clear the buffer.
+        serial.clear();
+      }
     }
   }
 
