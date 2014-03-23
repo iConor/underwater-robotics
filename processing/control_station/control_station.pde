@@ -3,6 +3,10 @@ import net.java.games.input.*;
 
 import processing.serial.*;
 
+import processing.video.*;
+
+GUI_2 gui2;
+
 ControllIO ctrllIO;
 ControllDevice ctrllDevice;
 
@@ -37,6 +41,7 @@ void setup() {
 
   // Initialize serial communications. 
   serialThread = new SerialThread(this);
+  gui2 = new GUI_2 (this);
 }
 
 void draw() {
@@ -63,5 +68,6 @@ void draw() {
   rightmotor(R, R_theta);
   leftmotor(L, L_theta);
   Zmotor(Back);
+  gui2.update ();
 }
 
