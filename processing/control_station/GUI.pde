@@ -112,7 +112,7 @@ class GUI_2 {
       //cam1.start();
       //cam2 = new Capture(main_function, cameras[34]);//28
       //cam2.start();
-      cam1 = new Capture(main_function, cameras[0]);//72
+      cam1 = new Capture(main_function, cameras[11]);//72
       cam1.start();
     }
   }

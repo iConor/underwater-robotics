@@ -24,6 +24,9 @@ float L_theta, R_theta;
 float L, R, Back;
 
 void setup() {
+  
+  // Initialize GUI.
+  gui2 = new GUI_2 (this);
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
@@ -41,7 +44,6 @@ void setup() {
 
   // Initialize serial communications. 
   serialThread = new SerialThread(this);
-  gui2 = new GUI_2 (this);
 }
 
 void draw() {
@@ -68,6 +70,8 @@ void draw() {
   rightmotor(R, R_theta);
   leftmotor(L, L_theta);
   Zmotor(Back);
-  gui2.update ();
+  
+  // Update GUI.
+  gui2.update();
 }
 
