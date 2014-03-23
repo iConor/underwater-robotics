@@ -112,7 +112,7 @@ class GUI_2 {
       //cam1.start();
       //cam2 = new Capture(main_function, cameras[34]);//28
       //cam2.start();
-      cam1 = new Capture(main_function, cameras[11]);//72
+      cam1 = new Capture(main_function, cameras[0]);//72
       cam1.start();
     }
   }
@@ -212,6 +212,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent1.resize((int)(width*.12),(int)(height*.13));
       image(Rectangle_Permanent1, 0, 0);
+      noTint();
       popMatrix();
     }
     //Image number 2
@@ -223,6 +224,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent2.resize((int)(width*.0548),(int)(height*.05857));
       image(Rectangle_Permanent2, 0, 0);
+      noTint();
       popMatrix();
     }
 
@@ -235,6 +237,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent3.resize((int)(width*.0548),(int)(height*.05857));
       image(Rectangle_Permanent3, 0, 0);
+      noTint();
       popMatrix();
     }
     //Image number 4
@@ -246,6 +249,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent4.resize((int)(width*.0548),(int)(height*.05857));
       image(Rectangle_Permanent4, 0, 0);
+      noTint();
       popMatrix();
     }
     //Image number 5
@@ -257,6 +261,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent5.resize((int)(width*.0333),(int)(height*.03429));
       image(Rectangle_Permanent5, 0, 0);
+      noTint();
       popMatrix();
     }
     //Image number 6
@@ -268,6 +273,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent6.resize((int)(width*.0333),(int)(height*.03429));
       image(Rectangle_Permanent6, 0, 0);
+      noTint();
       popMatrix();
     }
     //Image number 7
@@ -279,6 +285,7 @@ class GUI_2 {
       tint(255, 10);
       Rectangle_Permanent7.resize((int)(width*.0548),(int)(height*.05857));
       image(Rectangle_Permanent7, 0, 0);
+      noTint();
       popMatrix();
     }
   }
