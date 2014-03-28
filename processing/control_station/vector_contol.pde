@@ -11,15 +11,24 @@ void vector_control() {
   float Cg_ratio=.6422;
   float L_z, R_z;
 
+  // depth PID control
+  Z = Z + depthPID.correction_factor;
+  
   // Find front z power.
   R_z = Z / ( 2 + 2 * Cg_ratio );
   L_z = R_z; //possibly put roll control here
 
   // Find back power.
   Back = Z * ( 1 - 1 / ( 1 + Cg_ratio ) );
+  
+  //implement PID control from IMU  
+  R_z = R_z + .5 * pitchPID.correction_factor + rollPID.correction_factor;
+  
+  L_z = L_z + .5 * pitchPID.correction_factor - rollPID.correction_factor;
+  
+  Back = Back - pitchPID.correction_factor;
+  
 
-  // Put the motor thrust curve equation here.
-  Back = Back;
 
   if ( R_x == 0 ) {
     R_theta = PI / 2;

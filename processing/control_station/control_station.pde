@@ -13,6 +13,16 @@ ControllCoolieHat coolieHat;
 
 SerialThread serialThread;
 
+PID yawPID;
+PID pitchPID;
+PID rollPID;
+PID depthPID;
+
+int YAW = 1;
+int PITCH = 2;
+int ROLL = 3;
+int DEPTH = 4;
+
 float X, Y, Z;
 float x_prime, y_prime;
 float L_x, R_x;
@@ -37,6 +47,12 @@ void setup() {
 
   // Initialize serial communications. 
   serialThread = new SerialThread(this);
+  
+  //Initialize PID controls
+  yawPID = new PID(YAW, 1,0,0,0);
+  pitchPID = new PID(PITCH, 1,0,0,0);
+  rollPID =new PID(ROLL,1,0,0,0);
+  depthPID = new PID(DEPTH,1,0,0,0);
 }
 
 void draw() {
