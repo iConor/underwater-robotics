@@ -1,6 +1,6 @@
 void update_camera() {
-  desired.camera_pan_servo_angle( camera_angle( desired.camera_pan_servo_angle(), int(coolieHat.getX() ) ) );
-  desired.camera_tilt_servo_angle( camera_angle( desired.camera_tilt_servo_angle(), int(coolieHat.getY() ) ) );
+  desired.camera_pan_servo_angle( camera_angle( desired.camera_pan_servo_angle(), int(gamepad.coolieHat.getX() ) ) );
+  desired.camera_tilt_servo_angle( camera_angle( desired.camera_tilt_servo_angle(), int(gamepad.coolieHat.getY() ) ) );
 }
 
 int camera_angle( int old_angle, int delta ) {
