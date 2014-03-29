@@ -41,13 +41,13 @@ class SerialThread extends Thread {
       check = serial.read();
       // Send current status.
       if ( check == 243 ) {
-        serial.write( port_thruster_motor_power );
-        serial.write( port_thruster_servo_angle );
-        serial.write( starboard_thruster_motor_power );
-        serial.write( starboard_thruster_servo_angle );
-        serial.write( aft_thruster_motor_power );
-        serial.write( camera_pan_servo_angle );
-        serial.write( camera_tilt_servo_angle );
+        serial.write( desired.port_thruster_motor_power() );
+        serial.write( desired.port_thruster_servo_angle() );
+        serial.write( desired.starboard_thruster_motor_power() );
+        serial.write( desired.starboard_thruster_servo_angle() );
+        serial.write( desired.aft_thruster_motor_power() );
+        serial.write( desired.camera_pan_servo_angle() );
+        serial.write( desired.camera_tilt_servo_angle() );
       }
       // Wait for serial activity.
       while ( serial.available () < 16 ) {
@@ -67,8 +67,14 @@ class SerialThread extends Thread {
           data = 256 * high + low;
           sensors[i] = float( data ) / 100.0 - 180;
         }
+        
+        reported.yaw( sensors[0] );
+        reported.pitch( sensors[1] );
+        reported.roll( sensors[2] );
+        reported.depth_pressure( sensors[3] );
+        
         // Print sensor data.
-        println( "                                             " + sensors[0] + "    " + sensors[1] + "    " + sensors[2] );
+        println( "                                             " + reported.yaw() + "    " + reported.pitch() + "    " + reported.roll() );
       }
       else {
         // Clear the buffer.

@@ -11,6 +11,9 @@ ControllSlider rightVertical;
 ControllSlider leftVertical;
 ControllCoolieHat coolieHat;
 
+Model desired;
+Model reported;
+
 SerialThread serialThread;
 
 float X, Y, Z;
@@ -20,6 +23,10 @@ float L_theta, R_theta;
 float L, R, Back;
 
 void setup() {
+  
+  // Initialize robot models.
+  desired = new Model();
+  reported = new Model();
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);

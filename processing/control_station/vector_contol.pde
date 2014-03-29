@@ -60,30 +60,25 @@ void vector_control() {
   }
 }
 
-byte aft_thruster_motor_power, port_thruster_motor_power, starboard_thruster_motor_power;
-byte port_thruster_servo_angle, starboard_thruster_servo_angle, claw_servo;
-int cam_servo_x, cam_servo_y;
-int check;
-
 // Provides motor power inputs.
 void Zmotor( float power ) {
-  aft_thruster_motor_power=byte( int( map( power, -1, 1, 22, 240 ) ) );
+  desired.aft_thruster_motor_power( byte( int( map( power, -1, 1, 22, 240 ) ) ) );
 }
 void leftmotor( float power, float angle ) {
   if ( power > 0 ) {
-    port_thruster_motor_power = byte( power * 120 + 128 );
+    desired.port_thruster_motor_power( byte( power * 120 + 128 ) );
   } 
   else {
-    port_thruster_motor_power = byte( power * 120 - 128 );
+    desired.port_thruster_motor_power( byte( power * 120 - 128 ) );
   }
-  port_thruster_servo_angle = byte( angle );//int(map(angle,0,180,0,255));
+  desired.port_thruster_servo_angle ( byte( angle ) );//int(map(angle,0,180,0,255));
 }
 void rightmotor( float power, float angle ) {
   if ( power > 0 ) {
-    starboard_thruster_motor_power = byte( power * 120 + 128 );
+    desired.starboard_thruster_motor_power ( byte( power * 120 + 128 ) );
   }
   else {
-    starboard_thruster_motor_power = byte( power * 120 - 128 );
+    desired.starboard_thruster_motor_power ( byte( power * 120 - 128 ) );
   }
-  starboard_thruster_servo_angle = byte( angle );//int(map(angle,0 180,0,255));
+  desired.starboard_thruster_servo_angle ( byte( angle ) );//int(map(angle,0 180,0,255));
 }
