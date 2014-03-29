@@ -1,5 +1,5 @@
 import procontroll.*;
-import net.java.games.input.*;
+import gamepad.*;
 
 import processing.serial.*;
 
@@ -30,17 +30,17 @@ void setup() {
 
   // Initialize human-machine interface.
   ctrllIO = ControllIO.getInstance(this);
-  Gamepad gamepad = new Gamepad(ctrllIO);
-  ctrllDevice = ctrllIO.getDevice(gamepad.name());
+  GamepadMap gamepad_map = new GamepadMap(ctrllIO);
+  ctrllDevice = ctrllIO.getDevice(gamepad_map.getName());
   // Initialize buttons and/or sliders.
-  rightVertical = ctrllDevice.getSlider(gamepad.rightStickVertical());
+  rightVertical = ctrllDevice.getSlider(gamepad_map.getRightStickVertical());
   rightVertical.setTolerance(.16);
-  rightHorizontal = ctrllDevice.getSlider(gamepad.rightStickHorizontal());
+  rightHorizontal = ctrllDevice.getSlider(gamepad_map.getRightStickHorizontal());
   rightHorizontal.setTolerance(.16);
-  leftVertical = ctrllDevice.getSlider(gamepad.leftStickVertical());
+  leftVertical = ctrllDevice.getSlider(gamepad_map.getLeftStickVertical());
   leftVertical.setTolerance(.16);
 
-  coolieHat = ctrllDevice.getCoolieHat(gamepad.cooliehat());
+  coolieHat = ctrllDevice.getCoolieHat(gamepad_map.getCoolieHat());
 
   // Initialize serial communications. 
   serialThread = new SerialThread(this);
