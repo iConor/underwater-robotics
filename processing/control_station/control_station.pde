@@ -11,7 +11,7 @@ ControllSlider rightVertical;
 ControllSlider leftVertical;
 ControllCoolieHat coolieHat;
 
-SerialThread serialThread;
+
 
 float X, Y, Z;
 float x_prime, y_prime;
@@ -35,8 +35,6 @@ void setup() {
 
   coolieHat = ctrllDevice.getCoolieHat(gamepad.cooliehat());
 
-  // Initialize serial communications. 
-  serialThread = new SerialThread(this);
 }
 
 void draw() {
@@ -63,5 +61,7 @@ void draw() {
   rightmotor(R, R_theta);
   leftmotor(L, L_theta);
   Zmotor(Back);
+  
+  println(convertToString());
 }
 

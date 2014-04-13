@@ -60,14 +60,21 @@ void vector_control() {
   }
 }
 
-byte aft_thruster_motor_power, port_thruster_motor_power, starboard_thruster_motor_power;
+byte aft_thruster_motor_power4, aft_thruster_motor_powerB, port_thruster_motor_power, starboard_thruster_motor_power;
 byte port_thruster_servo_angle, starboard_thruster_servo_angle, claw_servo;
 int cam_servo_x, cam_servo_y;
 int check;
 
 // Provides motor power inputs.
 void Zmotor( float power ) {
-  aft_thruster_motor_power=byte( int( map( power, -1, 1, 22, 240 ) ) );
+  if (power>0) {
+  aft_thruster_motor_power4=byte( int( map( power, 0, 1, 0, 254 ) ) );
+  aft_thruster_motor_powerB=byte(0);
+  }
+  else {
+      aft_thruster_motor_powerB=byte( int( map( power, 0, -1, 0,254 ) ) );
+      aft_thruster_motor_power4=byte(0);
+  }
 }
 void leftmotor( float power, float angle ) {
   if ( power > 0 ) {
