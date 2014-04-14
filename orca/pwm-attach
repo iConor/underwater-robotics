@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Call this with an argument to configure a specific PWM pin.
+# Arguments: 9_22, 9_22, 9_21, 9_14, 9_16, 8_19, 8_13, 9_42.
+
+
+# This is the third step in enabling any PWM pin.
+
+# Turn the PWM off while we configure it.
+echo 0 > /sys/devices/ocp.2/pwm_test_$1.*/run
+# Set the frequency to 50 Hz.
+echo 20000000 > /sys/devices/ocp.2/pwm_test_$1.*/period
+# Set the angle to 90 degrees.
+echo 1500000 > /sys/devices/ocp.2/pwm_test_$1.*/duty
+# Set normal high/low.
+echo 0 > /sys/devices/ocp.2/pwm_test_$1.*/polarity
+# Turn the PWM on now that it's configured.
+echo 1 > /sys/devices/ocp.2/pwm_test_$1.*/run
+
+# Print contents of settings to verify success.
+echo -n "    Period: " | cat - /sys/devices/ocp.2/pwm_test_$1.*/period
+echo -n "Duty Cycle: " | cat - /sys/devices/ocp.2/pwm_test_$1.*/duty
+echo -n "  Polarity: " | cat - /sys/devices/ocp.2/pwm_test_$1.*/polarity
+echo -n "       Run: " | cat - /sys/devices/ocp.2/pwm_test_$1.*/run

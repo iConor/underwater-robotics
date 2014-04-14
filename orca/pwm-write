@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Call this to set the duty cycle on any PWM pin.
+# The first argument selects the PWM pin to write to.
+# Arguments: 9_22, 9_22, 9_21, 9_14, 9_16, 8_19, 8_13, 9_42.
+# The second argument selects the duty cycle to write.
+# Arguments: angles; 0 - 180, nanoseconds; min - max.
+
+# Lowest acceptable duty cycle.
+min=550000
+# Highest acceptable duty cycle.
+max=2450000
+
+# Argument #2 is the angle/ns to be written.
+value=$2
+
+# Convert angles to nanoseconds.
+if ((value < min)); then
+	if ((value <= 0)); then
+		value=0
+	elif ((value >= 180)); then
+		value=180
+	fi
+	((value=min+(max-min)*value/180))
+fi
+
+# Write the duty cycle to the PWM pin.
+echo $value > /sys/devices/ocp.2/pwm_test_$1.*/duty
+
+# Print user requested nanoseconds.
+echo Requested Nanoseconds - $value
+# Print file reported nanoseconds.
+echo -n " Reported Nanoseconds - " | cat - /sys/devices/ocp.2/pwm_test_$1.*/duty

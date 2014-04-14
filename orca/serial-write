@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for byte in $2 $3 $4 $5
+do
+#	echo -ne $byte > /dev/ttyO$1
+	printf "%x" $byte >> /dev/ttyO$1
+done
