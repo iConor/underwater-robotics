@@ -1,4 +1,6 @@
 /* -*-mode:java; c-basic-offset:2; indent-tabs-mode:nil -*- */
+
+
 /**
  * This program will demonstrate remote exec.
  *  $ CLASSPATH=.:../build javac Exec.java 
@@ -13,13 +15,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UIKeyboardInteractive;
 import com.jcraft.jsch.UserInfo;
 
-public class BeagleBoneSSH {
+public class ssh_comunications {
 
     // Global SSH Data
     static Session session = null;
@@ -27,13 +30,23 @@ public class BeagleBoneSSH {
     static InputStream input = null;
     static OutputStream output = null;
     static PrintStream ps = null;
+    public String host = "192.168.7.2";
+    
+    public ssh_comunications(String ip) {
+    	host = ip;
+    	//setupBB();
+    	System.out.println("it calls this function");
+    	
+    }
 
-    public static int setupBB() {
+    public int setupBB() {
+    	System.out.println("yeahhhh");
         try {
             JSch jsch = new JSch();
 
+            // Connection Information
             String user = "root";
-            String host = "192.168.1.73";
+            //String host = "192.168.1.73";
 
             // Get Session (str User, str host, int port)
             session = jsch.getSession(user, host, 22);
@@ -57,12 +70,12 @@ public class BeagleBoneSSH {
 
         } catch (Exception e) {
             System.out.println("Failed to setup SSH");
-            return 1;
+            //return 1;
         }
         return 0;
     }
 
-    public static void main(String[] arg) {
+    public int main(String arg) {
         try {
             // Setup SSH
             if (setupBB() == 1) {
@@ -71,34 +84,25 @@ public class BeagleBoneSSH {
                 System.out.println("Successfully Configured.");
             }
 
-            int quit = 0;
-            while (quit < 180) {
+            long start = System.currentTimeMillis();
+            ps.println("./update-all " + arg);
 
-                long start = System.currentTimeMillis();
-                ps.println("./pwm-write 9_14 " + quit);
-
-                byte[] tmp = new byte[1024];
-                while (input.available() > 0) {
-                    int i = input.read(tmp, 0, 1024);
-                    if (i < 0) {
-                        break;
-                    }
-                    System.out.print(new String(tmp, 0, i));
-                }
-                if (channel.isClosed()) {
-                    if (input.available() > 0) {
-                        continue;
-                    }
-                    System.out.println("exit-status: "
-                            + channel.getExitStatus());
+            byte[] tmp = new byte[1024];
+            while (input.available() > 0) {
+                int i = input.read(tmp, 0, 1024);
+                if (i < 0) {
                     break;
                 }
-
-                quit++;
-                long end = System.currentTimeMillis();
-                Thread.sleep(32);
-                System.out.println("Time (ms): " + (end - start));
+                System.out.print(new String(tmp, 0, i));
             }
+
+            if (channel.isClosed()) {
+                System.out.println("exit-status: " + channel.getExitStatus());
+            }
+
+            long end = System.currentTimeMillis();
+            Thread.sleep(32);
+            System.out.println("Time (ms): " + (end - start));
 
             ps.close();
             channel.disconnect();
@@ -109,7 +113,9 @@ public class BeagleBoneSSH {
             System.out.println("Massive Error.");
             System.out.println("Just Kidding.");
             System.out.println("Connection Ended.");
+            return -1;
         }
+        return 0;
     }
 
     public static class MyUserInfo implements UserInfo, UIKeyboardInteractive {
