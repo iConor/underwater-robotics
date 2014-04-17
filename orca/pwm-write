@@ -25,9 +25,9 @@ if ((value < min)); then
 fi
 
 # Write the duty cycle to the PWM pin.
-echo $value > /sys/devices/ocp.2/pwm_test_$1.*/duty
+echo $value > /sys/devices/ocp.2/pwm_test_P$1.*/duty
 
 # Print user requested nanoseconds.
 echo Requested Nanoseconds - $value
 # Print file reported nanoseconds.
-echo -n " Reported Nanoseconds - " | cat - /sys/devices/ocp.2/pwm_test_$1.*/duty
+echo -n " Reported Nanoseconds - " | cat - /sys/devices/ocp.2/pwm_test_P$1.*/duty
