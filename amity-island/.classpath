@@ -3,12 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="beaglebonessh_w_processing/Lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="amity-island/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="Lib/core.jar"/>
-	<classpathentry kind="lib" path="Lib/procontroll.jar"/>
-	<classpathentry kind="lib" path="Lib/gamepad.jar"/>
-	<classpathentry kind="lib" path="Lib/jsch-0.1.51.jar"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/gamepad.jar"/>
+	<classpathentry kind="lib" path="lib/procontroll.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.51.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
