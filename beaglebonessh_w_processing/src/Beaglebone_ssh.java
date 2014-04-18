@@ -2,6 +2,7 @@
 import processing.core.*;
 import procontroll.*;
 
+@SuppressWarnings("serial")
 public class Beaglebone_ssh extends PApplet {
 	
 	
@@ -22,6 +23,7 @@ public class Beaglebone_ssh extends PApplet {
 	float L, R, Back;
 	
 	public void setup() {
+
 		  // Initialize human-machine interface.
 		  ctrllIO = ControllIO.getInstance(this);
 		  Gamepad gamepad = new Gamepad(ctrllIO);
@@ -39,10 +41,12 @@ public class Beaglebone_ssh extends PApplet {
 		  
 		  
 		  //Initialize communication class
-		  bonessh = new  ssh_comunications("192.168.1.73");
+
+		  bonessh = new  ssh_comunications("192.168.7.2");
 	}
 	
 	public void draw() {
+		
 		  if ( coolieHat.pressed() ) {
 			    update_camera();
 			  }
@@ -66,8 +70,9 @@ public class Beaglebone_ssh extends PApplet {
 			  leftmotor(L, L_theta);
 			  Zmotor(Back);
 			  
-			  println(convertToString());
-			  bonessh.main(convertToString());
+			  
+			  //println(convertToString());
+			  bonessh.sendCommands(convertToString());
 			  
 			  
 	}
@@ -80,7 +85,6 @@ public class Beaglebone_ssh extends PApplet {
 	                   motorControl(128,1,starboard_thruster_motor_power)+" "+
 	                   motorControl(128,2,port_thruster_motor_power);
 	   
-	   //println(commandString);
 	   
 	  return commandString;
 	  
@@ -177,6 +181,7 @@ public class Beaglebone_ssh extends PApplet {
 		  }
 
 		  L_theta = degrees( L_theta );
+
 		  R_theta = degrees( R_theta );
 
 		  R = sqrt( R_x * R_x + R_z * R_z );
@@ -197,7 +202,8 @@ public class Beaglebone_ssh extends PApplet {
 		}
 
 		byte aft_thruster_motor_power4, aft_thruster_motor_powerB, port_thruster_motor_power, starboard_thruster_motor_power;
-		byte port_thruster_servo_angle, starboard_thruster_servo_angle, claw_servo;
+		int port_thruster_servo_angle;
+		int starboard_thruster_servo_angle, claw_servo;
 		int cam_servo_x, cam_servo_y;
 		int check;
 
@@ -219,7 +225,7 @@ public class Beaglebone_ssh extends PApplet {
 		  else {
 		    port_thruster_motor_power = (byte)( power * 120 - 128 );
 		  }
-		  port_thruster_servo_angle = (byte)( angle );//int(map(angle,0,180,0,255));
+		  port_thruster_servo_angle = (int) (map( angle, 550000,2450000,0,180 ));//int(map(angle,0,180,0,255));
 		}
 		void rightmotor( float power, float angle ) {
 		  if ( power > 0 ) {
@@ -228,7 +234,7 @@ public class Beaglebone_ssh extends PApplet {
 		  else {
 		    starboard_thruster_motor_power = (byte)( power * 120 - 128 );
 		  }
-		  starboard_thruster_servo_angle = (byte)( angle );//int(map(angle,0 180,0,255));
+		  starboard_thruster_servo_angle = (int) (map( angle, 550000,2450000,0,180 ));//int(map(angle,0 180,0,255));
 		}
 
 }

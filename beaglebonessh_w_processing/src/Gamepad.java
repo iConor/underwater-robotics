@@ -12,10 +12,11 @@ public class Gamepad {
   public final String WIN360 = "Controller (Xbox 360 Wireless Receiver for Windows)";
   public final String MAC360 = "Wireless 360 Controller";
   public final String AIRFLO = "AIRFLO             ";
+  public final String KEY = "Keyboard";
 
   // List of Known Configurations
   private final String[] KNOWN_GAMEPADS = {
-    PS3, WIN360, MAC360, AIRFLO
+    PS3, WIN360, MAC360, AIRFLO, KEY
   };
 
   // Gamepad Name
@@ -58,6 +59,16 @@ public class Gamepad {
   private int _rightBumper = -1;
   private int _leftTrigger = -1;
   private int _rightTrigger = -1;
+  
+  //only for a keyboard
+  private int _leftStickHorizontalUp = -1;
+  private int _rightStickHorizontalUp = -1;
+  private int _leftStickVerticalUp = -1;
+  private int _rightStickVerticalUp = -1;
+  private int _leftStickHorizontalDown = -1;
+  private int _rightStickHorizontalDown = -1;
+  private int _leftStickVerticalDown = -1;
+  private int _rightStickVerticalDown = -1;
 
   //-------------------- Autodetection Routine --------------------//
 
@@ -195,6 +206,27 @@ public class Gamepad {
       _rightBumper = 6;
       _leftTrigger = 7;
       _rightTrigger = 8;
+    }
+    else if (this._name.equals(KEY)) {
+        _leftStickHorizontal = 0;
+        _rightStickHorizontal = 3;
+        _leftStickVertical = 1;
+        _rightStickVertical = 2;
+
+
+        _faceUp = 22;
+        _faceDown = 36;
+        _faceLeft = 35;
+        _faceRight = 37;
+        
+        _leftStickHorizontalUp = 31;
+        _rightStickHorizontalUp = 37;
+        _leftStickVerticalUp = 16;
+        _rightStickVerticalUp = 22;
+        _leftStickHorizontalDown = 29;
+        _rightStickHorizontalDown = 35;
+        _leftStickVerticalDown = 30;
+        _rightStickVerticalDown = 36;
     }
     else {
     }

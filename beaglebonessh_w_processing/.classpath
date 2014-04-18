@@ -8,9 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="Lib/core.jar"/>
 	<classpathentry kind="lib" path="Lib/procontroll.jar"/>
-	<classpathentry kind="lib" path="Lib/jinput-dx8.dll"/>
-	<classpathentry kind="lib" path="Lib/jinput-raw.dll"/>
-	<classpathentry kind="lib" path="Lib/jinput-wintab.dll"/>
 	<classpathentry kind="lib" path="Lib/gamepad.jar"/>
 	<classpathentry kind="lib" path="Lib/jsch-0.1.51.jar"/>
 	<classpathentry kind="output" path="bin"/>
