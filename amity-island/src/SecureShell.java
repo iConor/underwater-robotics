@@ -34,24 +34,31 @@ public class SecureShell {
 
 	}
 
-	public void configure() {
+	public void configure() throws InterruptedException {
 
 		bbb_terminal.println("cd beaglebash");
+		
+		Thread.sleep(60);
+		
 		bbb_terminal.println("./setup-all");
 
+		Thread.sleep(60);
+		
 		System.out.println("Configure, check.");
 
 	}
 
-	public void transceive(String arg) throws IOException {
+	public void transceive(String arg) throws IOException, InterruptedException {
 
 		bbb_terminal.println("./update-all " + arg);
+
+		Thread.sleep(60);
 
 		byte[] tmp = new byte[1024];
 		while (channel_input.available() > 0) {
 			int i = channel_input.read(tmp, 0, 1024);
 			if (i < 0) {
-				continue;
+				break;
 			}
 			System.out.print(new String(tmp, 0, i));
 		}
