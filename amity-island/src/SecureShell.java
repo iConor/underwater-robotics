@@ -48,9 +48,10 @@ public class SecureShell {
 
 	}
 
-	public void transceive(String arg) throws IOException, InterruptedException {
+	public void transceive(String arg, String arg2) throws IOException, InterruptedException {
 
-		bbb_terminal.println("./update-all " + arg);
+		bbb_terminal.println("./serial-write 1 " + arg);
+		bbb_terminal.println("./pwm-write " + arg2);
 
 		Thread.sleep(60);
 

@@ -33,7 +33,7 @@ public class GamepadModel {
 				.getRightStickVertical());
 		rightVertical.setTolerance(tolerance);
 
-		coolieHat = ctrllDevice.getCoolieHat(gamepadMap.getCoolieHat());
+//		coolieHat = ctrllDevice.getCoolieHat(gamepadMap.getCoolieHat());
 
 	}
 
@@ -79,6 +79,4 @@ public class GamepadModel {
 		return (int) coolieHat.getX();
 	}
 	
-	
-
 }

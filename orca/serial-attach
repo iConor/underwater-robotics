@@ -12,4 +12,4 @@
 # -cstopb
 #	one stop bit
 
-stty -F /dev/ttyO$1 speed 9600 -parenb cs8 -cstopb
+stty -F /dev/ttyO$1 speed 9600 -parenb cs8 -cstopb -echo

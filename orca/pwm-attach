@@ -20,6 +20,5 @@ echo 1 > /sys/devices/ocp.2/pwm_test_P$1.*/run
 # Print contents of settings to verify success.
 echo -n "    Period: " | cat - /sys/devices/ocp.2/pwm_test_P$1.*/period
 echo -n "Duty Cycle: " | cat - /sys/devices/ocp.2/pwm_test_P$1.*/duty
-echo -n "  Polarity: " | cat - 
-/sys/devices/ocp.2/pwm_test_P$1.*/polarity
+echo -n "  Polarity: " | cat - /sys/devices/ocp.2/pwm_test_P$1.*/polarity
 echo -n "       Run: " | cat - /sys/devices/ocp.2/pwm_test_P$1.*/run

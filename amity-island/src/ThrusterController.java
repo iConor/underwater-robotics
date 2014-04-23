@@ -147,14 +147,28 @@ public class ThrusterController {
 	int motorAngle(float oldAngle) {
 		return (int) PApplet.map(oldAngle, 0, 180, 550000, 2450000);
 	}
-
+//
+//	String convertToString() {
+//
+//		String commandString = robot.getStbdThrusterAngle() + " "
+//				+ robot.getPortThrusterAngle() + " " + robot.getCameraPanAngle()
+//				+ " " + robot.getCameraTiltAngle() + " "
+//				+ motorControl(128, 1, robot.getStbdThrusterPower()) + " "
+//				+ motorControl(128, 2, robot.getPortThrusterPower());
+//
+//		return commandString;
+//
+//	}
 	String convertToString() {
 
-		String commandString = robot.getStbdThrusterAngle() + " "
-				+ robot.getPortThrusterAngle() + " " + robot.getCameraPanAngle()
-				+ " " + robot.getCameraTiltAngle() + " "
-				+ motorControl(128, 1, robot.getStbdThrusterPower()) + " "
-				+ motorControl(128, 2, robot.getPortThrusterPower());
+		String commandString = motorControl(128, 2, robot.getPortThrusterPower());
+
+		return commandString;
+
+	}
+	String convertToString2() {
+
+		String commandString = motorControl(128, 1, robot.getStbdThrusterPower());
 
 		return commandString;
 

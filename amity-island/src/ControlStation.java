@@ -6,29 +6,29 @@ import processing.core.*;
 
 @SuppressWarnings("serial")
 public class ControlStation extends PApplet {
-	
+
 	RobotModel newDesiredState;
 	RobotModel oldDesiredState;
-	
+
 	GamepadModel gamepad;
-	
+
 	ThrusterController thrusters;
 
 	SecureShell bbb_terminal;
 
 	public void setup() {
-		
+
 		frameRate(4);
 
 		oldDesiredState = new RobotModel();
 		newDesiredState = new RobotModel();
-		
+
 		gamepad = new GamepadModel(this);
-		
-		thrusters = new ThrusterController(this,newDesiredState,gamepad);
+
+		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
 		try {
-			bbb_terminal = new SecureShell("root", "192.168.1.73");
+			bbb_terminal = new SecureShell("root", "192.168.1.103");
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,19 +45,26 @@ public class ControlStation extends PApplet {
 	}
 
 	public void draw() {
-		
+
 		oldDesiredState = new RobotModel(newDesiredState);
-		
+
 		thrusters.update();
 
-//		 println(thrusters.convertToString());
-		if (!oldDesiredState.equals(newDesiredState)) {
+		// println(thrusters.convertToString());
+
+		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
-				bbb_terminal.transceive(thrusters.convertToString());
-			} catch (IOException e) {
+				bbb_terminal.transceive(thrusters.convertToString2(), "9_14 "
+						+ newDesiredState.getPortThrusterAngle());
+			} catch (IOException | InterruptedException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
+				e1.printStackTrace();
+			}
+
+			try {
+				bbb_terminal.transceive(thrusters.convertToString(), "9_22 "
+						+ newDesiredState.getStbdThrusterAngle());
+			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
