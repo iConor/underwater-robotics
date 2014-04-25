@@ -28,6 +28,7 @@ public class ThrusterController {
 		// Convert gamepad values to ?
 		x_prime = (X + Y) * 0.707f; // constant?
 		y_prime = (Y - X) * 0.707f; // constant?
+		
 		R_x = y_prime;
 		L_x = -x_prime;
 
@@ -79,7 +80,7 @@ public class ThrusterController {
 
 	void vector_control() {
 
-		float Cg_ratio = (float) .6422;
+		float Cg_ratio = .6422f;
 		float L_z, R_z;
 
 		// Find front z power.
@@ -110,7 +111,6 @@ public class ThrusterController {
 		}
 
 		L_theta = PApplet.degrees(L_theta);
-
 		R_theta = PApplet.degrees(R_theta);
 
 		R = PApplet.sqrt(R_x * R_x + R_z * R_z);
@@ -138,7 +138,7 @@ public class ThrusterController {
 		if (power > 0) {
 			robot.setPortThrusterPower((int) (power * 120 + 128));
 		} else {
-			robot.setPortThrusterPower((int) (power * 120 - 128));
+			robot.setPortThrusterPower((int) (power * 120 + 128));
 		}
 		robot.setPortThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
 				2450000)));
@@ -148,7 +148,7 @@ public class ThrusterController {
 		if (power > 0) {
 			robot.setStbdThrusterPower((int) (power * 120 + 128));
 		} else {
-			robot.setStbdThrusterPower((int) (power * 120 - 128));
+			robot.setStbdThrusterPower((int) (power * 120 + 128));
 		}
 		robot.setStbdThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
 				2450000)));
