@@ -34,15 +34,33 @@ public class SecureShell {
 
 	}
 
-	public void configure() throws InterruptedException {
+	public void configure() throws InterruptedException, IOException {
 
 		bbb_terminal.println("cd beaglebash");
 		
 		Thread.sleep(60);
+
+		byte[] tmp = new byte[1024];
+		while (channel_input.available() > 0) {
+			int i = channel_input.read(tmp, 0, 1024);
+			if (i < 0) {
+				continue;
+			}
+			System.out.print(new String(tmp, 0, i));
+		}
 		
 		bbb_terminal.println("./setup-all");
 
 		Thread.sleep(60);
+
+		tmp = new byte[1024];
+		while (channel_input.available() > 0) {
+			int i = channel_input.read(tmp, 0, 1024);
+			if (i < 0) {
+				continue;
+			}
+			System.out.print(new String(tmp, 0, i));
+		}
 		
 		System.out.println("Configure, check.");
 
@@ -59,7 +77,7 @@ public class SecureShell {
 		while (channel_input.available() > 0) {
 			int i = channel_input.read(tmp, 0, 1024);
 			if (i < 0) {
-				break;
+				continue;
 			}
 			System.out.print(new String(tmp, 0, i));
 		}

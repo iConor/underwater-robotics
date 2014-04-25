@@ -34,26 +34,18 @@ public class ThrusterController {
 		// ?
 		vector_control();
 
-		// rightmotor(R, R_theta);
-		robot.setPortThrusterPower(motorPower(R));
-		robot.setPortThrusterAngle(motorAngle(R_theta));
-
-		// leftmotor(L, L_theta);
-		robot.setStbdThrusterPower(motorPower(L));
-		robot.setStbdThrusterAngle(motorAngle(L_theta));
-
-		// Zmotor(Back);
-		robot.setAftThrusterPower((int) PApplet.map(Back, -1, 1, 22, 240));
-
+		rightmotor(R, R_theta);
+		leftmotor(L, L_theta);
+		Zmotor(Back);
 	}
 
 	String motorControl(int address_, int motor_, int power) {
-		byte thing1_;
+		int thing1_;
 		int speed_;
 		int thing2_;
 		if (motor_ == 1) {
 			if (power >= 128) {
-				thing1_ = (byte) 0;
+				thing1_ = 0;
 				speed_ = power - 127;
 				thing2_ = (speed_ + address_) & 127;
 			} else {
@@ -74,13 +66,15 @@ public class ThrusterController {
 		}
 
 		byte speed__ = (byte) (speed_);
+		byte thing1__ = (byte) (thing1_);
 		byte address__ = (byte) (address_);
 		byte thing2__ = (byte) (thing2_);
 
-		String out = " \"\\x" + PApplet.hex(address__) + "\" \"\\x" + PApplet.hex(thing1_)
-				+ "\" \"\\x" + PApplet.hex(speed__) + "\" \"\\x" + PApplet.hex(thing2__) + "\"";
+		PApplet.println(speed__ + "   " + thing1__);
 
-		return out;
+		return " \"\\x" + PApplet.hex(address__) + "\" \"\\x"
+				+ PApplet.hex(thing1__) + "\" \"\\x" + PApplet.hex(speed__)
+				+ "\" \"\\x" + PApplet.hex(thing2__) + "\"";
 	}
 
 	void vector_control() {
@@ -135,42 +129,40 @@ public class ThrusterController {
 		}
 	}
 
-	int motorPower(float oldPower) {
-		int newPower = (int) oldPower * 120;
-		if (oldPower > 0)
-			newPower += 128;
-		else
-			newPower -= 128;
-		return newPower;
+	// Provides motor power inputs.
+	void Zmotor(float power) {
+		robot.setAftThrusterPower((int) (PApplet.map(power, -1, 1, 22, 240)));
 	}
 
-	int motorAngle(float oldAngle) {
-		return (int) PApplet.map(oldAngle, 0, 180, 550000, 2450000);
+	void leftmotor(float power, float angle) {
+		if (power > 0) {
+			robot.setPortThrusterPower((int) (power * 120 + 128));
+		} else {
+			robot.setPortThrusterPower((int) (power * 120 - 128));
+		}
+		robot.setPortThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
+				2450000)));
 	}
-//
-//	String convertToString() {
-//
-//		String commandString = robot.getStbdThrusterAngle() + " "
-//				+ robot.getPortThrusterAngle() + " " + robot.getCameraPanAngle()
-//				+ " " + robot.getCameraTiltAngle() + " "
-//				+ motorControl(128, 1, robot.getStbdThrusterPower()) + " "
-//				+ motorControl(128, 2, robot.getPortThrusterPower());
-//
-//		return commandString;
-//
-//	}
+
+	void rightmotor(float power, float angle) {
+		if (power > 0) {
+			robot.setStbdThrusterPower((int) (power * 120 + 128));
+		} else {
+			robot.setStbdThrusterPower((int) (power * 120 - 128));
+		}
+		robot.setStbdThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
+				2450000)));
+	}
+
 	String convertToString() {
 
-		String commandString = motorControl(128, 2, robot.getPortThrusterPower());
-
-		return commandString;
+		return motorControl(128, 2, robot.getPortThrusterPower());
 
 	}
+
 	String convertToString2() {
 
-		String commandString = motorControl(128, 1, robot.getStbdThrusterPower());
-
-		return commandString;
+		return motorControl(128, 1, robot.getStbdThrusterPower());
 
 	}
 

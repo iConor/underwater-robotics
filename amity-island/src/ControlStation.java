@@ -38,7 +38,7 @@ public class ControlStation extends PApplet {
 		}
 		try {
 			bbb_terminal.configure();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -49,8 +49,6 @@ public class ControlStation extends PApplet {
 		oldDesiredState = new RobotModel(newDesiredState);
 
 		thrusters.update();
-
-		// println(thrusters.convertToString());
 
 		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
@@ -69,6 +67,12 @@ public class ControlStation extends PApplet {
 				e.printStackTrace();
 			}
 		}
+
+		print(newDesiredState.getAftThrusterPower());
+		print("\t");
+		print(newDesiredState.getPortThrusterPower());
+		print("\t");
+		println(newDesiredState.getStbdThrusterPower());
 	}
 
 	int updateCameraAngle(int oldAngle, int delta) {
