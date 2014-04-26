@@ -136,19 +136,19 @@ public class ThrusterController {
 
 	void leftmotor(float power, float angle) {
 		if (power > 0) {
-			robot.setPortThrusterPower((int) (power * 120 + 128));
+			robot.setPortThrusterPower((byte) (power * 120 + 128));
 		} else {
-			robot.setPortThrusterPower((int) (power * 120 + 128));
+			robot.setPortThrusterPower((byte) (power * 120 - 128));
 		}
-		robot.setPortThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
+		robot.setPortThrusterAngle((byte) (PApplet.map(angle, 0, 180, 550000,
 				2450000)));
 	}
 
 	void rightmotor(float power, float angle) {
 		if (power > 0) {
-			robot.setStbdThrusterPower((int) (power * 120 + 128));
+			robot.setStbdThrusterPower((byte) (power * 120 + 128));
 		} else {
-			robot.setStbdThrusterPower((int) (power * 120 + 128));
+			robot.setStbdThrusterPower((byte) (power * 120 - 128));
 		}
 		robot.setStbdThrusterAngle((int) (PApplet.map(angle, 0, 180, 550000,
 				2450000)));

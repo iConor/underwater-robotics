@@ -7,10 +7,10 @@ public class RobotModel {
 	private float depthPSI;
 	private float depthTemp;
 
-	private int portThrusterPower;
+	private byte portThrusterPower;
 	private int portThrusterAngle;
 
-	private int stbdThrusterPower;
+	private byte stbdThrusterPower;
 	private int stbdThrusterAngle;
 
 	private int aftThrusterPower;
@@ -203,7 +203,7 @@ public class RobotModel {
 	/**
 	 * @param portThrusterPower the portThrusterPower to set
 	 */
-	public void setPortThrusterPower(int portThrusterPower) {
+	public void setPortThrusterPower(byte portThrusterPower) {
 		this.portThrusterPower = portThrusterPower;
 	}
 
@@ -231,7 +231,7 @@ public class RobotModel {
 	/**
 	 * @param stbdThrusterPower the stbdThrusterPower to set
 	 */
-	public void setStbdThrusterPower(int stbdThrusterPower) {
+	public void setStbdThrusterPower(byte stbdThrusterPower) {
 		this.stbdThrusterPower = stbdThrusterPower;
 	}
 
