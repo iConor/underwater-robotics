@@ -7,13 +7,13 @@ public class RobotModel {
 	private float depthPSI;
 	private float depthTemp;
 
-	private byte portThrusterPower;
+	private float portThrusterPower;
 	private int portThrusterAngle;
 
-	private byte stbdThrusterPower;
+	private float stbdThrusterPower;
 	private int stbdThrusterAngle;
 
-	private int aftThrusterPower;
+	private float aftThrusterPower;
 
 	private int cameraPanAngle;
 	private int cameraTiltAngle;
@@ -196,7 +196,7 @@ public class RobotModel {
 	/**
 	 * @return the portThrusterPower
 	 */
-	public int getPortThrusterPower() {
+	public float getPortThrusterPower() {
 		return portThrusterPower;
 	}
 
@@ -215,24 +215,24 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param portThrusterAngle the portThrusterAngle to set
+	 * @param l the portThrusterAngle to set
 	 */
-	public void setPortThrusterAngle(int portThrusterAngle) {
-		this.portThrusterAngle = portThrusterAngle;
+	public void setPortThrusterAngle(float l) {
+		this.portThrusterAngle = (int) l;
 	}
 
 	/**
 	 * @return the stbdThrusterPower
 	 */
-	public int getStbdThrusterPower() {
+	public float getStbdThrusterPower() {
 		return stbdThrusterPower;
 	}
 
 	/**
-	 * @param stbdThrusterPower the stbdThrusterPower to set
+	 * @param r the stbdThrusterPower to set
 	 */
-	public void setStbdThrusterPower(byte stbdThrusterPower) {
-		this.stbdThrusterPower = stbdThrusterPower;
+	public void setStbdThrusterPower(float r) {
+		this.stbdThrusterPower = r;
 	}
 
 	/**
@@ -243,24 +243,24 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param stbdThrusterAngle the stbdThrusterAngle to set
+	 * @param r_theta the stbdThrusterAngle to set
 	 */
-	public void setStbdThrusterAngle(int stbdThrusterAngle) {
-		this.stbdThrusterAngle = stbdThrusterAngle;
+	public void setStbdThrusterAngle(float r_theta) {
+		this.stbdThrusterAngle = (int) r_theta;
 	}
 
 	/**
 	 * @return the aftThrusterPower
 	 */
-	public int getAftThrusterPower() {
+	public float getAftThrusterPower() {
 		return aftThrusterPower;
 	}
 
 	/**
-	 * @param aftThrusterPower the aftThrusterPower to set
+	 * @param back the aftThrusterPower to set
 	 */
-	public void setAftThrusterPower(int aftThrusterPower) {
-		this.aftThrusterPower = aftThrusterPower;
+	public void setAftThrusterPower(float back) {
+		this.aftThrusterPower = back;
 	}
 
 	/**

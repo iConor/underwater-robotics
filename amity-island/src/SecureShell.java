@@ -10,8 +10,9 @@ public class SecureShell {
 	InputStream channel_input;
 	OutputStream channel_output;
 	PrintStream bbb_terminal;
+	RobotModel robot;
 
-	public SecureShell(String username, String host) throws JSchException,
+	public SecureShell(String username, String host, RobotModel arg3) throws JSchException,
 			IOException {
 
 		jsch_ssh_connection = new JSch();
@@ -27,6 +28,8 @@ public class SecureShell {
 
 		channel_input = session_channel.getInputStream();
 		channel_output = session_channel.getOutputStream();
+		
+		robot = arg3;
 
 		bbb_terminal = new PrintStream(channel_output, true);
 
@@ -66,10 +69,13 @@ public class SecureShell {
 
 	}
 
-	public void transceive(String arg, String arg2) throws IOException, InterruptedException {
+	public void transceive(String port, String stbd, String aft) throws IOException, InterruptedException {
 
-		bbb_terminal.println("./serial-write 1 " + arg);
-		bbb_terminal.println("./pwm-write " + arg2);
+		bbb_terminal.println("./serial-write 1 " + port);
+		bbb_terminal.println("./serial-write 1 " + stbd);
+		bbb_terminal.println("./serial-write 1 " + aft);
+		bbb_terminal.println("./pwm-write 9_22" + robot.getPortThrusterAngle());
+		bbb_terminal.println("./pwm_write 9_14"+ robot.getStbdThrusterAngle());
 
 		Thread.sleep(60);
 

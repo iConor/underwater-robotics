@@ -28,7 +28,7 @@ public class ControlStation extends PApplet {
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
 		try {
-			bbb_terminal = new SecureShell("root", "192.168.1.73");
+			bbb_terminal = new SecureShell("root", "192.168.1.102", newDesiredState);
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,20 +52,14 @@ public class ControlStation extends PApplet {
 
 		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
-				bbb_terminal.transceive(thrusters.convertToString2(), "9_14 "
-						+ newDesiredState.getPortThrusterAngle());
+				bbb_terminal.transceive(thrusters.motorControl(128, 0, newDesiredState.getPortThrusterPower()),
+						                thrusters.motorControl(128, 4, newDesiredState.getAftThrusterPower()),
+						                thrusters.motorControl(129, 4, newDesiredState.getAftThrusterPower()));
 			} catch (IOException | InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
-			try {
-				bbb_terminal.transceive(thrusters.convertToString(), "9_22 "
-						+ newDesiredState.getStbdThrusterAngle());
-			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
 		print(newDesiredState.getAftThrusterPower());
