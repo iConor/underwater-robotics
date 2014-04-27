@@ -48,7 +48,9 @@ public class RobotModel {
 		this.cameraTiltAngle = that.cameraTiltAngle;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -89,7 +91,9 @@ public class RobotModel {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -131,7 +135,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param yaw the yaw to set
+	 * @param yaw
+	 *            the yaw to set
 	 */
 	public void setYaw(float yaw) {
 		this.yaw = yaw;
@@ -145,7 +150,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param pitch the pitch to set
+	 * @param pitch
+	 *            the pitch to set
 	 */
 	public void setPitch(float pitch) {
 		this.pitch = pitch;
@@ -159,7 +165,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param roll the roll to set
+	 * @param roll
+	 *            the roll to set
 	 */
 	public void setRoll(float roll) {
 		this.roll = roll;
@@ -173,7 +180,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param depthPSI the depthPSI to set
+	 * @param depthPSI
+	 *            the depthPSI to set
 	 */
 	public void setDepthPSI(float depthPSI) {
 		this.depthPSI = depthPSI;
@@ -187,7 +195,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param depthTemp the depthTemp to set
+	 * @param depthTemp
+	 *            the depthTemp to set
 	 */
 	public void setDepthTemp(float depthTemp) {
 		this.depthTemp = depthTemp;
@@ -201,9 +210,10 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param portThrusterPower the portThrusterPower to set
+	 * @param portThrusterPower
+	 *            the portThrusterPower to set
 	 */
-	public void setPortThrusterPower(byte portThrusterPower) {
+	public void setPortThrusterPower(float portThrusterPower) {
 		this.portThrusterPower = portThrusterPower;
 	}
 
@@ -215,10 +225,11 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param l the portThrusterAngle to set
+	 * @param portThrusterAngle
+	 *            the portThrusterAngle to set
 	 */
-	public void setPortThrusterAngle(float l) {
-		this.portThrusterAngle = (int) l;
+	public void setPortThrusterAngle(float portThrusterAngle) {
+		this.portThrusterAngle = (int) portThrusterAngle;
 	}
 
 	/**
@@ -229,10 +240,11 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param r the stbdThrusterPower to set
+	 * @param stbdThrusterPower
+	 *            the stbdThrusterPower to set
 	 */
-	public void setStbdThrusterPower(float r) {
-		this.stbdThrusterPower = r;
+	public void setStbdThrusterPower(float stbdThrusterPower) {
+		this.stbdThrusterPower = stbdThrusterPower;
 	}
 
 	/**
@@ -243,10 +255,11 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param r_theta the stbdThrusterAngle to set
+	 * @param stbdThrusterAngle
+	 *            the stbdThrusterAngle to set
 	 */
-	public void setStbdThrusterAngle(float r_theta) {
-		this.stbdThrusterAngle = (int) r_theta;
+	public void setStbdThrusterAngle(float stbdThrusterAngle) {
+		this.stbdThrusterAngle = (int) stbdThrusterAngle;
 	}
 
 	/**
@@ -257,10 +270,11 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param back the aftThrusterPower to set
+	 * @param aftThrusterPower
+	 *            the aftThrusterPower to set
 	 */
-	public void setAftThrusterPower(float back) {
-		this.aftThrusterPower = back;
+	public void setAftThrusterPower(float aftThrusterPower) {
+		this.aftThrusterPower = aftThrusterPower;
 	}
 
 	/**
@@ -271,7 +285,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param cameraPanAngle the cameraPanAngle to set
+	 * @param cameraPanAngle
+	 *            the cameraPanAngle to set
 	 */
 	public void setCameraPanAngle(int cameraPanAngle) {
 		this.cameraPanAngle = cameraPanAngle;
@@ -285,7 +300,8 @@ public class RobotModel {
 	}
 
 	/**
-	 * @param cameraTiltAngle the cameraTiltAngle to set
+	 * @param cameraTiltAngle
+	 *            the cameraTiltAngle to set
 	 */
 	public void setCameraTiltAngle(int cameraTiltAngle) {
 		this.cameraTiltAngle = cameraTiltAngle;

@@ -28,7 +28,7 @@ public class ThrusterController {
 		// Convert gamepad values to ?
 		x_prime = (X + Y) * 0.707f; // constant?
 		y_prime = (Y - X) * 0.707f; // constant?
-		
+
 		R_x = y_prime;
 		L_x = -x_prime;
 
@@ -37,26 +37,24 @@ public class ThrusterController {
 
 		robot.setStbdThrusterPower(R);
 		robot.setStbdThrusterAngle(R_theta);
-		robot.setPortThrusterAngle(L);
+		robot.setPortThrusterPower(L);
 		robot.setPortThrusterAngle(L_theta);
 		robot.setAftThrusterPower(Back);
 	}
 
 	String motorControl(int address, int command, float power) {
-		
-		if (power<0) {
-			power*=-1;
-			command+=1;
+
+		if (power < 0) {
+			power *= -1;
+			command += 1;
 		}
-		int speed = (int) (power*126.0);
-	    int checksum = (speed + address+command) & 127;
+		int speed = (int) (power * 126.0);
+		int checksum = (speed + address + command) & 127;
 
-
-		//PApplet.println(speed__ + "   " + thing1__);
-
-		return " \"\\x" + PApplet.hex(address) + "\" \"\\x"
-				+ PApplet.hex(command) + "\" \"\\x" + PApplet.hex(speed)
-				+ "\" \"\\x" + PApplet.hex(checksum) + "\"";
+		return "\"\\x" + PApplet.hex((byte) address) + "\" \"\\x"
+				+ PApplet.hex((byte) command) + "\" \"\\x"
+				+ PApplet.hex((byte) speed) + "\" \"\\x"
+				+ PApplet.hex((byte) checksum) + "\"";
 	}
 
 	void vector_control() {
@@ -109,8 +107,4 @@ public class ThrusterController {
 			}
 		}
 	}
-
-	// Provides motor power inputs.
-
-
 }

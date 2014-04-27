@@ -3,6 +3,8 @@ import java.io.*;
 import com.jcraft.jsch.*;
 
 public class SecureShell {
+	
+	RobotModel robot;
 
 	JSch jsch_ssh_connection;
 	Session jsch_session;
@@ -10,10 +12,11 @@ public class SecureShell {
 	InputStream channel_input;
 	OutputStream channel_output;
 	PrintStream bbb_terminal;
-	RobotModel robot;
 
-	public SecureShell(String username, String host, RobotModel arg3) throws JSchException,
-			IOException {
+	public SecureShell(String username, String host, RobotModel bot)
+			throws JSchException, IOException {
+
+		robot = bot;
 
 		jsch_ssh_connection = new JSch();
 
@@ -28,19 +31,17 @@ public class SecureShell {
 
 		channel_input = session_channel.getInputStream();
 		channel_output = session_channel.getOutputStream();
-		
-		robot = arg3;
 
 		bbb_terminal = new PrintStream(channel_output, true);
 
 		System.out.println("Constructor, check.");
-
+		
 	}
 
 	public void configure() throws InterruptedException, IOException {
 
 		bbb_terminal.println("cd beaglebash");
-		
+
 		Thread.sleep(60);
 
 		byte[] tmp = new byte[1024];
@@ -51,7 +52,7 @@ public class SecureShell {
 			}
 			System.out.print(new String(tmp, 0, i));
 		}
-		
+
 		bbb_terminal.println("./setup-all");
 
 		Thread.sleep(60);
@@ -64,18 +65,21 @@ public class SecureShell {
 			}
 			System.out.print(new String(tmp, 0, i));
 		}
-		
+
 		System.out.println("Configure, check.");
 
 	}
 
-	public void transceive(String port, String stbd, String aft) throws IOException, InterruptedException {
+	public void transceive(String port, String stbd, String aft)
+			throws IOException, InterruptedException {
 
 		bbb_terminal.println("./serial-write 1 " + port);
 		bbb_terminal.println("./serial-write 1 " + stbd);
 		bbb_terminal.println("./serial-write 1 " + aft);
-		bbb_terminal.println("./pwm-write 9_22" + robot.getPortThrusterAngle());
-		bbb_terminal.println("./pwm_write 9_14"+ robot.getStbdThrusterAngle());
+		bbb_terminal
+				.println("./pwm-write 9_22 " + robot.getPortThrusterAngle());
+		bbb_terminal
+				.println("./pwm-write 9_14 " + robot.getStbdThrusterAngle());
 
 		Thread.sleep(60);
 
