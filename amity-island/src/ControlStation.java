@@ -18,7 +18,7 @@ public class ControlStation extends PApplet {
 
 	public void setup() {
 
-		frameRate(4);
+		frameRate(10);
 
 		oldDesiredState = new RobotModel();
 		newDesiredState = new RobotModel();
@@ -58,7 +58,7 @@ public class ControlStation extends PApplet {
 								newDesiredState.getPortThrusterPower()),
 						thrusters.motorControl(128, 4,
 								newDesiredState.getAftThrusterPower()),
-						thrusters.motorControl(129, 4,
+						thrusters.motorControl(129, 0,
 								newDesiredState.getAftThrusterPower()));
 			} catch (IOException | InterruptedException e1) {
 				// TODO Auto-generated catch block
@@ -66,11 +66,11 @@ public class ControlStation extends PApplet {
 			}
 		}
 
-//		print(newDesiredState.getAftThrusterPower());
-//		print("\t");
-//		print(newDesiredState.getPortThrusterPower());
-//		print("\t");
-//		println(newDesiredState.getStbdThrusterPower());
+		print(newDesiredState.getAftThrusterPower());
+		print("\t");
+		print(newDesiredState.getPortThrusterPower());
+		print("\t");
+		println(newDesiredState.getStbdThrusterPower());
 	}
 
 	int updateCameraAngle(int oldAngle, int delta) {
