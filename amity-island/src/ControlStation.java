@@ -18,7 +18,7 @@ public class ControlStation extends PApplet {
 
 	public void setup() {
 
-		frameRate(10);
+		frameRate(5);
 
 		oldDesiredState = new RobotModel();
 		newDesiredState = new RobotModel();
@@ -54,11 +54,11 @@ public class ControlStation extends PApplet {
 		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
 				bbb_terminal.transceive(
-						thrusters.motorControl(128, 0,
+						thrusters.sabretoothPacket(128, 0,
 								newDesiredState.getPortThrusterPower()),
-						thrusters.motorControl(128, 4,
-								newDesiredState.getAftThrusterPower()),
-						thrusters.motorControl(129, 0,
+						thrusters.sabretoothPacket(128, 4,
+								newDesiredState.getStbdThrusterPower()),
+						thrusters.sabretoothPacket(129, 0,
 								newDesiredState.getAftThrusterPower()));
 			} catch (IOException | InterruptedException e1) {
 				// TODO Auto-generated catch block

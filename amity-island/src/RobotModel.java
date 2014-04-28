@@ -274,7 +274,7 @@ public class RobotModel {
 	 *            the aftThrusterPower to set
 	 */
 	public void setAftThrusterPower(float aftThrusterPower) {
-		this.aftThrusterPower = -aftThrusterPower;
+		this.aftThrusterPower = aftThrusterPower;
 	}
 
 	/**

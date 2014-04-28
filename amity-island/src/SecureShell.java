@@ -3,7 +3,7 @@ import java.io.*;
 import com.jcraft.jsch.*;
 
 public class SecureShell {
-	
+
 	RobotModel robot;
 
 	JSch jsch_ssh_connection;
@@ -35,7 +35,7 @@ public class SecureShell {
 		bbb_terminal = new PrintStream(channel_output, true);
 
 		System.out.println("Constructor, check.");
-		
+
 	}
 
 	public void configure() throws InterruptedException, IOException {
@@ -77,9 +77,9 @@ public class SecureShell {
 		bbb_terminal.println("./serial-write 1 " + stbd);
 		bbb_terminal.println("./serial-write 1 " + aft);
 		bbb_terminal
-				.println("./pwm-write 9_22 20" /* + robot.getPortThrusterAngle()*/);
+				.println("./pwm-write 9_22 " + robot.getPortThrusterAngle());
 		bbb_terminal
-				.println("./pwm-write 9_14 20" /* + robot.getStbdThrusterAngle()*/);
+				.println("./pwm-write 9_14 " + robot.getStbdThrusterAngle());
 
 		Thread.sleep(60);
 
