@@ -28,7 +28,7 @@ public class ControlStation extends PApplet {
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
 		try {
-			bbb_terminal = new SecureShell("root", "192.168.1.103",
+			bbb_terminal = new SecureShell("root", "192.168.1.71",
 					newDesiredState);
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block

@@ -29,8 +29,37 @@ public class ThrusterController {
 		Z = gamepad.getLeftVertical();
 
 		// Rotate gamepad values 45 degrees.
-		R_x = (X + Y) * sin45;
-		L_x = (Y - X) * -sin45;
+		// Convert to polar coordinates.
+		float r = PApplet.sqrt(X * X + Y * Y);
+		// Prevent division by zero.
+		X = X == 0 ? .00000000001f : X;
+		float theta = PApplet.atan(Y / X);
+		
+		// Enforce -1 <= r <= 1.
+		r = r > 1 ? 1 : r;
+		r = r < -1 ? -1 : r;
+		
+		// Fix theta based on quadrant.
+		if (Y >= 0) {
+			if (X >= 0)
+				theta += 0;
+			else
+				theta += PApplet.PI;
+		} else {
+			if (X < 0)
+				theta += PApplet.PI;
+			else
+				theta += 2 * PApplet.PI;
+		}
+
+		// Rotate 45 degrees clockwise.
+		theta -= PApplet.PI / 4;
+		// Handle resulting negative values.
+		theta = theta < 0 ? 2 * PApplet.PI + theta : theta;
+
+		// Convert back to cartesian coordinates.
+		R_x = -r * PApplet.cos(theta); // Flipped axis?
+		L_x = r * PApplet.sin(theta);
 
 		// vector_control();
 
