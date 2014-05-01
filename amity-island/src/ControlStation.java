@@ -70,11 +70,6 @@ public class ControlStation extends PApplet {
 				e1.printStackTrace();
 			}
 		}
-
-		print(newDesiredState.getCameraPanAngle());
-		print("\t");
-		println(newDesiredState.getCameraTiltAngle());
-		
 		
 //		print(newDesiredState.getAftThrusterPower());
 //		print("\t");

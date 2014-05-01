@@ -29,8 +29,8 @@ public class RobotModel {
 		this.stbdThrusterPower = 0;
 		this.stbdThrusterAngle = 90;
 		this.aftThrusterPower = 0;
-		this.cameraPanAngle = 90;
-		this.cameraTiltAngle = 90;
+		this.cameraPanAngle = 80;
+		this.cameraTiltAngle = 70;
 	}
 
 	public RobotModel(RobotModel that) {

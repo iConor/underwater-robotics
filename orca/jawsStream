@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Width, Height, Encoding
+v4l2-ctl --set-fmt-video=width=640,height=480,pixelformat=1
+
+# Framerate:
+v4l2-ctl --set-parm=15
+
+# Run it:
+avconv -f video4linux2 -input_format mjpeg -r 15 -i /dev/video0 -vcodec copy -r 15 -f mjpeg udp://226.0.0.1:2000
