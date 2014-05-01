@@ -50,13 +50,18 @@ public class ControlStation extends PApplet {
 		oldDesiredState = new RobotModel(newDesiredState);
 
 		thrusters.update();
+		
+		if(gamepad.getCoolieHat()){
+			newDesiredState.setCameraPanAngle(updateCameraAngle(oldDesiredState.getCameraPanAngle(),5*gamepad.getCoolieHatX()));
+			newDesiredState.setCameraTiltAngle(updateCameraAngle(oldDesiredState.getCameraTiltAngle(),5*gamepad.getCoolieHatY()));
+		}
 
 		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
 				bbb_terminal.transceive(
-						thrusters.sabretoothPacket(128, 0,
-								newDesiredState.getPortThrusterPower()),
 						thrusters.sabretoothPacket(128, 4,
+								newDesiredState.getPortThrusterPower()),
+						thrusters.sabretoothPacket(128, 0,
 								newDesiredState.getStbdThrusterPower()),
 						thrusters.sabretoothPacket(129, 0,
 								newDesiredState.getAftThrusterPower()));
@@ -66,11 +71,16 @@ public class ControlStation extends PApplet {
 			}
 		}
 
-		print(newDesiredState.getAftThrusterPower());
+		print(newDesiredState.getCameraPanAngle());
 		print("\t");
-		print(newDesiredState.getPortThrusterPower());
-		print("\t");
-		println(newDesiredState.getStbdThrusterPower());
+		println(newDesiredState.getCameraTiltAngle());
+		
+		
+//		print(newDesiredState.getAftThrusterPower());
+//		print("\t");
+//		print(newDesiredState.getPortThrusterPower());
+//		print("\t");
+//		println(newDesiredState.getStbdThrusterPower());
 	}
 
 	int updateCameraAngle(int oldAngle, int delta) {
