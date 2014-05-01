@@ -79,7 +79,7 @@ public class SecureShell {
 		bbb_terminal
 				.println("./pwm-write 9_22 " + robot.getPortThrusterAngle());
 		bbb_terminal
-				.println("./pwm-write 9_14 " + robot.getStbdThrusterAngle());
+				.println("./pwm-write 9_14 " + (180-robot.getStbdThrusterAngle()));
 
 		Thread.sleep(60);
 
