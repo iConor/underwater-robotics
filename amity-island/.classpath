@@ -14,5 +14,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/procontroll.jar" sourcepath="lib/procontroll.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.51.jar"/>
+	<classpathentry kind="lib" path="lib/udp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

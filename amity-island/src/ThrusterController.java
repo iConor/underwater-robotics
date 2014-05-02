@@ -130,4 +130,5 @@ public class ThrusterController {
 				+ PApplet.hex((byte) speed) + "\" \"\\x"
 				+ PApplet.hex((byte) checksum) + "\"";
 	}
+	
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import com.jcraft.jsch.JSchException;
 
@@ -14,7 +15,7 @@ public class ControlStation extends PApplet {
 
 	ThrusterController thrusters;
 
-	SecureShell bbb_terminal;
+	Node_udp UDP;
 
 	public void setup() {
 
@@ -26,23 +27,10 @@ public class ControlStation extends PApplet {
 		gamepad = new GamepadModel(this);
 
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
+		
+		UDP = new Node_udp("192.168.7.2", "192.168.1.100");
 
-		try {
-			bbb_terminal = new SecureShell("root", "192.168.1.103",
-					newDesiredState);
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			bbb_terminal.configure();
-		} catch (InterruptedException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	public void draw() {
@@ -57,19 +45,25 @@ public class ControlStation extends PApplet {
 		}
 
 		if (!newDesiredState.equals(oldDesiredState)) {
-			try {
-				bbb_terminal.transceive(
-						thrusters.sabretoothPacket(128, 4,
-								newDesiredState.getPortThrusterPower()),
-						thrusters.sabretoothPacket(128, 0,
-								newDesiredState.getStbdThrusterPower()),
-						thrusters.sabretoothPacket(129, 0,
-								newDesiredState.getAftThrusterPower()));
-			} catch (IOException | InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				try {
+					UDP.sendPacket(
+							UDP.sabretoothPacket(128, 4,
+									newDesiredState.getPortThrusterPower())+
+						    UDP.sabretoothPacket(128, 0,
+									newDesiredState.getStbdThrusterPower())+
+							UDP.sabretoothPacket(129, 0,
+									newDesiredState.getAftThrusterPower()),41234);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41235);
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41236);
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41237);
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraTiltAngle()), 41238);
+				
 		}
+
 		
 //		print(newDesiredState.getAftThrusterPower());
 //		print("\t");
@@ -84,5 +78,9 @@ public class ControlStation extends PApplet {
 			newAngle = oldAngle;
 		}
 		return newAngle;
+	}
+	
+	String convertToNanoseconds(float angle) {
+		return String.valueOf((int) PApplet.map(angle,0,180,550000,2450000));
 	}
 }
