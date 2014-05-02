@@ -1,6 +1,5 @@
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-
 import processing.core.PApplet;
 import hypermedia.net.*;
 

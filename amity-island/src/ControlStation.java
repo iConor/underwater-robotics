@@ -57,10 +57,10 @@ public class ControlStation extends PApplet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41235);
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41236);
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41237);
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraTiltAngle()), 41238);
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41235);//pwm pin 9_14
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41236);//pwm pin 9_22
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41237);//pwm pin 9_42
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraTiltAngle()), 41238);//pwm pin 8_19
 				
 		}
 
