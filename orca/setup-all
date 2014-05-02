@@ -12,7 +12,7 @@ echo bone_pwm_P8_19 > /sys/devices/bone_capemgr.*/slots
 echo bone_pwm_P9_42 > /sys/devices/bone_capemgr.*/slots
 
 # Configure serial port.
-stty -F /dev/ttyO1 speed 9600 -parenb cs8 -cstopb
+stty -F /dev/ttyO1 speed 9600 -parenb cs8 -cstopb -echo
 
 sleep 1
 
@@ -20,13 +20,13 @@ sleep 1
 for pin in 9_22 9_14 8_19 9_42
 do
 # Turn the PWM off while we configure it.
-echo 0 > /sys/devices/ocp.2/pwm_test_P$pin.*/run
+echo 0 > /sys/devices/ocp.*/pwm_test_P$pin.*/run
 # Set the frequency to 50 Hz.
-echo 20000000 > /sys/devices/ocp.2/pwm_test_P$pin.*/period
+echo 20000000 > /sys/devices/ocp.*/pwm_test_P$pin.*/period
 # Set the angle to 90 degrees.
-echo 1500000 > /sys/devices/ocp.2/pwm_test_P$pin.*/duty
+echo 1500000 > /sys/devices/ocp.*/pwm_test_P$pin.*/duty
 # Set normal high/low.
-echo 0 > /sys/devices/ocp.2/pwm_test_P$pin.*/polarity
+echo 0 > /sys/devices/ocp.*/pwm_test_P$pin.*/polarity
 # Turn the PWM on now that it's configured.
-echo 1 > /sys/devices/ocp.2/pwm_test_P$pin.*/run
+echo 1 > /sys/devices/ocp.*/pwm_test_P$pin.*/run
 done

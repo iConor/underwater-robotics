@@ -1,7 +1,9 @@
 #!/bin/bash
 
+
 # Call this with an argument to configure a specific serial port.
 # Arguments: 1, 2, 3, 4, 5.
+
 
 # speed 9600
 # 	sets baud rate
@@ -11,5 +13,6 @@
 #	character size
 # -cstopb
 #	one stop bit
+
 
 stty -F /dev/ttyO$1 speed 9600 -parenb cs8 -cstopb -echo

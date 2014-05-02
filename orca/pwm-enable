@@ -1,10 +1,12 @@
 #!/bin/bash
 
+
 # Call this once without any arguments to enable PWM in general.
 # Call this again with an argument to enable a specific PWM pin.
 # Arguments: 9_22, 9_22, 9_21, 9_14, 9_16, 8_19, 8_13, 9_42.
 
-if (( $# != 1 ))
+
+if (( $# != 1 )) # No arguments.
 then
 	# This is the first step in enabling any PWM pin.
 	echo am33xx_pwm > /sys/devices/bone_capemgr.*/slots

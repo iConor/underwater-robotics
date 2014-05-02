@@ -1,7 +1,9 @@
 #!/bin/bash
 
-for byte in $2 $3 $4 $5 $6 $7 $8 $9
+# Write 4 bytes to the designated serial port.
+# Bytes must be hexadecimal "\xFF", "\x00" etc.
+
+for byte in $2 $3 $4 $5
 do
 	echo -ne $byte > /dev/ttyO$1
-#	printf "%x" $byte >> /dev/ttyO$1
 done

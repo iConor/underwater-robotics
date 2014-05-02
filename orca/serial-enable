@@ -1,6 +1,8 @@
 #!/bin/bash
 
+
 # Call this with an argument to enable a specific serial port.
 # Arguments: 1, 2, 3, 4, 5.
+
 
 echo BB-UART$1 > /sys/devices/bone_capemgr.*/slots
