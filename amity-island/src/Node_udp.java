@@ -8,7 +8,6 @@ public class Node_udp {
 	String beaglebone_ip;
 	String host_ip;
 	
-	byte[] serialPacket;
 	
 	
 	public Node_udp(String ip_destination, String ip_host) {

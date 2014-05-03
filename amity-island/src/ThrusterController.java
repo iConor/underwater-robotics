@@ -19,8 +19,8 @@ public class ThrusterController {
 
 		
 		float verticalAdj=2;
-		float rollCal=0.1f;
-		float pitchCal = .1f;
+		float rollCal=0.15f;
+		float pitchCal = .08f;
 		
 		float StbdAdj = 1.0f;
 		float portAdj = 0.7f;
@@ -74,11 +74,13 @@ public class ThrusterController {
 		// vector_control();
 
 		// Find front z power.
-		R_z = Z / (2 + 2 * centerGravityRatio);
-		L_z = R_z;
+		Z=Z*verticalAdj;
+		R_z = Z / (2 + 2 * centerGravityRatio)+gamepad.getPitchControl()*pitchCal*.5f;
+		L_z = R_z+gamepad.getRollControl()*rollCal;
+		R_z = R_z-gamepad.getRollControl()*rollCal;
 
 		// Find back z power.
-		Back = Z * (1 - 1 / (1 + centerGravityRatio));
+		Back = Z * (1 - 1 / (1 + centerGravityRatio))-gamepad.getPitchControl();
 
 		// Find angles.
 		if (R_x == 0) {
@@ -119,7 +121,7 @@ public class ThrusterController {
 			}
 		}
 
-		robot.setStbdThrusterPower(R);
+		robot.setStbdThrusterPower(R*StbdAdj);
 		robot.setStbdThrusterAngle(R_theta);
 		robot.setPortThrusterPower(L*portAdj);
 		robot.setPortThrusterAngle(L_theta);
