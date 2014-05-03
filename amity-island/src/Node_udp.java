@@ -9,6 +9,8 @@ public class Node_udp {
 	String beaglebone_ip;
 	String host_ip;
 	
+	byte[] serialPacket;
+	
 	ByteBuffer serialBuffer = ByteBuffer.allocate(8);
 	
 	public Node_udp(String ip_destination, String ip_host) {
@@ -19,14 +21,23 @@ public class Node_udp {
 	
 	public void sendPacket(String message, int port) {
 		udp.send(message, beaglebone_ip, port);
+		
 	}
+	
+	public void sendPacket(byte[] message, int port) {
+		udp.send(message, beaglebone_ip, port);
+	}
+	
+	/*public void sendSerialPacket(int port) {
+		udp.send(serialPacket, beaglebone_ip, port);
+	}*/
 	
 	
 	public void recievePacket( int port) {
 		//do stuff in here to receive packets
 	}
 	
-	String sabretoothPacket(int address, int command, float power) throws UnsupportedEncodingException {
+	byte[] sabretoothPacket(int address, int command, float power) {
 
 		if (power < 0) {
 			power *= -1;
@@ -35,9 +46,9 @@ public class Node_udp {
 		int speed = (int) (power * 127.0f);
 		int checksum = (speed + address + command) & 127;
 		byte[] packet = {(byte) address, (byte) command, (byte) speed, (byte) checksum};
-		String out = new String(packet, "UTF-8");
+		//String out = new String(packet, "US-ASCII");
 
-		return out;
+		return packet;
 		
 	}
 }

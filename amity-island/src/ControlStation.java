@@ -36,6 +36,8 @@ public class ControlStation extends PApplet {
 	public void draw() {
 
 		oldDesiredState = new RobotModel(newDesiredState);
+		
+		byte[] allMotors = new byte[12];
 
 		thrusters.update();
 		
@@ -45,18 +47,20 @@ public class ControlStation extends PApplet {
 		}
 
 		if (!newDesiredState.equals(oldDesiredState)) {
-				try {
-					UDP.sendPacket(
+			
+			System.arraycopy(UDP.sabretoothPacket(128, 4, newDesiredState.getPortThrusterPower()), 0, allMotors, 0, 4);
+			System.arraycopy(UDP.sabretoothPacket(128, 0, newDesiredState.getStbdThrusterPower()), 0, allMotors, 4, 4);
+			System.arraycopy(UDP.sabretoothPacket(129, 0, newDesiredState.getAftThrusterPower()), 0, allMotors, 8, 4);
+			
+			UDP.sendPacket(allMotors, 41234);
+					/*UDP.sendPacket(
 							UDP.sabretoothPacket(128, 4,
-									newDesiredState.getPortThrusterPower())+
-						    UDP.sabretoothPacket(128, 0,
-									newDesiredState.getStbdThrusterPower())+
-							UDP.sabretoothPacket(129, 0,
-									newDesiredState.getAftThrusterPower()),41234);
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+									newDesiredState.getPortThrusterPower()), 41234);
+				    UDP.sendPacket(UDP.sabretoothPacket(128, 0,
+									newDesiredState.getStbdThrusterPower()), 41234);
+					UDP.sendPacket(UDP.sabretoothPacket(129, 0,
+									newDesiredState.getAftThrusterPower()),41234);*/
+
 				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41235);//pwm pin 9_14
 				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41236);//pwm pin 9_22
 				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41237);//pwm pin 9_42
