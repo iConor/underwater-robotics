@@ -22,6 +22,7 @@ public class ThrusterController {
 		float L_theta, R_theta;
 		float L, R, Back;
 		float L_z, R_z;
+		float roll, pitch;
 
 		// Read gamepad values.
 		X = gamepad.getRightVertical();
@@ -64,11 +65,12 @@ public class ThrusterController {
 		// vector_control();
 
 		// Find front z power.
-		R_z = Z / (2 + 2 * centerGravityRatio);
-		L_z = R_z;
+		R_z = Z / (2 + 2 * centerGravityRatio)+gamepad.getPitchControl();
+		L_z = R_z+gamepad.getRollControl();
+		R_z = R_z-gamepad.getRollControl();
 
 		// Find back z power.
-		Back = Z * (1 - 1 / (1 + centerGravityRatio));
+		Back = Z * (1 - 1 / (1 + centerGravityRatio))-gamepad.getPitchControl();
 
 		// Find angles.
 		if (R_x == 0) {
@@ -117,6 +119,12 @@ public class ThrusterController {
 	}
 
 	String sabretoothPacket(int address, int command, float power) {
+		
+		if (power > 1) {
+			power=1;
+		}else if (power < -1){
+			power=-1;
+		}
 
 		if (power < 0) {
 			power *= -1;
@@ -130,4 +138,5 @@ public class ThrusterController {
 				+ PApplet.hex((byte) speed) + "\" \"\\x"
 				+ PApplet.hex((byte) checksum) + "\"";
 	}
+	
 }
