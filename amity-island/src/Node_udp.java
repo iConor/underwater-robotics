@@ -1,4 +1,6 @@
 
+import java.io.UnsupportedEncodingException;
+
 import processing.core.PApplet;
 import hypermedia.net.*;
 
@@ -34,7 +36,7 @@ public class Node_udp {
 		//do stuff in here to receive packets
 	}
 	
-	byte[] sabretoothPacket(int address, int command, float power) {
+	String sabretoothPacket(int address, int command, float power) {
 
 		if (power < 0) {
 			power *= -1;
@@ -43,9 +45,15 @@ public class Node_udp {
 		int speed = (int) (power * 127.0f);
 		int checksum = (speed + address + command) & 127;
 		byte[] packet = {(byte) address, (byte) command, (byte) speed, (byte) checksum};
-		//String out = new String(packet, "US-ASCII");
+		String out = "";
+		try {
+			out = new String(packet, "US-ASCII");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		return packet;
+		return out;
 		
 	}
 }

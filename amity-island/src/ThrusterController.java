@@ -137,10 +137,10 @@ public class ThrusterController {
 		int speed = (int) (power * 127.0f);
 		int checksum = (speed + address + command) & 127;
 
-		return "\"\\x" + PApplet.hex((byte) address) + "\" \"\\x"
-				+ PApplet.hex((byte) command) + "\" \"\\x"
-				+ PApplet.hex((byte) speed) + "\" \"\\x"
-				+ PApplet.hex((byte) checksum) + "\"";
+		return "" + (char)(byte) address + ""
+				+ (char)(byte) command + ""
+				+ (char)(byte) speed + ""
+				+ (char)(byte) checksum + "";
 	}
 	
 }
