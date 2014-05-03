@@ -12,6 +12,11 @@ public class GamepadModel {
 	private ControllSlider rightVertical;
 	private ControllCoolieHat coolieHat;
 
+	private ControllButton trimDown;
+	private ControllButton trimUp;
+	private ControllSlider rollControl;
+
+
 	GamepadModel(PApplet processing) {
 		this(processing, .16f);
 	}
@@ -35,6 +40,14 @@ public class GamepadModel {
 
 		coolieHat = ctrllDevice.getCoolieHat(gamepadMap.getCoolieHat());
 
+		
+		trimDown = ctrllDevice.getButton(gamepadMap.getLeftBumper());
+		trimUp = ctrllDevice.getButton(gamepadMap.getRightBumper());
+		
+		rollControl = ctrllDevice.getSlider(gamepadMap.getLeftStickVertical());
+		rollControl.setTolerance(tolerance);
+
+
 	}
 
 	/**
@@ -56,6 +69,24 @@ public class GamepadModel {
 	 */
 	public float getRightVertical() {
 		return rightVertical.getValue();
+
+	}
+	
+	public float getRollControl() {
+		return rollControl.getValue();
+	}
+	
+	public float getPitchControl() {
+		if (trimUp.pressed()){
+			return (float) 1.0;
+		}
+		else if (trimDown.pressed()){
+			return (float) -1.0; 
+		}
+		else {
+		return 0;	
+		}
+
 	}
 
 	/**

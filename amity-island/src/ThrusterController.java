@@ -17,6 +17,16 @@ public class ThrusterController {
 		float centerGravityRatio = 0.6422f;
 		float sin45 = 0.707f;
 
+		
+		float verticalAdj=2;
+		float rollCal=0.1f;
+		float pitchCal = .1f;
+		
+		float StbdAdj = 1.0f;
+		float portAdj = 0.7f;
+		float backAdj = 0.9f;
+
+
 		float X, Y, Z;
 		float L_x, R_x;
 		float L_theta, R_theta;
@@ -111,9 +121,9 @@ public class ThrusterController {
 
 		robot.setStbdThrusterPower(R);
 		robot.setStbdThrusterAngle(R_theta);
-		robot.setPortThrusterPower(L);
+		robot.setPortThrusterPower(L*portAdj);
 		robot.setPortThrusterAngle(L_theta);
-		robot.setAftThrusterPower(Back);
+		robot.setAftThrusterPower(Back*backAdj);
 	}
 
 	String sabretoothPacket(int address, int command, float power) {
