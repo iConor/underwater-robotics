@@ -61,10 +61,10 @@ public class ControlStation extends PApplet {
 					UDP.sendPacket(UDP.sabretoothPacket(129, 0,
 									newDesiredState.getAftThrusterPower()),41234);*/
 
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41235);//pwm pin 9_14
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41236);//pwm pin 9_22
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41237);//pwm pin 9_42
-				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraTiltAngle()), 41238);//pwm pin 8_19
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getStbdThrusterAngle()), 41235);//pwm pin 9_14
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getPortThrusterAngle()), 41236);//pwm pin 9_22
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraTiltAngle()), 41237);//pwm pin 9_42
+				UDP.sendPacket(convertToNanoseconds(newDesiredState.getCameraPanAngle()), 41238);//pwm pin 8_19
 				
 		}
 

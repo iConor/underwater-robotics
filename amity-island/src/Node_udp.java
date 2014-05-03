@@ -1,5 +1,4 @@
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
+
 import processing.core.PApplet;
 import hypermedia.net.*;
 
@@ -11,7 +10,6 @@ public class Node_udp {
 	
 	byte[] serialPacket;
 	
-	ByteBuffer serialBuffer = ByteBuffer.allocate(8);
 	
 	public Node_udp(String ip_destination, String ip_host) {
 		beaglebone_ip = ip_destination;
