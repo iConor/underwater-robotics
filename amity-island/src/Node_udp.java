@@ -36,7 +36,7 @@ public class Node_udp {
 		//do stuff in here to receive packets
 	}
 	
-	String sabretoothPacket(int address, int command, float power) {
+	byte[] sabretoothPacket(int address, int command, float power) {
 
 		if (power < 0) {
 			power *= -1;
@@ -44,16 +44,9 @@ public class Node_udp {
 		}
 		int speed = (int) (power * 127.0f);
 		int checksum = (speed + address + command) & 127;
-		byte[] packet = {(byte) address, (byte) command, (byte) speed, (byte) checksum};
-		String out = "";
-		try {
-			out = new String(packet, "US-ASCII");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    byte[] packet = {(byte) address, (byte) command, (byte) speed, (byte) checksum};
 
-		return out;
+		return packet;
 		
 	}
 }

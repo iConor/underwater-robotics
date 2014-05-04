@@ -28,7 +28,7 @@ public class ControlStation extends PApplet {
 
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 		// beaglebone,me
-		UDP = new Node_udp("192.168.1.102", "192.168.1.101");
+		UDP = new Node_udp("192.168.7.2", "192.168.1.100");
 
 	}
 
@@ -51,21 +51,21 @@ public class ControlStation extends PApplet {
 
 		if (!newDesiredState.equals(oldDesiredState)) {
 
-//			System.arraycopy(
-//					UDP.sabretoothPacket(128, 4,
-//							newDesiredState.getPortThrusterPower()), 0,
-//					allMotors, 0, 4);
-//			System.arraycopy(
-//					UDP.sabretoothPacket(128, 0,
-//							newDesiredState.getStbdThrusterPower()), 0,
-//					allMotors, 4, 4);
-//			System.arraycopy(
-//					UDP.sabretoothPacket(129, 0,
-//							newDesiredState.getAftThrusterPower()), 0,
-//					allMotors, 8, 4);
+			System.arraycopy(
+					UDP.sabretoothPacket(128, 4,
+							newDesiredState.getPortThrusterPower()), 0,
+					allMotors, 0, 4);
+			System.arraycopy(
+					UDP.sabretoothPacket(128, 0,
+							newDesiredState.getStbdThrusterPower()), 0,
+					allMotors, 4, 4);
+			System.arraycopy(
+					UDP.sabretoothPacket(129, 0,
+							newDesiredState.getAftThrusterPower()), 0,
+					allMotors, 8, 4);
 
-			// UDP.sendPacket(allMotors, 41234);
-			UDP.sendPacket(
+			 UDP.sendPacket(allMotors, 41234);
+			/*UDP.sendPacket(
 					thrusters.sabretoothPacket(128, 4,
 							newDesiredState.getPortThrusterPower()), 41234);
 			UDP.sendPacket(
@@ -73,7 +73,7 @@ public class ControlStation extends PApplet {
 							newDesiredState.getStbdThrusterPower()), 41234);
 			UDP.sendPacket(
 					thrusters.sabretoothPacket(129, 0,
-							newDesiredState.getAftThrusterPower()), 41234);
+							newDesiredState.getAftThrusterPower()), 41234);*/
 
 			UDP.sendPacket(
 					convertToNanoseconds(newDesiredState.getStbdThrusterAngle()),
