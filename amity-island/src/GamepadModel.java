@@ -48,6 +48,7 @@ public class GamepadModel {
 		GamepadMap gamepadMap = new GamepadMap(ctrllIO);
 		ctrllDevice = ctrllIO.getDevice(gamepadMap.getName());
 		
+		// Set dPad true if there is no coolie hat.
 		dPad = gamepadMap.getCoolieHat() == -1 ? true : false;
 
 		// Stick Sliders

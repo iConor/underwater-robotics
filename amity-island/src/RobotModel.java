@@ -228,8 +228,8 @@ public class RobotModel {
 	 * @param portThrusterAngle
 	 *            the portThrusterAngle to set
 	 */
-	public void setPortThrusterAngle(float portThrusterAngle) {
-		this.portThrusterAngle = (int) portThrusterAngle;
+	public void setPortThrusterAngle(int portThrusterAngle) {
+		this.portThrusterAngle = portThrusterAngle;
 	}
 
 	/**
@@ -258,8 +258,8 @@ public class RobotModel {
 	 * @param stbdThrusterAngle
 	 *            the stbdThrusterAngle to set
 	 */
-	public void setStbdThrusterAngle(float stbdThrusterAngle) {
-		this.stbdThrusterAngle = (int) stbdThrusterAngle;
+	public void setStbdThrusterAngle(int stbdThrusterAngle) {
+		this.stbdThrusterAngle = stbdThrusterAngle;
 	}
 
 	/**

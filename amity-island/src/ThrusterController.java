@@ -71,12 +71,12 @@ public class ThrusterController {
 
 		// Find front z power.
 		Z=Z*verticalAdj;
-		R_z = Z / (2 + 2 * centerGravityRatio)+this.getPitchControl()*pitchCal*.5f;
-		L_z = R_z+this.getRollControl()*rollCal;
-		R_z = R_z-this.getRollControl()*rollCal;
+		R_z = Z / (2 + 2 * centerGravityRatio)+getPitchControl()*pitchCal*.5f;
+		L_z = R_z+gamepad.getLeftStickHorizontal()*rollCal;
+		R_z = R_z-gamepad.getLeftStickHorizontal()*rollCal;
 
 		// Find back z power.
-		Back = Z * (1 - 1 / (1 + centerGravityRatio))-this.getPitchControl();
+		Back = Z * (1 - 1 / (1 + centerGravityRatio))-getPitchControl();
 
 		// Find angles.
 		if (R_x == 0) {
@@ -118,25 +118,20 @@ public class ThrusterController {
 		}
 
 		robot.setStbdThrusterPower(R*StbdAdj);
-		robot.setStbdThrusterAngle(R_theta);
+		robot.setStbdThrusterAngle((int)R_theta);
 		robot.setPortThrusterPower(L*portAdj);
-		robot.setPortThrusterAngle(L_theta);
+		robot.setPortThrusterAngle((int) L_theta);
 		robot.setAftThrusterPower(Back*backAdj);
 	}
 
-
-	float getRollControl() {
-		return gamepad.getLeftStickHorizontal();
-	}
-
 	float getPitchControl() {
+		float pitch = 0;
 		if (gamepad.getRightBumper()) {
-			return (float) 1.0;
+			pitch = 1.0f;
 		} else if (gamepad.getLeftBumper()) {
-			return (float) -1.0;
-		} else {
-			return 0;
+			pitch = -1.0f;
 		}
+		return pitch;
 	}
 
 	String sabretoothPacket(int address, int command, float power) {

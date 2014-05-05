@@ -71,11 +71,5 @@ public class ControlStation extends PApplet {
 				e1.printStackTrace();
 			}
 		}
-		
-//		print(newDesiredState.getAftThrusterPower());
-//		print("\t");
-//		print(newDesiredState.getPortThrusterPower());
-//		print("\t");
-//		println(newDesiredState.getStbdThrusterPower());
 	}
 }
