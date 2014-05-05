@@ -15,7 +15,6 @@ public class ThrusterController {
 	void update() {
 
 		float centerGravityRatio = 0.6422f;
-		float sin45 = 0.707f;
 		
 		float verticalAdj=2;
 		float rollCal=0.1f;
@@ -30,12 +29,11 @@ public class ThrusterController {
 		float L_theta, R_theta;
 		float L, R, Back;
 		float L_z, R_z;
-		float roll, pitch;
 
 		// Read gamepad values.
-		X = gamepad.getRightVertical();
-		Y = gamepad.getRightHorizontal();
-		Z = gamepad.getLeftVertical();
+		X = gamepad.getRightStickVertical();
+		Y = gamepad.getRightStickHorizontal();
+		Z = gamepad.getLeftStickVertical();
 
 		// Rotate gamepad values 45 degrees.
 		// Convert to polar coordinates.
@@ -69,17 +67,16 @@ public class ThrusterController {
 		// Convert back to cartesian coordinates.
 		R_x = -r * PApplet.cos(theta); // Flipped axis?
 		L_x = r * PApplet.sin(theta);
-
 		// vector_control();
 
 		// Find front z power.
 		Z=Z*verticalAdj;
-		R_z = Z / (2 + 2 * centerGravityRatio)+gamepad.getPitchControl()*pitchCal*.5f;
-		L_z = R_z+gamepad.getRollControl()*rollCal;
-		R_z = R_z-gamepad.getRollControl()*rollCal;
+		R_z = Z / (2 + 2 * centerGravityRatio)+this.getPitchControl()*pitchCal*.5f;
+		L_z = R_z+this.getRollControl()*rollCal;
+		R_z = R_z-this.getRollControl()*rollCal;
 
 		// Find back z power.
-		Back = Z * (1 - 1 / (1 + centerGravityRatio))-gamepad.getPitchControl();
+		Back = Z * (1 - 1 / (1 + centerGravityRatio))-this.getPitchControl();
 
 		// Find angles.
 		if (R_x == 0) {
@@ -125,6 +122,21 @@ public class ThrusterController {
 		robot.setPortThrusterPower(L*portAdj);
 		robot.setPortThrusterAngle(L_theta);
 		robot.setAftThrusterPower(Back*backAdj);
+	}
+
+
+	float getRollControl() {
+		return gamepad.getLeftStickHorizontal();
+	}
+
+	float getPitchControl() {
+		if (gamepad.getRightBumper()) {
+			return (float) 1.0;
+		} else if (gamepad.getLeftBumper()) {
+			return (float) -1.0;
+		} else {
+			return 0;
+		}
 	}
 
 	String sabretoothPacket(int address, int command, float power) {

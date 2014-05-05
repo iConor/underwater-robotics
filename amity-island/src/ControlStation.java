@@ -11,6 +11,8 @@ public class ControlStation extends PApplet {
 	RobotModel oldDesiredState;
 
 	GamepadModel gamepad;
+	
+	PanTiltController camera;
 
 	ThrusterController thrusters;
 
@@ -24,7 +26,9 @@ public class ControlStation extends PApplet {
 		newDesiredState = new RobotModel();
 
 		gamepad = new GamepadModel(this);
-
+		
+		camera = new PanTiltController(newDesiredState, gamepad);
+		
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
 		try {
@@ -48,13 +52,10 @@ public class ControlStation extends PApplet {
 	public void draw() {
 
 		oldDesiredState = new RobotModel(newDesiredState);
+		
+		camera.update();
 
 		thrusters.update();
-		
-		if(gamepad.getCoolieHat()){
-			newDesiredState.setCameraPanAngle(updateCameraAngle(oldDesiredState.getCameraPanAngle(),5*gamepad.getCoolieHatX()));
-			newDesiredState.setCameraTiltAngle(updateCameraAngle(oldDesiredState.getCameraTiltAngle(),5*gamepad.getCoolieHatY()));
-		}
 
 		if (!newDesiredState.equals(oldDesiredState)) {
 			try {
@@ -76,13 +77,5 @@ public class ControlStation extends PApplet {
 //		print(newDesiredState.getPortThrusterPower());
 //		print("\t");
 //		println(newDesiredState.getStbdThrusterPower());
-	}
-
-	int updateCameraAngle(int oldAngle, int delta) {
-		int newAngle = oldAngle - delta;
-		if (newAngle > 180 || newAngle < 0) {
-			newAngle = oldAngle;
-		}
-		return newAngle;
 	}
 }
