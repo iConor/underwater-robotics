@@ -1,44 +1,48 @@
-Switch to Ubuntu 12.04 LTS
-==========================
+Switch from Angstrom to Ubuntu
+==============================
+
+Made easy by: [ARMhf](http://www.armhf.com/)
 
 
-Make Bootable microSD Card:
----------------------------
+Prepare a Bootable microSD Card:
+--------------------------------
 
-download win32diskimager - http://sourceforge.net/projects/win32diskimager/
+Download [win32diskimager](http://sourceforge.net/projects/win32diskimager/).
 
-download image - http://s3.armhf.com/debian/precise/bone/ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img.xz
+Download [Ubuntu image](http://s3.armhf.com/debian/precise/bone/ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img.xz).
 
-put the image on a microSD card using win32diskimager
+Write the image to a microSD card.
 
-Flash New Image onto eMMC
--------------------------
+Flash Ubuntu onto the eMMC
+--------------------------
 
-power off beaglebone black, insert microSD card
+With the BBB's pwoer off, insert the microSD card.
 
-hold down user boot button, apply power
+Hold down the user boot button, then apply power.
 
-default login: ubuntu
+Login. (default name: ubuntu, default password: ubuntu)
 
-default password: ubuntu
+Put the image on the microSD card and unpack it to the eMMC:
 
-wget http://s3.armhf.com/debian/precise/bone/ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img.xz
+`wget http://s3.armhf.com/debian/precise/bone/ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img.xz`
 
-xz -cd ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img > /dev/mmcblk1
+`xz -cd ubuntu-precise-12.04.3-armhf-3.8.13-bone30.img > /dev/mmcblk1`
 
-snack time
+This should provide enough time to grab a snack.
 
-when it's done, shut down and remove microSD
+When it's done, shut down and remove the microSD card.
 
-Configure Ubuntu BBB:
----------------------
+Configure Ubuntu on the BBB:
+----------------------------
 
-sudo apt-get update
+`sudo apt-get update`
 
-sudo apt-get upgrade
+`sudo apt-get upgrade`
 
-sudo apt-get install build-essential
+`sudo apt-get install build-essential`
 
-wget http://s3.armhf.com/debian/precise/node-v0.10.21-precise-armhf.tar.xz
+`wget http://s3.armhf.com/debian/precise/node-v0.10.21-precise-armhf.tar.xz`
 
-tar xJvf node-v*-precise-armhf.tar.xz -C /usr/local --strip-components 1
+`sudo tar xJvf node-v*-precise-armhf.tar.xz -C /usr/local --strip-components 1`
+
+Now, copy over the contents of this folder and enjoy.
