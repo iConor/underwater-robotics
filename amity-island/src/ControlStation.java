@@ -25,7 +25,7 @@ public class ControlStation extends PApplet {
 
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
-		network = new UserDatagramProtocol(this, "192.168.1.71");
+		network = new UserDatagramProtocol(this, "192.168.1.101");
 	}
 
 	public void draw() {
