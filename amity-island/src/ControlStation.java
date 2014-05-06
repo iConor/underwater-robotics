@@ -1,7 +1,3 @@
-import java.io.IOException;
-
-import com.jcraft.jsch.JSchException;
-
 import processing.core.*;
 
 @SuppressWarnings("serial")
@@ -11,65 +7,71 @@ public class ControlStation extends PApplet {
 	RobotModel oldDesiredState;
 
 	GamepadModel gamepad;
-	
+
 	PanTiltController camera;
 
 	ThrusterController thrusters;
 
-	SecureShell bbb_terminal;
+	UserDatagramProtocol network;
 
 	public void setup() {
-
-		frameRate(5);
 
 		oldDesiredState = new RobotModel();
 		newDesiredState = new RobotModel();
 
 		gamepad = new GamepadModel(this);
-		
+
 		camera = new PanTiltController(newDesiredState, gamepad);
-		
+
 		thrusters = new ThrusterController(this, newDesiredState, gamepad);
 
-		try {
-			bbb_terminal = new SecureShell("root", "192.168.1.102",
-					newDesiredState);
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			bbb_terminal.configure();
-		} catch (InterruptedException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		network = new UserDatagramProtocol(this, "192.168.1.71");
 	}
 
 	public void draw() {
 
 		oldDesiredState = new RobotModel(newDesiredState);
-		
+
 		camera.update();
 
 		thrusters.update();
-
-		if (!newDesiredState.equals(oldDesiredState)) {
-			try {
-				bbb_terminal.transceive(
-						thrusters.sabretoothPacket(128, 4,
-								newDesiredState.getPortThrusterPower()),
-						thrusters.sabretoothPacket(128, 0,
-								newDesiredState.getStbdThrusterPower()),
-						thrusters.sabretoothPacket(129, 0,
-								newDesiredState.getAftThrusterPower()));
-			} catch (IOException | InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		if (oldDesiredState.getPortThrusterAngle() != newDesiredState
+				.getPortThrusterAngle()) {
+			network.writePortThrusterAngle(mapAngle(newDesiredState
+					.getPortThrusterAngle()));
 		}
+		if (oldDesiredState.getStbdThrusterAngle() != newDesiredState
+				.getStbdThrusterAngle()) {
+			network.writeStbdThrusterAngle(mapAngle(newDesiredState
+					.getStbdThrusterAngle()));
+		}
+		if (oldDesiredState.getCameraPanAngle() != newDesiredState
+				.getCameraPanAngle()) {
+			network.writeCameraPanAngle(mapAngle(newDesiredState
+					.getCameraPanAngle()));
+		}
+		if (oldDesiredState.getCameraTiltAngle() != newDesiredState
+				.getCameraTiltAngle()) {
+			network.writeCameraTiltAngle(mapAngle(newDesiredState
+					.getCameraTiltAngle()));
+		}
+		if (oldDesiredState.getPortThrusterPower() != newDesiredState.getPortThrusterPower()) {
+			network.writeThrusterPower(thrusters.sabretoothPacket(128, 4,
+					newDesiredState.getPortThrusterPower()));
+		}
+		if (oldDesiredState.getStbdThrusterPower() != newDesiredState.getStbdThrusterPower()) {
+			network.writeThrusterPower(thrusters.sabretoothPacket(128, 0,
+					newDesiredState.getStbdThrusterPower()));
+		}
+		if (oldDesiredState.getAftThrusterPower() != newDesiredState.getAftThrusterPower()) {
+			network.writeThrusterPower(thrusters.sabretoothPacket(129, 0,
+					newDesiredState.getAftThrusterPower()));
+		}
+
+	}
+
+	String mapAngle(int angle) {
+		return Integer.toString((int) PApplet.map(angle, 0, 180, 550000,
+				2450000));
 	}
 }

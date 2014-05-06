@@ -19,10 +19,10 @@ public class PanTiltController {
 			robot.setCameraTiltAngle(updateCameraAngle(
 					robot.getCameraTiltAngle(), decrement));
 		} else if (gamepad.getdPadLeft()) {
-			robot.setCameraTiltAngle(updateCameraAngle(
+			robot.setCameraPanAngle(updateCameraAngle(
 					robot.getCameraPanAngle(), increment));
 		} else if (gamepad.getdPadRight()) {
-			robot.setCameraTiltAngle(updateCameraAngle(
+			robot.setCameraPanAngle(updateCameraAngle(
 					robot.getCameraPanAngle(), decrement));
 		}
 	}

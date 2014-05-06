@@ -15,11 +15,11 @@ public class ThrusterController {
 	void update() {
 
 		float centerGravityRatio = 0.6422f;
-		
-		float verticalAdj=2;
-		float rollCal=0.1f;
+
+		float verticalAdj = 2;
+		float rollCal = 0.1f;
 		float pitchCal = .1f;
-		
+
 		float StbdAdj = 1.0f;
 		float portAdj = 0.7f;
 		float backAdj = 0.9f;
@@ -41,11 +41,11 @@ public class ThrusterController {
 		// Prevent division by zero.
 		X = X == 0 ? .00000000001f : X;
 		float theta = PApplet.atan(Y / X);
-		
+
 		// Enforce -1 <= r <= 1.
 		r = r > 1 ? 1 : r;
 		r = r < -1 ? -1 : r;
-		
+
 		// Fix theta based on quadrant.
 		if (Y >= 0) {
 			if (X >= 0)
@@ -70,13 +70,14 @@ public class ThrusterController {
 		// vector_control();
 
 		// Find front z power.
-		Z=Z*verticalAdj;
-		R_z = Z / (2 + 2 * centerGravityRatio)+getPitchControl()*pitchCal*.5f;
-		L_z = R_z+gamepad.getLeftStickHorizontal()*rollCal;
-		R_z = R_z-gamepad.getLeftStickHorizontal()*rollCal;
+		Z = Z * verticalAdj;
+		R_z = Z / (2 + 2 * centerGravityRatio) + getPitchControl() * pitchCal
+				* .5f;
+		L_z = R_z + gamepad.getLeftStickHorizontal() * rollCal;
+		R_z = R_z - gamepad.getLeftStickHorizontal() * rollCal;
 
 		// Find back z power.
-		Back = Z * (1 - 1 / (1 + centerGravityRatio))-getPitchControl();
+		Back = Z * (1 - 1 / (1 + centerGravityRatio)) - getPitchControl();
 
 		// Find angles.
 		if (R_x == 0) {
@@ -117,11 +118,11 @@ public class ThrusterController {
 			}
 		}
 
-		robot.setStbdThrusterPower(R*StbdAdj);
-		robot.setStbdThrusterAngle((int)R_theta);
-		robot.setPortThrusterPower(L*portAdj);
+		robot.setStbdThrusterPower(R * StbdAdj);
+		robot.setStbdThrusterAngle((int) R_theta);
+		robot.setPortThrusterPower(L * portAdj);
 		robot.setPortThrusterAngle((int) L_theta);
-		robot.setAftThrusterPower(Back*backAdj);
+		robot.setAftThrusterPower(Back * backAdj);
 	}
 
 	float getPitchControl() {
@@ -135,11 +136,11 @@ public class ThrusterController {
 	}
 
 	String sabretoothPacket(int address, int command, float power) {
-		
+
 		if (power > 1) {
-			power=1;
-		}else if (power < -1){
-			power=-1;
+			power = 1;
+		} else if (power < -1) {
+			power = -1;
 		}
 
 		if (power < 0) {
@@ -149,10 +150,8 @@ public class ThrusterController {
 		int speed = (int) (power * 127.0f);
 		int checksum = (speed + address + command) & 127;
 
-		return "\"\\x" + PApplet.hex((byte) address) + "\" \"\\x"
-				+ PApplet.hex((byte) command) + "\" \"\\x"
-				+ PApplet.hex((byte) speed) + "\" \"\\x"
-				+ PApplet.hex((byte) checksum) + "\"";
+		return PApplet.hex((byte) address) + PApplet.hex((byte) command)
+				+ PApplet.hex((byte) speed) + PApplet.hex((byte) checksum);
 	}
-	
+
 }

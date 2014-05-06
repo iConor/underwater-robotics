@@ -62,8 +62,8 @@ public class GamepadModel {
 				.getRightStickVertical());
 
 		// Stick Buttons
-		leftStick = ctrllDevice.getButton(gamepadMap.getLeftStick());
-		rightStick = ctrllDevice.getButton(gamepadMap.getRightStick());
+//		leftStick = ctrllDevice.getButton(gamepadMap.getLeftStick());
+//		rightStick = ctrllDevice.getButton(gamepadMap.getRightStick());
 
 		// D-Pad or Coolie Hat
 		if (dPad) {
