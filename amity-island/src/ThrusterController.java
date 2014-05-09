@@ -137,12 +137,6 @@ public class ThrusterController {
 
 	String sabretoothPacket(int address, int command, float power) {
 
-		if (power > 1) {
-			power = 1;
-		} else if (power < -1) {
-			power = -1;
-		}
-
 		if (power < 0) {
 			power *= -1;
 			command += 1;
