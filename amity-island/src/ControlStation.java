@@ -38,16 +38,16 @@ public class ControlStation extends PApplet {
 
 		// Transmit desired robot model values if they don't match reported
 		// values.
-		if (reported.getPortThrusterAngle() != desired.getPortThrusterAngle()) {
+		if (abs(reported.getPortThrusterAngle() - desired.getPortThrusterAngle()) > 1) {
 			network.writePortThrusterAngle();
 		}
-		if (reported.getStbdThrusterAngle() != desired.getStbdThrusterAngle()) {
+		if (abs(reported.getStbdThrusterAngle() - desired.getStbdThrusterAngle()) > 1) {
 			network.writeStbdThrusterAngle();
 		}
-		if (reported.getCameraPanAngle() != desired.getCameraPanAngle()) {
+		if (abs(reported.getCameraPanAngle() - desired.getCameraPanAngle()) > 1) {
 			network.writeCameraPanAngle();
 		}
-		if (reported.getCameraTiltAngle() != desired.getCameraTiltAngle()) {
+		if (abs(reported.getCameraTiltAngle() - desired.getCameraTiltAngle()) > 1) {
 			network.writeCameraTiltAngle();
 		}
 		if (reported.getPortThrusterPower() != desired.getPortThrusterPower()) {

@@ -10,7 +10,6 @@ var fs = require('fs');
 ///////////////
 
 var MY_IP = '192.168.1.71';
-var MY_IP = '192.168.1.72';
 
 ////////////////////
 // Port Servo PWM //
@@ -23,8 +22,9 @@ udp9_22.on("message", function (msg, rinfo) {
 	console.log("Port 9022 received: " + msg + " from " +
 		rinfo.address + ":" + rinfo.port);
 	duty9_22.write(msg);
-  udp9_22.send(msg, 0, msg.length, 9022, PC_IP, function() {
+  udp9_22.send(msg, 0, msg.length, rinfo.port, rinfo.address, function() {
     console.log("Port 9022 replied.");
+});
 });
 udp9_22.on("listening", function () {
 	var address = udp9_22.address();
@@ -50,8 +50,9 @@ udp9_14.on("message", function (msg, rinfo) {
 	console.log("Port 9014 received: " + msg + " from " +
 		rinfo.address + ":" + rinfo.port);
 	duty9_14.write(msg);
-	udp9_14.send(msg, 0, msg.length, 9014, PC_IP, function() {
+	udp9_14.send(msg, 0, msg.length, rinfo.port, rinfo.address, function() {
 		console.log("Port 9014 replied.");
+});
 });
 udp9_14.on("listening", function () {
 	var address = udp9_14.address();
@@ -77,8 +78,9 @@ udp8_19.on("message", function (msg, rinfo) {
 	console.log("Port 8019 received: " + msg + " from " +
 		rinfo.address + ":" + rinfo.port);
 	duty8_19.write(msg);
-	udp8_19.send(msg, 0, msg.length, 8019, PC_IP, function() {
+	udp8_19.send(msg, 0, msg.length, rinfo.port, rinfo.address, function() {
 		console.log("Port 8019 replied.");
+});
 });
 udp8_19.on("listening", function () {
 	var address = udp8_19.address();
@@ -104,8 +106,9 @@ udp9_42.on("message", function (msg, rinfo) {
 	console.log("Port 9042 received: " + msg + " from " +
 		rinfo.address + ":" + rinfo.port);
 	duty9_42.write(msg);
-	udp9_42.send(msg, 0, msg.length, 9042, PC_IP, function() {
+	udp9_42.send(msg, 0, msg.length, rinfo.port, rinfo.address, function() {
 		console.log("Port 9042 replied.");
+});
 });
 udp9_42.on("listening", function () {
 	var address = udp9_42.address();
@@ -133,8 +136,9 @@ udpSerial.on("message", function (msg, rinfo){
 		rinfo.address + ":" + rinfo.port);
 	var buf = new Buffer(msg.toString(),'hex');
 	ttySerial.write(buf);
-	udp9_24.send(msg, 0, msg.length, 9024, PC_IP, function() {
+	udpSerial.send(buf, 0, buf.length, rinfo.port, rinfo.address, function() {
 		console.log("Port 9024 replied.");
+});
 });
 udpSerial.on("listening", function () {
 	var address = udpSerial.address();
