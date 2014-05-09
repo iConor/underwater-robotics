@@ -2,12 +2,10 @@ import processing.core.*;
 
 public class ThrusterController {
 
-	PApplet processing;
 	RobotModel robot;
 	GamepadModel gamepad;
 
-	ThrusterController(PApplet p, RobotModel bot, GamepadModel ctrl) {
-		processing = p;
+	ThrusterController(RobotModel bot, GamepadModel ctrl) {
 		robot = bot;
 		gamepad = ctrl;
 	}
@@ -21,8 +19,8 @@ public class ThrusterController {
 		float pitchCal = .1f;
 
 		float StbdAdj = 1.0f;
-		float portAdj = 0.7f;
-		float backAdj = 0.9f;
+		float portAdj = 1.0f;// 0.7f;
+		float backAdj = 1.0f;// 0.9f;
 
 		float X, Y, Z;
 		float L_x, R_x;
@@ -118,11 +116,11 @@ public class ThrusterController {
 			}
 		}
 
-		robot.setStbdThrusterPower(R * StbdAdj);
+		robot.setStbdThrusterPower((int) (R * StbdAdj * 127.0f));
 		robot.setStbdThrusterAngle((int) R_theta);
-		robot.setPortThrusterPower(L * portAdj);
+		robot.setPortThrusterPower((int) (L * portAdj * 127.0f));
 		robot.setPortThrusterAngle((int) L_theta);
-		robot.setAftThrusterPower(Back * backAdj);
+		robot.setAftThrusterPower((int) (Back * backAdj * 127.0f));
 	}
 
 	float getPitchControl() {
@@ -134,18 +132,4 @@ public class ThrusterController {
 		}
 		return pitch;
 	}
-
-	String sabretoothPacket(int address, int command, float power) {
-
-		if (power < 0) {
-			power *= -1;
-			command += 1;
-		}
-		int speed = (int) (power * 127.0f);
-		int checksum = (speed + address + command) & 127;
-
-		return PApplet.hex((byte) address) + PApplet.hex((byte) command)
-				+ PApplet.hex((byte) speed) + PApplet.hex((byte) checksum);
-	}
-
 }

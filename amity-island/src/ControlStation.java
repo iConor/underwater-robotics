@@ -3,8 +3,8 @@ import processing.core.*;
 @SuppressWarnings("serial")
 public class ControlStation extends PApplet {
 
-	RobotModel desiredState;
-	RobotModel reportedState;
+	RobotModel desired;
+	RobotModel reported;
 
 	GamepadModel gamepad;
 
@@ -13,66 +13,51 @@ public class ControlStation extends PApplet {
 	ThrusterController thrusters;
 
 	UserDatagramProtocol network;
+	String BB_IP = "192.168.1.71";
+	String PC_IP = "192.168.1.66";
 
 	public void setup() {
 
-		reportedState = new RobotModel();
-		desiredState = new RobotModel();
+		desired = new RobotModel();
+		reported = new RobotModel();
 
 		gamepad = new GamepadModel(this);
 
-		camera = new PanTiltController(desiredState, gamepad);
+		camera = new PanTiltController(desired, gamepad);
 
-		thrusters = new ThrusterController(this, desiredState, gamepad);
+		thrusters = new ThrusterController(desired, gamepad);
 
-		network = new UserDatagramProtocol(this, "192.168.1.71");
+		network = new UserDatagramProtocol(desired, reported, BB_IP);
 	}
 
 	public void draw() {
 
-		reportedState = new RobotModel(desiredState);
+		camera.update(); // Desired robot model.
 
-		camera.update();
+		thrusters.update(); // Desired robot model.
 
-		thrusters.update();
-		
-		if (reportedState.getPortThrusterAngle() != desiredState
-				.getPortThrusterAngle()) {
-			network.writePortThrusterAngle(mapAngle(desiredState
-					.getPortThrusterAngle()));
+		// Transmit desired robot model values if they don't match reported
+		// values.
+		if (reported.getPortThrusterAngle() != desired.getPortThrusterAngle()) {
+			network.writePortThrusterAngle();
 		}
-		if (reportedState.getStbdThrusterAngle() != desiredState
-				.getStbdThrusterAngle()) {
-			network.writeStbdThrusterAngle(mapAngle(desiredState
-					.getStbdThrusterAngle()));
+		if (reported.getStbdThrusterAngle() != desired.getStbdThrusterAngle()) {
+			network.writeStbdThrusterAngle();
 		}
-		if (reportedState.getCameraPanAngle() != desiredState
-				.getCameraPanAngle()) {
-			network.writeCameraPanAngle(mapAngle(desiredState
-					.getCameraPanAngle()));
+		if (reported.getCameraPanAngle() != desired.getCameraPanAngle()) {
+			network.writeCameraPanAngle();
 		}
-		if (reportedState.getCameraTiltAngle() != desiredState
-				.getCameraTiltAngle()) {
-			network.writeCameraTiltAngle(mapAngle(desiredState
-					.getCameraTiltAngle()));
+		if (reported.getCameraTiltAngle() != desired.getCameraTiltAngle()) {
+			network.writeCameraTiltAngle();
 		}
-		if (reportedState.getPortThrusterPower() != desiredState.getPortThrusterPower()) {
-			network.writeThrusterPower(thrusters.sabretoothPacket(128, 4,
-					desiredState.getPortThrusterPower()));
+		if (reported.getPortThrusterPower() != desired.getPortThrusterPower()) {
+			network.writePortThrusterPower();
 		}
-		if (reportedState.getStbdThrusterPower() != desiredState.getStbdThrusterPower()) {
-			network.writeThrusterPower(thrusters.sabretoothPacket(128, 0,
-					desiredState.getStbdThrusterPower()));
+		if (reported.getStbdThrusterPower() != desired.getStbdThrusterPower()) {
+			network.writeStarboardThrusterPower();
 		}
-		if (reportedState.getAftThrusterPower() != desiredState.getAftThrusterPower()) {
-			network.writeThrusterPower(thrusters.sabretoothPacket(129, 0,
-					desiredState.getAftThrusterPower()));
+		if (reported.getAftThrusterPower() != desired.getAftThrusterPower()) {
+			network.writeAftThrusterPower();
 		}
-
-	}
-
-	String mapAngle(int angle) {
-		return Integer.toString((int) PApplet.map(angle, 0, 180, 550000,
-				2450000));
 	}
 }

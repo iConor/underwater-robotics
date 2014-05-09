@@ -7,13 +7,13 @@ public class RobotModel {
 	private float depthPSI;
 	private float depthTemp;
 
-	private float portThrusterPower;
+	private int portThrusterPower;
 	private int portThrusterAngle;
 
-	private float stbdThrusterPower;
+	private int stbdThrusterPower;
 	private int stbdThrusterAngle;
 
-	private float aftThrusterPower;
+	private int aftThrusterPower;
 
 	private int cameraPanAngle;
 	private int cameraTiltAngle;
@@ -205,7 +205,7 @@ public class RobotModel {
 	/**
 	 * @return the portThrusterPower
 	 */
-	public float getPortThrusterPower() {
+	public int getPortThrusterPower() {
 		return portThrusterPower;
 	}
 
@@ -213,7 +213,7 @@ public class RobotModel {
 	 * @param portThrusterPower
 	 *            the portThrusterPower to set
 	 */
-	public void setPortThrusterPower(float portThrusterPower) {
+	public void setPortThrusterPower(int portThrusterPower) {
 		this.portThrusterPower = portThrusterPower;
 	}
 
@@ -235,7 +235,7 @@ public class RobotModel {
 	/**
 	 * @return the stbdThrusterPower
 	 */
-	public float getStbdThrusterPower() {
+	public int getStbdThrusterPower() {
 		return stbdThrusterPower;
 	}
 
@@ -243,7 +243,7 @@ public class RobotModel {
 	 * @param stbdThrusterPower
 	 *            the stbdThrusterPower to set
 	 */
-	public void setStbdThrusterPower(float stbdThrusterPower) {
+	public void setStbdThrusterPower(int stbdThrusterPower) {
 		this.stbdThrusterPower = stbdThrusterPower;
 	}
 
@@ -265,7 +265,7 @@ public class RobotModel {
 	/**
 	 * @return the aftThrusterPower
 	 */
-	public float getAftThrusterPower() {
+	public int getAftThrusterPower() {
 		return aftThrusterPower;
 	}
 
@@ -273,7 +273,7 @@ public class RobotModel {
 	 * @param aftThrusterPower
 	 *            the aftThrusterPower to set
 	 */
-	public void setAftThrusterPower(float aftThrusterPower) {
+	public void setAftThrusterPower(int aftThrusterPower) {
 		this.aftThrusterPower = aftThrusterPower;
 	}
 

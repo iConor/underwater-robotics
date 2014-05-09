@@ -35,7 +35,7 @@ public class GamepadModel {
 	private ControllButton rightBumper;
 	private ControllButton leftTrigger;
 	private ControllButton rightTrigger;
-	
+
 	boolean dPad = false;
 
 	GamepadModel(PApplet processing) {
@@ -47,7 +47,7 @@ public class GamepadModel {
 		ctrllIO = ControllIO.getInstance(processing);
 		GamepadMap gamepadMap = new GamepadMap(ctrllIO);
 		ctrllDevice = ctrllIO.getDevice(gamepadMap.getName());
-		
+
 		// Set dPad true if there is no coolie hat.
 		dPad = gamepadMap.getCoolieHat() == -1 ? true : false;
 
@@ -62,8 +62,8 @@ public class GamepadModel {
 				.getRightStickVertical());
 
 		// Stick Buttons
-//		leftStick = ctrllDevice.getButton(gamepadMap.getLeftStick());
-//		rightStick = ctrllDevice.getButton(gamepadMap.getRightStick());
+		// leftStick = ctrllDevice.getButton(gamepadMap.getLeftStick());
+		// rightStick = ctrllDevice.getButton(gamepadMap.getRightStick());
 
 		// D-Pad or Coolie Hat
 		if (dPad) {
@@ -83,7 +83,7 @@ public class GamepadModel {
 
 		// Center Buttons (Select/Back; PS/Guide; etc.)
 		select = ctrllDevice.getButton(gamepadMap.getSelect());
-		menu = ctrllDevice.getButton(gamepadMap.getMenu());
+		// menu = ctrllDevice.getButton(gamepadMap.getMenu());
 		start = ctrllDevice.getButton(gamepadMap.getStart());
 
 		// Shoulder Buttons (Triggers may be sliders.)

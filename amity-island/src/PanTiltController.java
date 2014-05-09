@@ -2,7 +2,7 @@ public class PanTiltController {
 
 	RobotModel robot;
 	GamepadModel gamepad;
-	
+
 	private final int increment = 5;
 	private final int decrement = -1 * increment;
 
