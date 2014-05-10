@@ -10,7 +10,7 @@ public class ThrusterController {
 		gamepad = ctrl;
 	}
 
-	void update() {
+	void vector_control() {
 
 		float centerGravityRatio = 0.6422f;
 
@@ -131,5 +131,26 @@ public class ThrusterController {
 			pitch = -1.0f;
 		}
 		return pitch;
+	}
+
+	void airplane() {
+		int thrust = (int) (gamepad.getLeftStickVertical() * -127.0f);
+		robot.setPortThrusterPower(gamepad.getLeftBumper() ? 0 : thrust);
+		robot.setStbdThrusterPower(gamepad.getRightBumper() ? 0 : thrust);
+		int roll = (int) (90.0f * (thrust < 0 ? -1.0f : 1.0f) * gamepad
+				.getRightStickHorizontal());
+		robot.setPortThrusterAngle(roll < 0 ? -roll : 0);
+		robot.setStbdThrusterAngle(roll < 0 ? 0 : roll);
+		robot.setAftThrusterPower((int) (gamepad.getRightStickVertical() * 127.0f));
+
+//		System.out.print(robot.getPortThrusterAngle());
+//		System.out.print("\t");
+//		System.out.print(robot.getStbdThrusterAngle());
+//		System.out.print("\t");
+//		System.out.print(robot.getPortThrusterPower());
+//		System.out.print("\t");
+//		System.out.print(robot.getStbdThrusterPower());
+//		System.out.print("\t");
+//		System.out.println(robot.getAftThrusterPower());
 	}
 }

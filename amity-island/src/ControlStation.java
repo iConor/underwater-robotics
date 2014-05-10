@@ -15,6 +15,15 @@ public class ControlStation extends PApplet {
 	UserDatagramProtocol network;
 	String BB_IP = "192.168.1.71";
 	String PC_IP = "192.168.1.66";
+	
+	private enum MODE { // Thruster control modes.
+		VC, AP;
+		public MODE next() { // Cycles through modes.
+			return values()[(ordinal() + 1) % values().length];
+		}
+	}
+	
+	MODE mode = MODE.VC;
 
 	public void setup() {
 
@@ -31,10 +40,19 @@ public class ControlStation extends PApplet {
 	}
 
 	public void draw() {
+		
+		if(gamepad.getSelect()){ // Cycle to next control mode.
+			mode = mode.next(); // Really needs to be debounced.
+		}
 
 		camera.update(); // Desired robot model.
+		
+		if(mode.equals(MODE.VC)){
+			thrusters.vector_control();
+		} else {
+			thrusters.airplane();
+		}
 
-		thrusters.update(); // Desired robot model.
 
 		// Transmit desired robot model values if they don't match reported
 		// values.
