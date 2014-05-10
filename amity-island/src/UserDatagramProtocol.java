@@ -39,7 +39,7 @@ public class UserDatagramProtocol {
 	}
 
 	public void writeStbdThrusterAngle() {
-		stbdAngle.send(angleToPWM(txBot.getStbdThrusterAngle()), bb_ip,
+		stbdAngle.send(angleToPWM(180 - txBot.getStbdThrusterAngle()), bb_ip,
 				stbdAngle.port());
 	}
 

@@ -13,8 +13,8 @@ public class ControlStation extends PApplet {
 	ThrusterController thrusters;
 
 	UserDatagramProtocol network;
-	String BB_IP = "192.168.1.71";
-	String PC_IP = "192.168.1.66";
+	String BB_IP = "192.168.1.101";
+	String PC_IP = "192.168.1.100";
 	
 	private enum MODE { // Thruster control modes.
 		VC, AP;
