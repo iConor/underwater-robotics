@@ -1,51 +1,62 @@
 public class RobotModel {
 
-	private float yaw;
-	private float pitch;
-	private float roll;
-
-	private float depthPSI;
-	private float depthTemp;
+	public static final float PORT_THRUSTER_CAL = 1.0f;
+	public static final float STBD_THRUSTER_CAL = 1.0f;
+	public static final float AFT_THRUSTER_CAL = 1.0f;
 
 	private int portThrusterPower;
-	private int portThrusterAngle;
-
 	private int stbdThrusterPower;
-	private int stbdThrusterAngle;
-
 	private int aftThrusterPower;
+
+	private int portThrusterAngle;
+	private int stbdThrusterAngle;
 
 	private int cameraPanAngle;
 	private int cameraTiltAngle;
 
+	private int yaw;
+	private int pitch;
+	private int roll;
+
+	private int depthPSI;
+	private int depthTemp;
+
 	public RobotModel() {
+		this.portThrusterPower = 0;
+		this.stbdThrusterPower = 0;
+		this.aftThrusterPower = 0;
+
+		this.portThrusterAngle = 90;
+		this.stbdThrusterAngle = 90;
+
+		this.cameraPanAngle = 80;
+		this.cameraTiltAngle = 70;
+
 		this.yaw = 0;
 		this.pitch = 0;
 		this.roll = 0;
+
 		this.depthPSI = 0;
 		this.depthTemp = 0;
-		this.portThrusterPower = 0;
-		this.portThrusterAngle = 90;
-		this.stbdThrusterPower = 0;
-		this.stbdThrusterAngle = 90;
-		this.aftThrusterPower = 0;
-		this.cameraPanAngle = 80;
-		this.cameraTiltAngle = 70;
 	}
 
 	public RobotModel(RobotModel that) {
+		this.portThrusterPower = that.portThrusterPower;
+		this.stbdThrusterPower = that.stbdThrusterPower;
+		this.aftThrusterPower = that.aftThrusterPower;
+
+		this.portThrusterAngle = that.portThrusterAngle;
+		this.stbdThrusterAngle = that.stbdThrusterAngle;
+
+		this.cameraPanAngle = that.cameraPanAngle;
+		this.cameraTiltAngle = that.cameraTiltAngle;
+
 		this.yaw = that.yaw;
 		this.pitch = that.pitch;
 		this.roll = that.roll;
+
 		this.depthPSI = that.depthPSI;
 		this.depthTemp = that.depthTemp;
-		this.portThrusterPower = that.portThrusterPower;
-		this.portThrusterAngle = that.portThrusterAngle;
-		this.stbdThrusterPower = that.stbdThrusterPower;
-		this.stbdThrusterAngle = that.stbdThrusterAngle;
-		this.aftThrusterPower = that.aftThrusterPower;
-		this.cameraPanAngle = that.cameraPanAngle;
-		this.cameraTiltAngle = that.cameraTiltAngle;
 	}
 
 	/*
@@ -68,25 +79,23 @@ public class RobotModel {
 			return false;
 		if (cameraTiltAngle != other.cameraTiltAngle)
 			return false;
-		if (Float.floatToIntBits(depthPSI) != Float
-				.floatToIntBits(other.depthPSI))
+		if (depthPSI != other.depthPSI)
 			return false;
-		if (Float.floatToIntBits(depthTemp) != Float
-				.floatToIntBits(other.depthTemp))
+		if (depthTemp != other.depthTemp)
 			return false;
-		if (Float.floatToIntBits(pitch) != Float.floatToIntBits(other.pitch))
+		if (pitch != other.pitch)
 			return false;
 		if (portThrusterAngle != other.portThrusterAngle)
 			return false;
 		if (portThrusterPower != other.portThrusterPower)
 			return false;
-		if (Float.floatToIntBits(roll) != Float.floatToIntBits(other.roll))
+		if (roll != other.roll)
 			return false;
 		if (stbdThrusterAngle != other.stbdThrusterAngle)
 			return false;
 		if (stbdThrusterPower != other.stbdThrusterPower)
 			return false;
-		if (Float.floatToIntBits(yaw) != Float.floatToIntBits(other.yaw))
+		if (yaw != other.yaw)
 			return false;
 		return true;
 	}
@@ -99,7 +108,21 @@ public class RobotModel {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("RobotModel [yaw=");
+		builder.append("RobotModel [portThrusterPower=");
+		builder.append(portThrusterPower);
+		builder.append(", stbdThrusterPower=");
+		builder.append(stbdThrusterPower);
+		builder.append(", aftThrusterPower=");
+		builder.append(aftThrusterPower);
+		builder.append(", portThrusterAngle=");
+		builder.append(portThrusterAngle);
+		builder.append(", stbdThrusterAngle=");
+		builder.append(stbdThrusterAngle);
+		builder.append(", cameraPanAngle=");
+		builder.append(cameraPanAngle);
+		builder.append(", cameraTiltAngle=");
+		builder.append(cameraTiltAngle);
+		builder.append(", yaw=");
 		builder.append(yaw);
 		builder.append(", pitch=");
 		builder.append(pitch);
@@ -109,97 +132,8 @@ public class RobotModel {
 		builder.append(depthPSI);
 		builder.append(", depthTemp=");
 		builder.append(depthTemp);
-		builder.append(", portThrusterPower=");
-		builder.append(portThrusterPower);
-		builder.append(", portThrusterAngle=");
-		builder.append(portThrusterAngle);
-		builder.append(", stbdThrusterPower=");
-		builder.append(stbdThrusterPower);
-		builder.append(", stbdThrusterAngle=");
-		builder.append(stbdThrusterAngle);
-		builder.append(", aftThrusterPower=");
-		builder.append(aftThrusterPower);
-		builder.append(", cameraPanAngle=");
-		builder.append(cameraPanAngle);
-		builder.append(", cameraTiltAngle=");
-		builder.append(cameraTiltAngle);
 		builder.append("]");
 		return builder.toString();
-	}
-
-	/**
-	 * @return the yaw
-	 */
-	public float getYaw() {
-		return yaw;
-	}
-
-	/**
-	 * @param yaw
-	 *            the yaw to set
-	 */
-	public void setYaw(float yaw) {
-		this.yaw = yaw;
-	}
-
-	/**
-	 * @return the pitch
-	 */
-	public float getPitch() {
-		return pitch;
-	}
-
-	/**
-	 * @param pitch
-	 *            the pitch to set
-	 */
-	public void setPitch(float pitch) {
-		this.pitch = pitch;
-	}
-
-	/**
-	 * @return the roll
-	 */
-	public float getRoll() {
-		return roll;
-	}
-
-	/**
-	 * @param roll
-	 *            the roll to set
-	 */
-	public void setRoll(float roll) {
-		this.roll = roll;
-	}
-
-	/**
-	 * @return the depthPSI
-	 */
-	public float getDepthPSI() {
-		return depthPSI;
-	}
-
-	/**
-	 * @param depthPSI
-	 *            the depthPSI to set
-	 */
-	public void setDepthPSI(float depthPSI) {
-		this.depthPSI = depthPSI;
-	}
-
-	/**
-	 * @return the depthTemp
-	 */
-	public float getDepthTemp() {
-		return depthTemp;
-	}
-
-	/**
-	 * @param depthTemp
-	 *            the depthTemp to set
-	 */
-	public void setDepthTemp(float depthTemp) {
-		this.depthTemp = depthTemp;
 	}
 
 	/**
@@ -218,21 +152,6 @@ public class RobotModel {
 	}
 
 	/**
-	 * @return the portThrusterAngle
-	 */
-	public int getPortThrusterAngle() {
-		return portThrusterAngle;
-	}
-
-	/**
-	 * @param portThrusterAngle
-	 *            the portThrusterAngle to set
-	 */
-	public void setPortThrusterAngle(int portThrusterAngle) {
-		this.portThrusterAngle = portThrusterAngle;
-	}
-
-	/**
 	 * @return the stbdThrusterPower
 	 */
 	public int getStbdThrusterPower() {
@@ -248,21 +167,6 @@ public class RobotModel {
 	}
 
 	/**
-	 * @return the stbdThrusterAngle
-	 */
-	public int getStbdThrusterAngle() {
-		return stbdThrusterAngle;
-	}
-
-	/**
-	 * @param stbdThrusterAngle
-	 *            the stbdThrusterAngle to set
-	 */
-	public void setStbdThrusterAngle(int stbdThrusterAngle) {
-		this.stbdThrusterAngle = stbdThrusterAngle;
-	}
-
-	/**
 	 * @return the aftThrusterPower
 	 */
 	public int getAftThrusterPower() {
@@ -275,6 +179,36 @@ public class RobotModel {
 	 */
 	public void setAftThrusterPower(int aftThrusterPower) {
 		this.aftThrusterPower = aftThrusterPower;
+	}
+
+	/**
+	 * @return the portThrusterAngle
+	 */
+	public int getPortThrusterAngle() {
+		return portThrusterAngle;
+	}
+
+	/**
+	 * @param portThrusterAngle
+	 *            the portThrusterAngle to set
+	 */
+	public void setPortThrusterAngle(int portThrusterAngle) {
+		this.portThrusterAngle = portThrusterAngle;
+	}
+
+	/**
+	 * @return the stbdThrusterAngle
+	 */
+	public int getStbdThrusterAngle() {
+		return stbdThrusterAngle;
+	}
+
+	/**
+	 * @param stbdThrusterAngle
+	 *            the stbdThrusterAngle to set
+	 */
+	public void setStbdThrusterAngle(int stbdThrusterAngle) {
+		this.stbdThrusterAngle = stbdThrusterAngle;
 	}
 
 	/**
@@ -305,6 +239,81 @@ public class RobotModel {
 	 */
 	public void setCameraTiltAngle(int cameraTiltAngle) {
 		this.cameraTiltAngle = cameraTiltAngle;
+	}
+
+	/**
+	 * @return the yaw
+	 */
+	public int getYaw() {
+		return yaw;
+	}
+
+	/**
+	 * @param yaw
+	 *            the yaw to set
+	 */
+	public void setYaw(int yaw) {
+		this.yaw = yaw;
+	}
+
+	/**
+	 * @return the pitch
+	 */
+	public int getPitch() {
+		return pitch;
+	}
+
+	/**
+	 * @param pitch
+	 *            the pitch to set
+	 */
+	public void setPitch(int pitch) {
+		this.pitch = pitch;
+	}
+
+	/**
+	 * @return the roll
+	 */
+	public int getRoll() {
+		return roll;
+	}
+
+	/**
+	 * @param roll
+	 *            the roll to set
+	 */
+	public void setRoll(int roll) {
+		this.roll = roll;
+	}
+
+	/**
+	 * @return the depthPSI
+	 */
+	public int getDepthPSI() {
+		return depthPSI;
+	}
+
+	/**
+	 * @param depthPSI
+	 *            the depthPSI to set
+	 */
+	public void setDepthPSI(int depthPSI) {
+		this.depthPSI = depthPSI;
+	}
+
+	/**
+	 * @return the depthTemp
+	 */
+	public int getDepthTemp() {
+		return depthTemp;
+	}
+
+	/**
+	 * @param depthTemp
+	 *            the depthTemp to set
+	 */
+	public void setDepthTemp(int depthTemp) {
+		this.depthTemp = depthTemp;
 	}
 
 }

@@ -5,6 +5,7 @@ public class ControlStation extends PApplet {
 
 	RobotModel desired;
 	RobotModel reported;
+	RobotModel last;
 
 	GamepadModel gamepad;
 
@@ -13,17 +14,8 @@ public class ControlStation extends PApplet {
 	ThrusterController thrusters;
 
 	UserDatagramProtocol network;
-	String BB_IP = "192.168.1.101";
-	String PC_IP = "192.168.1.100";
-	
-	private enum MODE { // Thruster control modes.
-		VC, AP;
-		public MODE next() { // Cycles through modes.
-			return values()[(ordinal() + 1) % values().length];
-		}
-	}
-	
-	MODE mode = MODE.VC;
+	String BB_IP = "192.168.1.73";
+	String PC_IP = "192.168.1.72";
 
 	public void setup() {
 
@@ -37,29 +29,26 @@ public class ControlStation extends PApplet {
 		thrusters = new ThrusterController(desired, gamepad);
 
 		network = new UserDatagramProtocol(desired, reported, BB_IP);
+
+		System.out.println("Setup complete.");
 	}
 
 	public void draw() {
-		
-		if(gamepad.getSelect()){ // Cycle to next control mode.
-			mode = mode.next(); // Really needs to be debounced.
-		}
+
+		last = new RobotModel(desired);
 
 		camera.update(); // Desired robot model.
-		
-		if(mode.equals(MODE.VC)){
-			thrusters.vector_control();
-		} else {
-			thrusters.airplane();
-		}
 
+		thrusters.update();
 
 		// Transmit desired robot model values if they don't match reported
 		// values.
-		if (abs(reported.getPortThrusterAngle() - desired.getPortThrusterAngle()) > 1) {
+		if (abs(reported.getPortThrusterAngle()
+				- desired.getPortThrusterAngle()) > 1) {
 			network.writePortThrusterAngle();
 		}
-		if (abs(reported.getStbdThrusterAngle() - desired.getStbdThrusterAngle()) > 1) {
+		if (abs(reported.getStbdThrusterAngle()
+				- desired.getStbdThrusterAngle()) > 1) {
 			network.writeStbdThrusterAngle();
 		}
 		if (abs(reported.getCameraPanAngle() - desired.getCameraPanAngle()) > 1) {
@@ -77,5 +66,24 @@ public class ControlStation extends PApplet {
 		if (reported.getAftThrusterPower() != desired.getAftThrusterPower()) {
 			network.writeAftThrusterPower();
 		}
+
+		// printThrusters(desired);
+		if (frameCount % 1200 == 0) {
+			System.out.println(".");
+		} else if (frameCount % 15 == 0) {
+			System.out.print(".");
+		}
+	}
+
+	void printThrusters(RobotModel robot) {
+		System.out.print(robot.getPortThrusterAngle());
+		System.out.print("\t");
+		System.out.print(robot.getStbdThrusterAngle());
+		System.out.print("\t");
+		System.out.print(robot.getPortThrusterPower());
+		System.out.print("\t");
+		System.out.print(robot.getStbdThrusterPower());
+		System.out.print("\t");
+		System.out.println(robot.getAftThrusterPower());
 	}
 }

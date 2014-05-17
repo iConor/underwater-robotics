@@ -5,11 +5,55 @@ public class ThrusterController {
 	RobotModel robot;
 	GamepadModel gamepad;
 
-	ThrusterController(RobotModel bot, GamepadModel ctrl) {
-		robot = bot;
-		gamepad = ctrl;
+	boolean newSelect;
+	boolean oldSelect;
+
+	private enum MODE { // Thruster control modes.
+		VECTOR_CONTROL, AIRPLANE;
+		public MODE next() { // Cycles through modes.
+			return values()[(ordinal() + 1) % values().length];
+		}
 	}
 
+	MODE mode;
+
+	/**
+	 * @param bot
+	 * @param ctrl
+	 */
+	ThrusterController(RobotModel bot, GamepadModel ctrl) {
+
+		robot = bot;
+		gamepad = ctrl;
+
+		mode = MODE.VECTOR_CONTROL;
+		System.out.println("Thruster mode: " + mode.toString());
+	}
+
+	/**
+	 * 
+	 */
+	void update() {
+
+		oldSelect = newSelect;
+		newSelect = gamepad.getSelect();
+
+		if (newSelect && !oldSelect) { // Debounces select button.
+			mode = mode.next(); // Cycle to next control mode.
+			System.out.println("\nThruster mode: " + mode.toString());
+		}
+
+		if (mode.equals(MODE.VECTOR_CONTROL)) {
+			vector_control();
+		} else {
+			airplane();
+		}
+
+	}
+
+	/**
+	 * 
+	 */
 	void vector_control() {
 
 		float centerGravityRatio = 0.6422f;
@@ -17,10 +61,6 @@ public class ThrusterController {
 		float verticalAdj = 2;
 		float rollCal = 0.1f;
 		float pitchCal = .1f;
-
-		float StbdAdj = 1.0f;
-		float portAdj = 1.0f;// 0.7f;
-		float backAdj = 1.0f;// 0.9f;
 
 		float X, Y, Z;
 		float L_x, R_x;
@@ -116,11 +156,11 @@ public class ThrusterController {
 			}
 		}
 
-		robot.setStbdThrusterPower((int) (R * StbdAdj * 127.0f));
-		robot.setStbdThrusterAngle((int) R_theta);
-		robot.setPortThrusterPower((int) (L * portAdj * 127.0f));
+		robot.setStbdThrusterPower((int) (R * RobotModel.STBD_THRUSTER_CAL * 127.0f));
+		robot.setStbdThrusterAngle(180 - (int) R_theta);
+		robot.setPortThrusterPower((int) (L * RobotModel.PORT_THRUSTER_CAL * 127.0f));
 		robot.setPortThrusterAngle((int) L_theta);
-		robot.setAftThrusterPower((int) (Back * backAdj * 127.0f));
+		robot.setAftThrusterPower((int) (Back * RobotModel.AFT_THRUSTER_CAL * 127.0f));
 	}
 
 	float getPitchControl() {
@@ -133,6 +173,9 @@ public class ThrusterController {
 		return pitch;
 	}
 
+	/**
+	 * 
+	 */
 	void airplane() {
 		int thrust = (int) (gamepad.getLeftStickVertical() * -127.0f);
 		robot.setPortThrusterPower(gamepad.getLeftBumper() ? 0 : thrust);
@@ -140,17 +183,7 @@ public class ThrusterController {
 		int roll = (int) (90.0f * (thrust < 0 ? -1.0f : 1.0f) * gamepad
 				.getRightStickHorizontal());
 		robot.setPortThrusterAngle(roll < 0 ? -roll : 0);
-		robot.setStbdThrusterAngle(roll < 0 ? 0 : roll);
+		robot.setStbdThrusterAngle(180 - (roll < 0 ? 0 : roll));
 		robot.setAftThrusterPower((int) (gamepad.getRightStickVertical() * 127.0f));
-
-//		System.out.print(robot.getPortThrusterAngle());
-//		System.out.print("\t");
-//		System.out.print(robot.getStbdThrusterAngle());
-//		System.out.print("\t");
-//		System.out.print(robot.getPortThrusterPower());
-//		System.out.print("\t");
-//		System.out.print(robot.getStbdThrusterPower());
-//		System.out.print("\t");
-//		System.out.println(robot.getAftThrusterPower());
 	}
 }

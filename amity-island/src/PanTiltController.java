@@ -11,6 +11,9 @@ public class PanTiltController {
 		gamepad = ctrl;
 	}
 
+	/**
+	 * 
+	 */
 	void update() {
 		if (gamepad.getdPadUp()) {
 			robot.setCameraTiltAngle(updateCameraAngle(
@@ -27,6 +30,11 @@ public class PanTiltController {
 		}
 	}
 
+	/**
+	 * @param oldAngle
+	 * @param delta
+	 * @return
+	 */
 	int updateCameraAngle(int oldAngle, int delta) {
 		int newAngle = oldAngle - delta;
 		if (newAngle > 180 || newAngle < 0) {

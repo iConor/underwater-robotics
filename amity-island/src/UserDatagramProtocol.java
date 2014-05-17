@@ -13,6 +13,11 @@ public class UserDatagramProtocol {
 	private UDP tiltAngle;
 	private UDP serialPort;
 
+	/**
+	 * @param d
+	 * @param r
+	 * @param ip
+	 */
 	public UserDatagramProtocol(RobotModel d, RobotModel r, String ip) {
 
 		txBot = d; // desired
@@ -33,42 +38,68 @@ public class UserDatagramProtocol {
 		serialPort.listen(true);
 	}
 
+	/**
+	 * 
+	 */
 	public void writePortThrusterAngle() {
 		portAngle.send(angleToPWM(txBot.getPortThrusterAngle()), bb_ip,
 				portAngle.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writeStbdThrusterAngle() {
-		stbdAngle.send(angleToPWM(180 - txBot.getStbdThrusterAngle()), bb_ip,
+		stbdAngle.send(angleToPWM(txBot.getStbdThrusterAngle()), bb_ip,
 				stbdAngle.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writeCameraPanAngle() {
 		panAngle.send(angleToPWM(txBot.getCameraPanAngle()), bb_ip,
 				panAngle.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writeCameraTiltAngle() {
 		tiltAngle.send(angleToPWM(txBot.getCameraTiltAngle()), bb_ip,
 				tiltAngle.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writePortThrusterPower() {
 		serialPort.send(sabretoothPacket(128, 4, txBot.getPortThrusterPower()),
 				bb_ip, serialPort.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writeStarboardThrusterPower() {
 		serialPort.send(sabretoothPacket(128, 0, txBot.getStbdThrusterPower()),
 				bb_ip, serialPort.port());
 	}
 
+	/**
+	 * 
+	 */
 	public void writeAftThrusterPower() {
 		serialPort.send(sabretoothPacket(129, 0, txBot.getAftThrusterPower()),
 				bb_ip, serialPort.port());
 	}
 
 	// UDP event handler. Called whenever any port receives data.
+	/**
+	 * @param packet
+	 * @param ip
+	 * @param port
+	 */
 	public void receive(byte[] packet, String ip, int port) {
 
 		if (port == serialPort.port()) {
@@ -96,6 +127,10 @@ public class UserDatagramProtocol {
 	}
 
 	// Convert Node's ASCII array to a string of integers.
+	/**
+	 * @param ascii
+	 * @return
+	 */
 	private String getPWM(byte[] ascii) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < ascii.length; i++) {
@@ -105,6 +140,12 @@ public class UserDatagramProtocol {
 	}
 
 	// Format thruster power values to be written to a Sabretooth.
+	/**
+	 * @param address
+	 * @param command
+	 * @param speed
+	 * @return
+	 */
 	private String sabretoothPacket(int address, int command, int speed) {
 
 		if (speed < 0) {
@@ -121,6 +162,10 @@ public class UserDatagramProtocol {
 	}
 
 	// Undo Sabretooth formatting so values can go into the model.
+	/**
+	 * @param raw
+	 * @return
+	 */
 	private int[] decodeSabretooth(byte[] raw) {
 
 		int[] processed = new int[4];
@@ -142,12 +187,20 @@ public class UserDatagramProtocol {
 	}
 
 	// Convert an angle from the model to PWM integer string.
+	/**
+	 * @param angle
+	 * @return
+	 */
 	private String angleToPWM(int angle) {
 		return Integer.toString((int) PApplet.map(angle, 0, 180, 550000,
 				2450000));
 	}
 
 	// Convert a PWM integer string to an angle for the model.
+	/**
+	 * @param pwm
+	 * @return
+	 */
 	private int pwmToAngle(String pwm) {
 		return (int) PApplet.map(Float.valueOf(pwm), 550000, 2450000, 0, 180);
 	}
