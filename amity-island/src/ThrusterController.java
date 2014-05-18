@@ -9,7 +9,7 @@ public class ThrusterController {
 	boolean oldSelect;
 
 	private enum MODE { // Thruster control modes.
-		VECTOR_CONTROL, AIRPLANE;
+		VECTOR_CONTROL, AIRPLANE, QUADCOPTER;
 		public MODE next() { // Cycles through modes.
 			return values()[(ordinal() + 1) % values().length];
 		}
@@ -45,8 +45,10 @@ public class ThrusterController {
 
 		if (mode.equals(MODE.VECTOR_CONTROL)) {
 			vector_control();
-		} else {
+		} else if(mode.equals(MODE.AIRPLANE)) {
 			airplane();
+		} else {
+			quadcopter();
 		}
 
 	}
@@ -185,5 +187,16 @@ public class ThrusterController {
 		robot.setPortThrusterAngle(roll < 0 ? -roll : 0);
 		robot.setStbdThrusterAngle(180 - (roll < 0 ? 0 : roll));
 		robot.setAftThrusterPower((int) (gamepad.getRightStickVertical() * 127.0f));
+	}
+	
+	void quadcopter() {
+		int thrust = (int) (gamepad.getLeftStickVertical() * 100.0f);
+		int pitch = (int) (gamepad.getRightStickVertical() * 12.0f);
+		int roll = (int) (gamepad.getRightStickHorizontal() * 12.0f);
+		robot.setPortThrusterPower(thrust / 2 - pitch + roll);
+		robot.setStbdThrusterPower(thrust / 2 - pitch - roll);
+		robot.setAftThrusterPower(thrust + 2 * pitch);
+		robot.setPortThrusterAngle(gamepad.getRightBumper()?95:90);
+		robot.setStbdThrusterAngle(gamepad.getLeftBumper()?85:90);
 	}
 }

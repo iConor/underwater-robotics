@@ -14,8 +14,8 @@ public class ControlStation extends PApplet {
 	ThrusterController thrusters;
 
 	UserDatagramProtocol network;
-	String BB_IP = "192.168.1.73";
-	String PC_IP = "192.168.1.72";
+	String BB_IP = "192.168.1.3";
+	String PC_IP = "192.168.1.2";
 
 	public void setup() {
 
