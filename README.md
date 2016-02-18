@@ -5,3 +5,5 @@
 The Ohio State University
 
 <img src="http://underwaterrov.org.ohio-state.edu/img/renders/jaws.png" height="320" />
+
+[Website](http://go.osu.edu/uwrt) | [License](LICENSE)
