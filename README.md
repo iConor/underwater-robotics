@@ -1,6 +1,9 @@
-OSU Underwater Robotics
-=======================
+## Jaws  
+*2013-2014 ROV*
 
- An underwater robot intended for the [MATE ROV Competition](http://www.marinetech.org/ "marinetech.org").
+**The Underwater Robotics Team**  
+The Ohio State University
 
+<img src="http://underwaterrov.org.ohio-state.edu/img/renders/jaws.png" height="320" />
 
+[Website](http://go.osu.edu/uwrt) | [License](LICENSE)
